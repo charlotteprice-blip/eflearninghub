@@ -3,26 +3,57 @@
     "target": "learning",
     "public": "public",
     "trailingSlash": true,
-    "ignore": ["**/.*", "**/README.md"],
+    "ignore": [
+      "**/.*",
+      "**/README.md"
+    ],
     "rewrites": [
-      { "regex": "^/hub/[a-z0-9-]+/?$", "destination": "/hub/index.html" }
+      {
+        "regex": "^/library/?$",
+        "destination": "/index.html"
+      },
+      {
+        "regex": "^/hub/[a-z0-9-]+/?$",
+        "destination": "/index.html"
+      }
     ],
     "headers": [
       {
         "source": "**",
         "headers": [
-          { "key": "Cache-Control", "value": "no-cache" },
-          { "key": "X-Robots-Tag", "value": "noindex" },
-          { "key": "X-Content-Type-Options", "value": "nosniff" },
-          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-          { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          },
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=()"
+          }
         ]
       },
       {
         "source": "/assets/fonts/**",
         "headers": [
-          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" },
-          { "key": "Access-Control-Allow-Origin", "value": "*" }
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          },
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          }
         ]
       }
     ]
@@ -31,7 +62,14 @@
     {
       "source": "functions",
       "codebase": "learning",
-      "ignore": ["node_modules", ".git", "test", "firebase-debug.log", "firebase-debug.*.log", "*.local"]
+      "ignore": [
+        "node_modules",
+        ".git",
+        "test",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
     }
   ],
   "firestore": [
@@ -45,12 +83,25 @@
     "rules": "storage.rules"
   },
   "emulators": {
-    "auth": { "port": 9099 },
-    "functions": { "port": 5001 },
-    "firestore": { "port": 8080 },
-    "storage": { "port": 9199 },
-    "hosting": { "port": 5000 },
-    "ui": { "enabled": true, "port": 4000 },
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "storage": {
+      "port": 9199
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    },
     "singleProjectMode": true
   }
 }

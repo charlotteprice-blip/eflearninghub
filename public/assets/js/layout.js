@@ -37,13 +37,13 @@ class EfHeader extends HTMLElement {
       <a class="skip-link" href="#main">Skip to content</a>
       <header class="site-header">
         <div class="wrap">
-          <a class="brand" href="/library/" aria-label="Executive Frame Learning Hub, home">
+          <a class="brand" href="/" aria-label="Executive Frame Learning Hub, home">
             <span class="brand-mark" data-mark></span>
             <span class="brand-name">Executive Frame <span>Learning Hub</span></span>
           </a>
           <nav class="site-nav" aria-label="Main">
             <span data-nav-member hidden>
-              <a href="/library/" ${current === "library" ? 'aria-current="page"' : ""}>Library</a>
+              <a href="/">Learning Hub</a>
               <a class="nav-optional" href="/account/" ${current === "account" ? 'aria-current="page"' : ""}>Account</a>
               <button type="button" data-logout>Log out</button>
             </span>

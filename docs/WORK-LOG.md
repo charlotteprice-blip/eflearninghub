@@ -2,6 +2,25 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 2, 18 October 2026
+
+**Built.** The member area is now one desktop viewer, after the Themescape viewer, replacing the separate Library and topic pages (Charlotte's direction). `public/index.html` is the viewer; `/`, `/library/` and every `/hub/<slug>/` open it, so topic addresses for the Client Hub are unchanged and `#step-n` still opens a step. Layout: a header with the topic title and summary; a foldable library sidebar on the left with topic search, every topic and its progress, the open topic's steps (any step can be opened), Help and support, Viewer settings, and the account menu at the bottom (My account, Help and support, Log out and exit); the stage in the middle showing one step at a time; and a foldable Notes and files column on the right (about the topic, free notes, the learner's reflections with a link to each step, and the topic's downloads with the trial allowance). Fold state is remembered. On phones both sidebars become drawers opened from the header. Membership is checked behind a cover screen before anything shows, as in Themescape's gate.
+
+**Files changed.** New: `assets/js/viewer.js`, `assets/js/player.js` (the step renderers from the old hub page, now reusable), `assets/css/viewer.css`. Replaced: `public/index.html`. Removed: `public/library/`, `public/hub/`, `assets/js/library.js`, `assets/js/hub.js`. Updated: `firebase.json` (rewrites), `gate.js` (sends members without access to Account if they have had a plan, otherwise Join), links in the account pages, the placeholder brand SVGs (were not valid as image files), `README.md`, `docs/content-format.md`.
+
+**Checked.** Viewer exercised in Chromium at 1440, 1024 and 390 pixels: topic opening, Next and Back, arrow keys, the triangle, the step list, folding both columns, phone drawers, notes and reflections kept after reload, deep links, an unknown topic, the account menu, the log out dialog and viewer settings. No page errors and no scrolling outside the viewer. Function tests still pass.
+
+**Decisions and why.**
+1. Login, Join, Account, Thank you and Privacy stay as separate pages, as Themescape keeps its account pages outside the viewer.
+2. The header band uses the app theme (sky), not navy, because the brand kit keeps the inverted navy theme for calls to action only.
+3. Viewer settings (text weight light or regular, text size, motion) are saved in the browser. Text weight answers the brand kit's note that body weight 400 may be adopted.
+4. Log out and exit offers to clear the learner's progress, notes and reflections from the browser, for shared computers, as Themescape's log out does.
+5. Topic files load together when the viewer opens, so the library shows every topic's progress. Revisit if the library grows past about 30 topics.
+
+**Charlotte to configure.** Nothing new beyond session 1.
+
+**Open questions.** As session 1, plus: the help text's contact email, and whether learners should be able to open any step from the step list or only steps they have reached (currently any).
+
 ## Session 1, 18 October 2026
 
 **Built.** All 6 deliverables in the brief's order. (1) Repository tree, `firebase.json`, `firestore.rules`, `storage.rules`. (2) `tokens.css` holding every brand kit value, self hosted Figtree, and a shared header and footer with the mark drawing on over 1200ms. (3) `/login/` and `/join/` with Firebase Auth (Google, Microsoft, email and password, password reset, email confirmation), following the Themescape membership process. (4) `/library/` and the `/hub/{slug}/` template driven by one JSON file per topic, with a sample Autonomy topic using the rotating C³ Loop triangle, a drag and drop sort, a reflection box, a workshop step and a download step. (5) The 5 Cloud Functions in Stripe test mode, with 11 unit tests. (6) `/account/` and `/thank-you/`, plus a draft privacy statement, a 404 page, and two admin scripts (Stripe products and prices; organisations with hashed access codes).

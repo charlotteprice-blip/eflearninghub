@@ -10,7 +10,7 @@ placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
 
 const user = await firstUser;
 if (!user && !LOCAL) {
-  location.replace("/login/?next=" + encodeURIComponent("/library/"));
+  location.replace("/login/?next=" + encodeURIComponent("/"));
   await new Promise(() => {});
 }
 

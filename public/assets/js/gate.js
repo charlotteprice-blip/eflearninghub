@@ -1,4 +1,4 @@
-// Members only pages (Library, topic hubs): signed in and an active membership, read from checkAccess.
+// Members only: the viewer (/, /library/, /hub/<slug>/): signed in and an active membership, read from checkAccess.
 // checkAccess reads the subscription in Stripe on every call, as Themescape's membership function does,
 // so the page never trusts anything stored in the browser.
 // Local preview: on localhost with no emulators running, the page opens with sample content and a banner.
@@ -8,10 +8,10 @@ import { session } from "./ui.js";
 
 const here = () => location.pathname + location.search;
 
-export async function requireMember() {
+export async function requireMember({ banner = true } = {}) {
   const user = await firstUser;
   if (!user) {
-    if (LOCAL && (await emulatorsDown())) return preview();
+    if (LOCAL && (await emulatorsDown())) return preview(banner);
     location.replace("/login/?next=" + encodeURIComponent(here()));
     return new Promise(() => {});
   }
@@ -21,10 +21,10 @@ export async function requireMember() {
       session.set("ef-access", JSON.stringify({ at: Date.now(), access }));
       return { user, access };
     }
-    location.replace("/join/?from=" + encodeURIComponent(here()));
+    location.replace(access.hasBilling || access.state === "organisation-ended" ? "/account/" : "/join/");
     return new Promise(() => {});
   } catch (err) {
-    if (LOCAL) return preview();
+    if (LOCAL) return preview(banner);
     throw err;
   }
 }
@@ -38,7 +38,8 @@ async function emulatorsDown() {
   }
 }
 
-function preview() {
+function preview(banner) {
+  if (!banner) return { user: null, access: { active: true, preview: true, state: "preview" } };
   const bar = document.createElement("p");
   bar.className = "preview-banner";
   bar.setAttribute("role", "note");

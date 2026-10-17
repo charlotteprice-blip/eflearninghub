@@ -9,4 +9,4 @@ Every SVG in this folder is a placeholder drawn to the description in the brand 
 | lockup-slate.svg, lockup-navy.svg, lockup-cream.svg | Mark with wordmark. |
 | app-icon-slate.svg, app-icon-navy.svg, app-icon-cream.svg | Favicon and home screen icon (slate is the favicon). |
 
-For the draw-on animation to keep working with the supplied `mark.svg`, each stroked shape needs `pathLength="100"` and a `data-draw` attribute, and colours should use `currentColor`. If the supplied mark is filled rather than stroked, the header shows it without the draw-on and nothing else changes.
+For the draw-on animation to keep working with the supplied `mark.svg`, each stroked shape needs `pathLength="100"` and a `data-draw="1"` attribute, and colours should use `currentColor`. If the supplied mark is filled rather than stroked, the header shows it without the draw-on and nothing else changes.

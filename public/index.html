@@ -5,11 +5,186 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Executive Frame Learning Hub</title>
   <meta name="robots" content="noindex">
-  <meta http-equiv="refresh" content="0; url=/library/">
   <link rel="icon" href="/assets/brand/app-icon-slate.svg" type="image/svg+xml">
-  <script>location.replace("/library/" + location.search);</script>
+  <link rel="preload" href="/assets/fonts/figtree-300.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/hub.css">
+  <link rel="stylesheet" href="/assets/css/viewer.css">
+  <script>
+    // Viewer settings apply before anything draws, so the page does not jump.
+    try { var s = JSON.parse(localStorage.getItem("ef-viewer-settings") || "{}"); var c = document.documentElement.classList;
+      if (s.weight === "regular") c.add("text-regular"); if (s.size === "large") c.add("text-large"); if (s.motion === "calm") c.add("calm-motion"); } catch (e) {}
+  </script>
+  <script type="module" src="/assets/js/viewer.js"></script>
 </head>
-<body>
-  <p><a href="/library/">Go to the Learning Hub library</a></p>
+<body class="viewer">
+  <!-- The members' viewer. /, /library/ and /hub/<slug>/ all open this page (firebase.json rewrites);
+       the address decides which topic shows, so links from the Client Hub keep working. -->
+
+  <div id="cover" class="cover" role="status">
+    <span class="brand-mark pulse" data-cover-mark></span>
+    <p id="cover-text">Checking your membership</p>
+  </div>
+
+  <div id="app" class="viewer-app" hidden>
+    <header class="vtop">
+      <button class="vtop-tog" id="open-lside" type="button" aria-label="Open the library" aria-controls="lside" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="vtop-main">
+        <p class="vtop-id"><span>Executive Frame Learning Hub</span><span id="id-who"></span><span id="id-preview" class="tag-preview" hidden>Local preview</span></p>
+        <h1 class="vtop-title" id="v-title">Your library</h1>
+        <p class="vtop-sub" id="v-sub"></p>
+      </div>
+      <button class="vtop-tog" id="open-rcol" type="button" aria-label="Open notes and files" aria-controls="rcol" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5c-1.8-1.4-4.3-2-7.5-2v13c3.2 0 5.7.6 7.5 2 1.8-1.4 4.3-2 7.5-2v-13c-3.2 0-5.7.6-7.5 2z"/><path d="M12 6.5v13"/></svg>
+      </button>
+      <img class="vtop-lockup" src="/assets/brand/lockup-slate.svg" alt="Executive Frame">
+    </header>
+
+    <div class="vmain" id="vmain">
+      <!-- Library: topics, the open topic's steps, help, settings and the account menu -->
+      <nav class="lside" id="lside" aria-label="Library">
+        <div class="lside-in">
+          <div class="colhead">
+            <h2>Library</h2>
+            <button class="foldbtn" type="button" data-fold="l" aria-label="Hide the library" title="Hide the library"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6 8.5 12l6 6"/></svg></button>
+            <button class="foldbtn" type="button" data-close="l" aria-label="Close the library"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+          </div>
+          <div class="lsearch field">
+            <label class="visually-hidden" for="find">Find a topic</label>
+            <input class="input" id="find" type="search" placeholder="Find a topic" autocomplete="off">
+          </div>
+          <button class="navbtn" id="go-home" type="button">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>All topics
+          </button>
+          <ul class="tlist" id="topic-list"></ul>
+          <p id="find-none" class="t-caption muted" hidden>No topics match.</p>
+          <div class="lfoot">
+            <button class="navbtn" id="btn-help" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.7 9.5a2.4 2.4 0 1 1 3.4 2.2c-.7.3-1.1.9-1.1 1.7v.4"/><path d="M12 16.8v.1"/></svg>Help and support</button>
+            <button class="navbtn" id="btn-settings" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h11M19 17h1"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17" r="2"/></svg>Viewer settings</button>
+          </div>
+        </div>
+        <div class="acct">
+          <div class="acctmenu" id="acct-menu" role="menu" aria-label="Your account" hidden>
+            <a class="navbtn" role="menuitem" href="/account/"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 19.5c1.2-3.4 3.9-5.2 7-5.2s5.8 1.8 7 5.2"/></svg>My account</a>
+            <button class="navbtn" role="menuitem" type="button" id="menu-help"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.7 9.5a2.4 2.4 0 1 1 3.4 2.2c-.7.3-1.1.9-1.1 1.7v.4"/><path d="M12 16.8v.1"/></svg>Help and support</button>
+            <button class="navbtn" role="menuitem" type="button" id="menu-logout"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4.5H5.5v15H14"/><path d="M10 12h10"/><path d="M16.5 8.5 20 12l-3.5 3.5"/></svg>Log out and exit</button>
+          </div>
+          <button class="acctbtn" id="acct-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="acct-menu">
+            <span class="acctav" id="acct-av" aria-hidden="true"></span>
+            <span class="acctwho"><span class="acctname" id="acct-name">Your account</span><span class="acctmail" id="acct-mail"></span></span>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14.5 12 9.5l5 5"/></svg>
+          </button>
+        </div>
+      </nav>
+
+      <button class="foldtab foldtab-l" type="button" data-unfold="l"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg>Library</button>
+
+      <main class="stage-wrap" id="main">
+        <div class="stage-in">
+          <!-- Home: all topics -->
+          <section id="home" aria-labelledby="home-title">
+            <div class="home-head stack">
+              <h2 id="home-title" class="t-display" tabindex="-1">Your library</h2>
+              <p id="home-note">Choose a topic. Each one opens a step at a time, and your place is kept on this device.</p>
+              <p id="finished-note" class="notice" role="status" hidden></p>
+            </div>
+            <ul class="home-grid" id="home-grid"></ul>
+            <p id="home-empty" class="panel" hidden>New topics are on their way. Please check back soon.</p>
+          </section>
+
+          <!-- One topic, one step at a time -->
+          <section id="topic" hidden>
+            <div class="hub-progress" aria-hidden="true"><span id="bar"></span></div>
+            <article id="stage" class="panel hub-step" tabindex="-1" aria-live="polite"></article>
+            <nav class="hub-controls stage-controls" aria-label="Topic steps">
+              <button id="btn-prev" class="btn" type="button">Back</button>
+              <span id="count" class="hub-count t-caption" aria-live="polite"></span>
+              <button id="btn-next" class="btn btn-primary" type="button">Next</button>
+            </nav>
+          </section>
+
+          <section id="missing" class="panel stack" hidden>
+            <h2 class="t-title" tabindex="-1" id="missing-title">This topic is not available</h2>
+            <p id="missing-text">It may have moved, or it is not part of your membership.</p>
+            <button class="btn btn-primary" type="button" data-home>Back to all topics</button>
+          </section>
+        </div>
+      </main>
+
+      <button class="foldtab foldtab-r" type="button" data-unfold="r"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6"/></svg>Notes and files</button>
+
+      <!-- Reader: about the topic, notes, reflections and files -->
+      <aside class="rcol" id="rcol" aria-label="Notes and files">
+        <div class="rcol-in">
+          <div class="colhead">
+            <h2 id="reader-title">Notes and files</h2>
+            <button class="foldbtn" type="button" data-fold="r" aria-label="Hide notes and files" title="Hide notes and files"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button>
+            <button class="foldbtn" type="button" data-close="r" aria-label="Close notes and files"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+          </div>
+          <div id="reader"></div>
+        </div>
+      </aside>
+
+      <div class="scrim" id="scrim"></div>
+    </div>
+  </div>
+
+  <!-- Help and support -->
+  <dialog class="vdialog" id="dlg-help" aria-labelledby="help-title">
+    <div class="vdialog-in">
+      <h2 id="help-title" class="t-title">Help and support</h2>
+      <ul class="t-ui">
+        <li>Choose a topic in the library on the left. It opens one step at a time.</li>
+        <li>Move on with Next and Back, or the left and right arrow keys.</li>
+        <li>In the C³ Loop, drag the triangle to turn it, or select a point.</li>
+        <li>In sorting exercises, drag a moment into a group, or select it and then select the group.</li>
+        <li>Your place, notes and reflections are kept in this browser only, so they stay on this device.</li>
+        <li>Downloads are in each topic and in Notes and files. During a free trial the number of downloads is limited.</li>
+        <li>Billing, your plan and your login are on My account.</li>
+      </ul>
+      <p class="t-ui">For anything else, contact Executive Frame at <span class="placeholder">contact email to be confirmed</span>.</p>
+      <div class="btn-row"><button class="btn btn-primary" type="button" data-dialog-close>Close</button></div>
+    </div>
+  </dialog>
+
+  <!-- Viewer settings -->
+  <dialog class="vdialog" id="dlg-settings" aria-labelledby="settings-title">
+    <form class="vdialog-in" method="dialog" id="form-settings">
+      <h2 id="settings-title" class="t-title">Viewer settings</h2>
+      <p class="t-ui muted">Saved in this browser, so the viewer looks the same each time you open it here.</p>
+      <fieldset class="setrow" style="border:0;margin:0;padding:0">
+        <legend class="field-label">Text weight</legend>
+        <div class="seg"><label><input type="radio" name="weight" value="light"><span>Light</span></label><label><input type="radio" name="weight" value="regular"><span>Regular</span></label></div>
+      </fieldset>
+      <fieldset class="setrow" style="border:0;margin:0;padding:0">
+        <legend class="field-label">Text size</legend>
+        <div class="seg"><label><input type="radio" name="size" value="standard"><span>Standard</span></label><label><input type="radio" name="size" value="large"><span>Larger</span></label></div>
+      </fieldset>
+      <fieldset class="setrow" style="border:0;margin:0;padding:0">
+        <legend class="field-label">Motion</legend>
+        <div class="seg"><label><input type="radio" name="motion" value="device"><span>Follow my device</span></label><label><input type="radio" name="motion" value="calm"><span>Keep it still</span></label></div>
+      </fieldset>
+      <div class="btn-row"><button class="btn btn-primary" type="submit">Done</button></div>
+    </form>
+  </dialog>
+
+  <!-- Log out and exit -->
+  <dialog class="vdialog" id="dlg-logout" aria-labelledby="logout-title">
+    <form class="vdialog-in" method="dialog" id="form-logout">
+      <h2 id="logout-title" class="t-title">Log out of the Learning Hub?</h2>
+      <p class="t-ui">Your place, notes and reflections stay in this browser for next time.</p>
+      <label class="check t-ui" for="logout-clear">
+        <input type="checkbox" id="logout-clear">
+        <span>Also clear my place, notes and reflections from this browser. Choose this on a shared computer.</span>
+      </label>
+      <div class="btn-row">
+        <button class="btn btn-primary" type="button" id="btn-logout">Log out and exit</button>
+        <button class="btn" type="submit">Cancel</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>

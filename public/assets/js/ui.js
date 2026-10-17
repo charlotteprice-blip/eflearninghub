@@ -74,7 +74,7 @@ export const session = {
 };
 
 // Only same-site paths are accepted as a place to return to after signing in.
-export function safeNext(value, fallback = "/library/") {
+export function safeNext(value, fallback = "/") {
   if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//") || value.includes("\\")) return fallback;
   return value;
 }

@@ -1,6 +1,6 @@
 # Topic content format
 
-Each topic is one JSON file at `public/content/topics/<slug>.json`, listed in `public/content/topics.json`. The hub template (`public/hub/index.html`) reads it and shows one step at a time. Updating a topic means replacing its JSON file and nothing else.
+Each topic is one JSON file at `public/content/topics/<slug>.json`, listed in `public/content/topics.json`. The viewer (`public/index.html`, with `assets/js/viewer.js` and `assets/js/player.js`) reads it and shows one step at a time, with the topic's notes, reflections and files in the right column. Updating a topic means replacing its JSON file and nothing else.
 
 ## The slug is permanent
 

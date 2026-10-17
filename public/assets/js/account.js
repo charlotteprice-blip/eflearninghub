@@ -51,23 +51,23 @@ switch (access.state) {
     rows = row("Plan", `${PLAN[access.interval] || "Library"}, starting after your trial`)
       + (access.cancelAtPeriodEnd ? row("Ends", nzDate(access.trialEnd)) : row("First payment", nzDate(access.trialEnd)))
       + (access.downloadLimit ? row("Trial downloads", `${access.downloadsUsed || 0} of ${access.downloadLimit} used`) : "");
-    actions = btn("Go to the library", "/library/", true) + billingButton;
+    actions = btn("Open the Learning Hub", "/", true) + billingButton;
     break;
   case "active":
     summary = access.cancelAtPeriodEnd ? `Your plan is cancelled and access continues until ${nzDate(access.periodEnd)}.` : "Your membership is active.";
     rows = row("Plan", PLAN[access.interval] || "Library")
       + row(access.cancelAtPeriodEnd ? "Access ends" : "Renews", nzDate(access.periodEnd));
-    actions = btn("Go to the library", "/library/", true) + billingButton;
+    actions = btn("Open the Learning Hub", "/", true) + billingButton;
     break;
   case "past_due":
     summary = "Your last payment did not go through. Please update your card in billing to keep your access.";
     rows = row("Plan", PLAN[access.interval] || "Library");
-    actions = billingButton.replace('class="btn"', 'class="btn btn-primary"') + btn("Go to the library", "/library/");
+    actions = billingButton.replace('class="btn"', 'class="btn btn-primary"') + btn("Open the Learning Hub", "/");
     break;
   case "organisation":
     summary = `Your place is provided by ${access.organisation.name}. There is nothing to pay.`;
     rows = row("Organisation", access.organisation.name) + row("Access until", nzDate(access.organisation.contractEnd));
-    actions = btn("Go to the library", "/library/", true);
+    actions = btn("Open the Learning Hub", "/", true);
     break;
   case "organisation-ended":
     summary = `Access through ${access.organisation ? access.organisation.name : "your organisation"} has ended. You can join for yourself, or ask your organisation about renewing.`;
