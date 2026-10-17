@@ -1,0 +1,87 @@
+{
+  "_note": "SAMPLE CONTENT for testing the hub template. Replace with the Notion export for this topic. Keep the slug. Format: docs/content-format.md.",
+  "slug": "autonomy",
+  "title": "Autonomy",
+  "summary": "Acting from your own deliberate choice, especially when pressure pushes you to react.",
+  "minutes": 25,
+  "arms": ["all"],
+  "sample": true,
+  "version": "2026-10-18",
+  "notionPageId": "",
+  "steps": [
+    {
+      "type": "intro",
+      "heading": "Autonomy",
+      "body": [
+        "This topic looks at the difference between reacting to pressure and choosing how you respond.",
+        "Work through it one step at a time. Your place is kept on this device, so you can stop and come back."
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "What autonomy means here",
+      "body": [
+        "Autonomy is acting from your own considered choice. It is not working alone, and it is not doing whatever you like.",
+        "Self-determination research treats autonomy as a basic psychological need, alongside competence and connection with others. When it is met, effort feels like your own. When it is squeezed, work can feel like a series of demands you are only answering."
+      ]
+    },
+    {
+      "type": "frame",
+      "heading": "The C³ Loop",
+      "intro": "Three moves you can repeat whenever pressure rises. Each pass makes the next one easier.",
+      "points": [
+        { "label": "Centre", "body": "Settle your body first. A steadier nervous system makes clear thinking possible." },
+        { "label": "Clarify", "body": "Once steady, separate what is happening from the story you are telling about it." },
+        { "label": "Choose", "body": "Take one deliberate step that fits how you want to work, then return to Centre." }
+      ]
+    },
+    {
+      "type": "sort",
+      "heading": "Reacting or choosing?",
+      "instructions": "Drag each moment into the group you think it belongs to. On a keyboard or phone, select a moment and then select a group.",
+      "categories": [
+        { "id": "react", "label": "Reacting under pressure" },
+        { "id": "choose", "label": "Choosing deliberately" }
+      ],
+      "items": [
+        { "text": "Replying to an email the moment it arrives because it feels urgent", "category": "react" },
+        { "text": "Checking what the email actually asks before replying", "category": "choose" },
+        { "text": "Agreeing to a deadline before looking at your week", "category": "react" },
+        { "text": "Saying you will confirm the deadline by the end of the day", "category": "choose" },
+        { "text": "Taking one slow breath before answering a difficult question", "category": "choose" },
+        { "text": "Working through lunch because everyone else is", "category": "react" }
+      ],
+      "feedback": "There is no failing here. The aim is to notice the moment where a choice was available."
+    },
+    {
+      "type": "reflect",
+      "heading": "Your turn",
+      "prompt": "Think of a recent moment when you reacted rather than chose. What might Centre have looked like in that moment?",
+      "placeholder": "Write as much or as little as you like."
+    },
+    {
+      "type": "workshop",
+      "heading": "Workshop: the loop in practice",
+      "body": "A short recorded workshop working through the C³ Loop with a real example.",
+      "duration": "12 minutes",
+      "video": { "provider": "youtube", "id": "" }
+    },
+    {
+      "type": "download",
+      "heading": "Take it with you",
+      "body": "A printable workbook with the exercises from this topic.",
+      "files": [
+        { "label": "Autonomy workbook (PDF)", "path": "library/all/autonomy-workbook.pdf", "pages": 8 }
+      ]
+    },
+    {
+      "type": "summary",
+      "heading": "Bringing it together",
+      "points": [
+        "Autonomy is acting from your own considered choice.",
+        "Centre, Clarify and Choose can be repeated whenever pressure rises.",
+        "Noticing the moment of choice is the first skill, and it improves with practice."
+      ]
+    }
+  ]
+}

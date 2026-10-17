@@ -1,0 +1,105 @@
+/* Executive Frame Learning Hub: design tokens.
+   Source: Levi Wilson's interim app brand kit, 18 October 2026.
+   Every brand value lives here and nowhere else. Pages use the role tokens (--ground, --ink, --panel ...),
+   never the raw palette, so a later brand kit only changes this file. */
+
+@font-face {
+  font-family: "Figtree";
+  src: url("/assets/fonts/figtree-300.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("/assets/fonts/figtree-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Figtree";
+  src: url("/assets/fonts/figtree-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Palette */
+  --navy: #2E4062;
+  --slate: #3E5680;
+  --sky: #CFDAE8;
+  --warm-white: #F5F3EE;
+
+  /* App theme (the default everywhere in the app) */
+  --ground: #CFDAE8;
+  --ink: #3E5680;
+  --panel: #F5F3EE;
+  --on-panel: #3E5680;
+  --hairline: rgba(62, 86, 128, 0.25);
+  --focus: #3E5680;
+  --error: #8A3F34;
+
+  /* Inverted theme (calls to action only) */
+  --cta-ground: #2E4062;
+  --cta-ink: #F5F3EE;
+  --cta-panel: #CFDAE8;
+  --cta-on-panel: #2E4062;
+
+  /* Form fields: 2px slate border for 3:1 contrast, never the hairline */
+  --field-border: 2px solid var(--slate);
+
+  /* Typography */
+  --font: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  /* Body weight is 300 in the kit; set to 400 here if the heavier weight is adopted */
+  --body-weight: var(--weight-light);
+
+  --type-display-size: 40px;  --type-display-line: 42px;
+  --type-title-size: 28px;    --type-title-line: 32px;
+  --type-heading-size: 22px;  --type-heading-line: 28px;
+  --type-body-size: 17px;     --type-body-line: 26px;
+  --type-ui-size: 16px;       --type-ui-line: 22px;
+  --type-caption-size: 14px;  --type-caption-line: 20px;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Sizes */
+  --control-height: 52px;
+  --touch-min: 44px;
+  --margin-phone: 24px;
+  --margin-tablet: 48px;
+  --focus-ring: 2px;
+  --content-max: 720px;
+  --wide-max: 1040px;
+
+  /* Motion */
+  --motion-duration: 180ms;
+  --motion-ease: ease-out;
+  --mark-draw-duration: 1200ms;
+}
+
+/* Reduced motion: transitions become instant and the mark appears without drawing on */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration: 0ms;
+    --mark-draw-duration: 0ms;
+  }
+}

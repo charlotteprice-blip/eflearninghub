@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library | Executive Frame Learning Hub</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/brand/app-icon-slate.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/figtree-300.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/hub.css">
+  <script type="module" src="/assets/js/layout.js"></script>
+  <script type="module" src="/assets/js/library.js"></script>
+</head>
+<body>
+  <ef-header current="library"></ef-header>
+  <main id="main">
+    <div class="wrap">
+
+      <section id="v-loading" class="loading">
+        <span class="brand-mark pulse" data-loading-mark></span>
+        <p role="status">Checking your membership</p>
+      </section>
+
+      <section id="v-library" hidden>
+        <div class="library-head stack">
+          <h1 id="library-title" class="t-display" tabindex="-1">Your library</h1>
+          <p id="library-note" class="t-body">Choose a topic. Each one opens a step at a time, and your place is kept on this device.</p>
+          <p id="finished-note" class="notice" role="status" hidden></p>
+        </div>
+        <ul id="topics" class="topic-grid"></ul>
+        <p id="empty" class="panel" hidden>New topics are on their way. Please check back soon.</p>
+      </section>
+
+      <section id="v-error" class="panel stack" hidden>
+        <h1 class="t-title" tabindex="-1" id="error-title">We could not check your membership just now</h1>
+        <p>Your account is not affected. Please try again in a moment.</p>
+        <button class="btn btn-primary" type="button" onclick="location.reload()">Try again</button>
+      </section>
+
+    </div>
+  </main>
+  <ef-footer></ef-footer>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome | Executive Frame Learning Hub</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/brand/app-icon-slate.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/figtree-300.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <script type="module" src="/assets/js/layout.js"></script>
+  <script type="module" src="/assets/js/thank-you.js"></script>
+</head>
+<body>
+  <ef-header></ef-header>
+  <main id="main">
+    <div class="wrap wrap-narrow">
+
+      <section id="v-loading" class="loading">
+        <span class="brand-mark pulse" data-loading-mark></span>
+        <p role="status">Confirming your membership</p>
+      </section>
+
+      <section id="v-done" class="panel stack-lg" hidden>
+        <div class="stack">
+          <h1 id="done-title" class="t-display" tabindex="-1">Welcome to the Learning Hub</h1>
+          <p id="done-text">Your membership is ready.</p>
+          <p id="done-detail" class="muted"></p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/library/">Go to the library</a>
+          <a class="btn" href="/account/">Your account</a>
+        </div>
+        <p class="t-caption muted">Stripe emails your receipt. During a free trial, Stripe also emails you before your first payment.</p>
+      </section>
+
+      <section id="v-wait" class="panel stack" hidden>
+        <h1 id="wait-title" class="t-title" tabindex="-1">Your payment is being confirmed</h1>
+        <p>This usually takes a few seconds. Your account page shows your membership as soon as it is ready.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" type="button" onclick="location.reload()">Check again</button>
+          <a class="btn" href="/account/">Your account</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <ef-footer></ef-footer>
+</body>
+</html>

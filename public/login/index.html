@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log in | Executive Frame Learning Hub</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/brand/app-icon-slate.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/figtree-300.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <script type="module" src="/assets/js/layout.js"></script>
+  <script type="module" src="/assets/js/login.js"></script>
+</head>
+<body>
+  <ef-header current="login"></ef-header>
+  <main id="main">
+    <div class="wrap wrap-narrow">
+
+      <section id="v-login" class="panel stack-lg" aria-labelledby="login-title">
+        <div class="stack">
+          <h1 id="login-title" class="t-title" tabindex="-1">Log in</h1>
+          <p id="login-note" class="muted">Use the same login as the Executive Frame Client Hub, if you have one.</p>
+        </div>
+
+        <div class="stack">
+          <button id="btn-google" class="btn btn-block" type="button"><img src="/assets/auth/google.svg" alt="">Continue with Google</button>
+          <button id="btn-microsoft" class="btn btn-block" type="button"><img src="/assets/auth/microsoft.svg" alt="">Continue with Microsoft</button>
+        </div>
+
+        <p class="divider" aria-hidden="true">or with your email</p>
+
+        <form id="form-login" novalidate>
+          <div class="field">
+            <label class="field-label" for="email">Email address</label>
+            <input class="input" id="email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <div class="field">
+            <label class="field-label" for="password">Password</label>
+            <div class="input-with-button">
+              <input class="input" id="password" type="password" autocomplete="current-password" required>
+              <button id="btn-show" class="btn btn-quiet" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
+          </div>
+          <p id="login-msg" class="msg" role="alert"></p>
+          <div class="stack" style="margin-top: var(--space-5)">
+            <button id="btn-login" class="btn btn-primary btn-block" type="submit">Log in</button>
+            <button id="btn-forgot" class="btn btn-quiet" type="button">Forgotten your password?</button>
+          </div>
+        </form>
+
+        <p class="t-ui">New to the Learning Hub? <a href="/join/">Join and start your free trial</a></p>
+      </section>
+
+      <section id="v-reset" class="panel stack-lg" aria-labelledby="reset-title" hidden>
+        <h1 id="reset-title" class="t-title" tabindex="-1">Reset your password</h1>
+        <p>Enter the email address you log in with. If it has an account, we will send a link to choose a new password.</p>
+        <form id="form-reset" novalidate>
+          <div class="field">
+            <label class="field-label" for="reset-email">Email address</label>
+            <input class="input" id="reset-email" type="email" autocomplete="email" inputmode="email" required>
+          </div>
+          <p id="reset-msg" class="msg" role="alert"></p>
+          <div class="btn-row" style="margin-top: var(--space-5)">
+            <button id="btn-reset" class="btn btn-primary" type="submit">Send the link</button>
+            <button id="btn-back" class="btn" type="button">Back to log in</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="v-busy" class="loading" hidden>
+        <span class="brand-mark pulse" data-loading-mark></span>
+        <p id="busy-text" role="status">Signing you in</p>
+      </section>
+
+    </div>
+  </main>
+  <ef-footer></ef-footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "_note": "Display text only. The amount charged always comes from the Stripe price, never from this file. PLACEHOLDER: prices show NZ$XX until Sarah confirms them.",
+  "placeholder": true,
+  "trialDays": 7,
+  "plans": [
+    { "interval": "monthly", "label": "Monthly", "price": "NZ$XX", "per": "a month", "note": "Cancel at any time" },
+    { "interval": "annual", "label": "Annual", "price": "NZ$XX", "per": "a year", "note": "Change from monthly whenever you like" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "_note": "The 8 Executive Frame arms. The slug is what /join/?arm= takes and what Stripe lookup keys use (library_<slug>_monthly). Never change a slug once links are published.",
+  "arms": [
+    { "slug": "law", "name": "EF Law" },
+    { "slug": "health", "name": "EF Health" },
+    { "slug": "elite", "name": "EF Elite" },
+    { "slug": "corporate", "name": "EF Corporate" },
+    { "slug": "women", "name": "EF Women" },
+    { "slug": "neurodiversity", "name": "EF Neurodiversity" },
+    { "slug": "family", "name": "EF Family" },
+    { "slug": "c3", "name": "C3 Consulting" }
+  ]
+}

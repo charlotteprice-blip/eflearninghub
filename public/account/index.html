@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account | Executive Frame Learning Hub</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/brand/app-icon-slate.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/figtree-300.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <script type="module" src="/assets/js/layout.js"></script>
+  <script type="module" src="/assets/js/account.js"></script>
+</head>
+<body>
+  <ef-header current="account"></ef-header>
+  <main id="main">
+    <div class="wrap wrap-narrow">
+
+      <section id="v-loading" class="loading">
+        <span class="brand-mark pulse" data-loading-mark></span>
+        <p id="loading-text" role="status">Opening your account</p>
+      </section>
+
+      <section id="v-account" hidden>
+        <h1 id="account-title" class="t-display" tabindex="-1" style="margin-bottom: var(--space-6)">Your account</h1>
+
+        <section class="panel stack" aria-labelledby="membership-title">
+          <h2 id="membership-title" class="t-heading">Membership</h2>
+          <p id="membership-summary"></p>
+          <dl id="membership-rows" class="rows"></dl>
+          <p id="billing-msg" class="msg" role="alert"></p>
+          <div id="membership-actions" class="btn-row"></div>
+          <p id="billing-note" class="t-caption muted" hidden>Billing opens Stripe's secure page, where you can change between monthly and annual, update your card, download receipts or cancel. If you cancel, access continues until the end of the period you have paid for.</p>
+        </section>
+
+        <section class="panel stack" aria-labelledby="login-title">
+          <h2 id="login-title" class="t-heading">Your login</h2>
+          <dl class="rows">
+            <div><dt>Email</dt><dd id="acc-email"></dd></div>
+            <div><dt>Signed in with</dt><dd id="acc-provider"></dd></div>
+            <div><dt>Email confirmed</dt><dd id="acc-verified"></dd></div>
+          </dl>
+          <p id="verify-msg" class="msg" role="status"></p>
+          <div class="btn-row">
+            <button id="btn-verify" class="btn" type="button" hidden>Send a confirmation link</button>
+            <button id="btn-logout" class="btn" type="button">Log out</button>
+          </div>
+          <p class="t-caption muted">This login also works in the Executive Frame Client Hub. Your progress and notes in topics are kept in this browser only. Read the <a href="/privacy/">privacy statement</a>.</p>
+        </section>
+      </section>
+
+      <section id="v-error" class="panel stack" hidden>
+        <h1 class="t-title" tabindex="-1" id="error-title">We could not load your account just now</h1>
+        <p>Nothing has changed. Please try again in a moment.</p>
+        <button class="btn btn-primary" type="button" onclick="location.reload()">Try again</button>
+      </section>
+
+    </div>
+  </main>
+  <ef-footer></ef-footer>
+</body>
+</html>

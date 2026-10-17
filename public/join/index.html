@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Join | Executive Frame Learning Hub</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/assets/brand/app-icon-slate.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/figtree-300.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <script type="module" src="/assets/js/layout.js"></script>
+  <script type="module" src="/assets/js/join.js"></script>
+</head>
+<body>
+  <ef-header></ef-header>
+  <main id="main">
+    <div class="wrap wrap-narrow">
+
+      <div id="dots" class="steps-dots" aria-hidden="true" style="margin-bottom: var(--space-5)" hidden>
+        <span data-dot="1"></span><span data-dot="2"></span><span data-dot="3"></span>
+      </div>
+
+      <!-- Loading -->
+      <section id="v-loading" class="loading">
+        <span class="brand-mark pulse" data-loading-mark></span>
+        <p id="loading-text" role="status">Getting things ready</p>
+      </section>
+
+      <!-- Step 1: organisation access code -->
+      <section id="v-code" class="panel stack-lg" aria-labelledby="code-title" hidden>
+        <div class="stack">
+          <p class="t-caption" id="code-step">Step 1 of 3</p>
+          <h1 id="code-title" class="t-title" tabindex="-1">Join the <span data-arm-name>Executive Frame</span> library</h1>
+          <p>Self paced topics and workshops you can work through in your own time, one step at a time.</p>
+        </div>
+        <form id="form-code" novalidate class="stack-lg">
+          <fieldset class="stack" style="border:0;margin:0;padding:0">
+            <legend class="field-label">Has your organisation given you an access code?</legend>
+            <div class="choices choices-2">
+              <label class="choice"><input type="radio" name="has-code" value="no" id="code-no"><span class="choice-body"><span class="choice-title">No</span><span class="choice-note">I am joining for myself</span></span></label>
+              <label class="choice"><input type="radio" name="has-code" value="yes" id="code-yes"><span class="choice-body"><span class="choice-title">Yes</span><span class="choice-note">My organisation provides access</span></span></label>
+            </div>
+          </fieldset>
+          <div class="field" id="code-field" hidden>
+            <label class="field-label" for="code">Access code</label>
+            <input class="input" id="code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false">
+            <span class="field-hint">Letters and numbers, as your organisation sent it.</span>
+          </div>
+          <p class="t-caption muted">If your organisation uses its own email domain, you can leave this and we will check your work email after you sign in.</p>
+          <p id="code-msg" class="msg" role="alert"></p>
+          <button id="btn-code-next" class="btn btn-primary btn-block" type="submit">Continue</button>
+        </form>
+        <p class="t-ui">Already a member? <a href="/login/">Log in</a></p>
+      </section>
+
+      <!-- Step 2: create the login -->
+      <section id="v-signup" class="panel stack-lg" aria-labelledby="signup-title" hidden>
+        <div class="stack">
+          <p class="t-caption">Step 2 of 3</p>
+          <h1 id="signup-title" class="t-title" tabindex="-1">Create your login</h1>
+          <p class="muted">One login works across the Executive Frame apps.</p>
+        </div>
+
+        <label class="check t-ui" for="privacy">
+          <input type="checkbox" id="privacy">
+          <span>I have read the <a href="/privacy/" target="_blank" rel="noopener">privacy statement</a> and agree to my account details being stored by Google (Sydney) and Stripe as it describes.</span>
+        </label>
+
+        <div class="stack">
+          <button id="btn-google" class="btn btn-block" type="button"><img src="/assets/auth/google.svg" alt="">Continue with Google</button>
+          <button id="btn-microsoft" class="btn btn-block" type="button"><img src="/assets/auth/microsoft.svg" alt="">Continue with Microsoft</button>
+        </div>
+
+        <p class="divider" aria-hidden="true">or with your email</p>
+
+        <form id="form-signup" novalidate>
+          <div class="field">
+            <label class="field-label" for="name">Your name</label>
+            <input class="input" id="name" type="text" autocomplete="name">
+          </div>
+          <div class="field">
+            <label class="field-label" for="email">Email address</label>
+            <input class="input" id="email" type="email" autocomplete="email" inputmode="email">
+            <span class="field-hint">Use your work email if your organisation provides access.</span>
+          </div>
+          <div class="field">
+            <label class="field-label" for="password">Password</label>
+            <div class="input-with-button">
+              <input class="input" id="password" type="password" autocomplete="new-password">
+              <button id="btn-show" class="btn btn-quiet" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
+            <span class="field-hint">At least 10 characters, with a number and a symbol such as ! ? # @ or %.</span>
+          </div>
+          <p id="signup-msg" class="msg" role="alert"></p>
+          <div class="btn-row" style="margin-top: var(--space-5)">
+            <button id="btn-create" class="btn btn-primary" type="submit">Create my login</button>
+            <button id="btn-signup-back" class="btn" type="button">Back</button>
+          </div>
+        </form>
+        <p class="t-ui">Already have a login? <a id="link-login" href="/login/">Log in</a></p>
+      </section>
+
+      <!-- Step 2, already signed in -->
+      <section id="v-signed" class="panel stack-lg" aria-labelledby="signed-title" hidden>
+        <div class="stack">
+          <p class="t-caption">Step 2 of 3</p>
+          <h1 id="signed-title" class="t-title" tabindex="-1">You are signed in</h1>
+          <p>Signed in as <strong id="signed-email"></strong>.</p>
+        </div>
+        <label class="check t-ui" for="privacy2">
+          <input type="checkbox" id="privacy2">
+          <span>I have read the <a href="/privacy/" target="_blank" rel="noopener">privacy statement</a> and agree to my account details being stored by Google (Sydney) and Stripe as it describes.</span>
+        </label>
+        <p id="signed-msg" class="msg" role="alert"></p>
+        <div class="btn-row">
+          <button id="btn-signed-next" class="btn btn-primary" type="button">Continue</button>
+          <button id="btn-switch" class="btn" type="button">Use a different login</button>
+        </div>
+      </section>
+
+      <!-- Organisation access through the work email domain -->
+      <section id="v-org" class="panel stack-lg" aria-labelledby="org-title" hidden>
+        <div class="stack">
+          <p class="t-caption">Step 3 of 3</p>
+          <h1 id="org-title" class="t-title" tabindex="-1"><span id="org-name">Your organisation</span> provides your access</h1>
+          <p>Your work email matches an organisation with places in the Learning Hub. There is nothing to pay.</p>
+        </div>
+        <div id="org-verify" class="notice stack" hidden>
+          <p><strong>Please confirm your email address first.</strong> We have sent a link to <span id="org-verify-email"></span>. Open it, then come back and press Continue.</p>
+          <button id="btn-resend" class="btn btn-quiet" type="button">Send the link again</button>
+        </div>
+        <p id="org-msg" class="msg" role="alert"></p>
+        <div class="btn-row">
+          <button id="btn-org" class="btn btn-primary" type="button">Use my organisation's place</button>
+          <button id="btn-org-skip" class="btn" type="button">Pay for my own plan instead</button>
+        </div>
+      </section>
+
+      <!-- Step 3: choose a plan -->
+      <section id="v-plan" class="panel stack-lg" aria-labelledby="plan-title" hidden>
+        <div class="stack">
+          <p class="t-caption">Step 3 of 3</p>
+          <h1 id="plan-title" class="t-title" tabindex="-1">Choose how to pay</h1>
+          <p id="trial-note"><strong><span data-trial-days>7</span> days free</strong>, then your plan starts. We ask for a card now, and you can cancel before the trial ends without being charged.</p>
+        </div>
+        <form id="form-plan" novalidate class="stack-lg">
+          <fieldset style="border:0;margin:0;padding:0">
+            <legend class="visually-hidden">Plan</legend>
+            <div class="choices choices-2" id="plan-choices"></div>
+          </fieldset>
+          <p class="t-caption muted">Prices are in New Zealand dollars and include GST. Payment is handled by Stripe; your card details never reach the Learning Hub.</p>
+          <p id="plan-msg" class="msg" role="alert"></p>
+          <button id="btn-checkout" class="btn btn-primary btn-block" type="submit">Continue to secure payment</button>
+        </form>
+      </section>
+
+      <!-- Already a member -->
+      <section id="v-have" class="panel stack-lg" aria-labelledby="have-title" hidden>
+        <h1 id="have-title" class="t-title" tabindex="-1">You already have access</h1>
+        <p id="have-text">Your membership is active.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/library/">Go to the library</a>
+          <a class="btn" href="/account/">Your account</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  <ef-footer></ef-footer>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "executiveframe-app"
+  },
+  "targets": {
+    "executiveframe-app": {
+      "hosting": {
+        "learning": ["executiveframe-app"]
+      }
+    }
+  }
+}

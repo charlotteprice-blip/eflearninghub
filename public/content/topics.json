@@ -1,0 +1,14 @@
+{
+  "_note": "Library index. One entry per topic, in display order. The slug is the permanent address /hub/<slug>/ that the Client Hub links to: it comes from the Slug property in Notion, never from the title, and must never change. A topic's full content lives in /content/topics/<slug>.json. arms: [\"all\"] shows the topic to every member; otherwise list arm slugs.",
+  "topics": [
+    {
+      "slug": "autonomy",
+      "title": "Autonomy",
+      "summary": "Acting from your own deliberate choice, especially when pressure pushes you to react.",
+      "minutes": 25,
+      "arms": ["all"],
+      "status": "published",
+      "sample": true
+    }
+  ]
+}
