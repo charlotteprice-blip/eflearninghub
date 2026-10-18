@@ -1,7 +1,7 @@
 // Adds or updates an organisation with prepaid Learning Hub places, in Firestore organisations/{id}.
 // The access code is shown once and stored only as a hash, so keep a copy for the organisation.
 //
-// Sign in first with an account that can write to the executiveframe-app project:
+// Easiest: ./tasks org:add with the same options. Directly, sign in first with an account that can write to the project:
 //   gcloud auth application-default login
 // Then, from the repository root:
 //   node scripts/add-organisation.mjs --id wynn-williams --name "Wynn Williams" \

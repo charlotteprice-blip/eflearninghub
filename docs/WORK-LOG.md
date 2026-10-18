@@ -2,6 +2,23 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 3, 18 October 2026
+
+**Built.** A terminal runner, `./tasks`, covering every build, setup and admin step that has a command line or API route (Charlotte's request). Local: `doctor`, `install`, `test`, `preview`, `emulators`. Google and Firebase: `login`, `firebase:project` (optionally inside Sarah's Workspace organisation), `firebase:owner`, `firebase:billing` (link plus NZ$10 budget alert), `firebase:apis`, `firebase:firestore`, `firebase:storage`, `firebase:webapp`, `firebase:signing`, `microsoft:app` (Entra registration through the Azure CLI), `firebase:auth` (email and password, password policy, authorised domain, Microsoft and Google providers through the Identity Toolkit API), `firebase:secret`, `firebase:domain` (connects the domain and prints the DNS records), `firebase:all`. Stripe: `stripe:prices`, `stripe:portal` (customer portal by API), `stripe:check`. Running: `deploy`, `deploy:site`, `deploy:functions`, `deploy:rules`, `logs`, `org:add`, `upload`.
+
+**Files changed.** New: `tasks`, `scripts/stripe-portal.mjs`, `scripts/stripe-check.mjs`, `scripts/preview.mjs`. Renamed and rewritten: `docs/console-setup.md` is now `docs/setup.md`, in terminal order. Updated: `README.md`, comments in `scripts/stripe-setup.mjs` and `scripts/add-organisation.mjs`.
+
+**Checked.** Syntax and ShellCheck clean; every Firebase CLI command and gcloud flag used was confirmed against the installed tools; Stripe portal settings checked against the Stripe library's types; `help`, `doctor`, `test`, `preview` and the deploy confirmation run here. The steps that create or change Google and Stripe resources have not been run, because they act on Sarah's accounts.
+
+**Decisions and why.**
+1. One script with named steps rather than a single all-in-one command, so each step can be rerun on its own and anything irreversible asks first.
+2. Secrets are typed at a hidden prompt and passed straight to the command that stores them, never to a file or the shell history.
+3. JSON is handled with Node rather than jq, which is not on every Mac.
+
+**Still manual (no command line route).** Billing account with Sarah's card; possibly one Authentication, Get started click; the Google sign-in client (console Enable switch); Stripe team invite, restricted key, customer emails and branding; DNS records at the DNS host.
+
+**Open questions.** As before, plus: which Google account will run `./tasks firebase:project` (it should be Sarah's Workspace account so the project sits in her organisation).
+
 ## Session 2, 18 October 2026
 
 **Built.** The member area is now one desktop viewer, after the Themescape viewer, replacing the separate Library and topic pages (Charlotte's direction). `public/index.html` is the viewer; `/`, `/library/` and every `/hub/<slug>/` open it, so topic addresses for the Client Hub are unchanged and `#step-n` still opens a step. Layout: a header with the topic title and summary; a foldable library sidebar on the left with topic search, every topic and its progress, the open topic's steps (any step can be opened), Help and support, Viewer settings, and the account menu at the bottom (My account, Help and support, Log out and exit); the stage in the middle showing one step at a time; and a foldable Notes and files column on the right (about the topic, free notes, the learner's reflections with a link to each step, and the topic's downloads with the trial allowance). Fold state is remembered. On phones both sidebars become drawers opened from the header. Membership is checked behind a cover screen before anything shows, as in Themescape's gate.
@@ -44,7 +61,7 @@ A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 12. `AUTOMATIC_TAX` is off until Executive Frame's GST registration is confirmed and entered in Stripe Tax.
 13. The repository is `eflearninghub`, as created by Charlotte, rather than `executive-frame-app`.
 
-**Charlotte to configure.** Full checklist in `docs/console-setup.md`. Firebase: create the project under Sarah's account on Blaze; Firestore and Storage in australia-southeast1; enable Google, Microsoft (Entra app registration) and Email/Password with the 10 character policy; authorised domain; `STRIPE_SECRET_KEY` secret (restricted test key); Service Account Token Creator role for signed links; custom domain at launch. Stripe: Administrator invite; restricted key; run `scripts/stripe-setup.mjs` once amounts are confirmed; customer portal (cancel at period end, card update, monthly and annual switching); receipt, trial ending and failed payment emails; branding; Stripe Tax if registered.
+**Charlotte to configure.** Full checklist in `docs/setup.md` (was console-setup.md). Firebase: create the project under Sarah's account on Blaze; Firestore and Storage in australia-southeast1; enable Google, Microsoft (Entra app registration) and Email/Password with the 10 character policy; authorised domain; `STRIPE_SECRET_KEY` secret (restricted test key); Service Account Token Creator role for signed links; custom domain at launch. Stripe: Administrator invite; restricted key; run `scripts/stripe-setup.mjs` once amounts are confirmed; customer portal (cancel at period end, card update, monthly and annual switching); receipt, trial ending and failed payment emails; branding; Stripe Tax if registered.
 
 **Open questions.**
 1. Prices, and one library price or a price per arm.

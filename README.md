@@ -31,27 +31,18 @@ public/                  The site (Firebase Hosting)
   assets/brand/          Placeholder SVGs until the brand files arrive (see its README)
   assets/fonts/          Figtree 300, 400, 500, self hosted (OFL)
 functions/               core.js (rules), index.js (Cloud Functions wiring), test/ (npm test)
-scripts/                 stripe-setup.mjs (products and prices), add-organisation.mjs (prepaid places)
-docs/                    console-setup.md, content-format.md, WORK-LOG.md
+scripts/                 stripe-setup, stripe-portal and stripe-check (Stripe by API), add-organisation (prepaid places), preview (local server)
+docs/                    setup.md, content-format.md, WORK-LOG.md
+tasks                    The terminal runner for every setup, test, deploy and admin task
 ```
 
-## Running locally
+## Terminal tasks
+
+Every build, setup and admin step that can run in a terminal is a `./tasks` command. Run `./tasks help` for the list and `./tasks doctor` to check the tools. The setup order, and the few steps that have no command line route, are in `docs/setup.md`.
 
 ```
-cd functions && npm install && npm test && cd ..
-firebase emulators:start
+./tasks test        # function tests
+./tasks preview     # local preview with sample content, no sign in
+./tasks emulators   # full local run with the Firebase emulators
+./tasks deploy      # tests, then deploys everything (asks first)
 ```
-
-Open http://127.0.0.1:5000. Pages on localhost use the Auth and Functions emulators. Payment and downloads need a Stripe test key in `functions/.secret.local` (`STRIPE_SECRET_KEY=sk_test_...`, never committed). Without emulators, a plain local server shows the viewer in a labelled preview mode with sample content.
-
-## Deploying
-
-```
-firebase deploy --only hosting,functions:learning,firestore,storage
-```
-
-Console steps that must be done by hand are in `docs/console-setup.md`.
-
-## Placeholders still to confirm
-
-Prices (NZ$XX), the trial download allowance (5), the partner rate amount, the privacy statement wording and contact email, the brand SVGs, the workshop video, and all sample topic content.

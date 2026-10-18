@@ -1,7 +1,7 @@
 // Creates the Learning Hub products and prices in Sarah's Executive Frame Stripe account.
 // Prices are found by the functions through these lookup keys, so the same code runs in test and live mode.
 //
-// Run from the repository root, test mode first (amounts in cents, GST included):
+// Easiest: ./tasks stripe:prices with the same options (it asks for the key). Directly, test mode first (amounts in cents, GST included):
 //   STRIPE_SECRET_KEY=sk_test_... node scripts/stripe-setup.mjs \
 //     --monthly 0000 --annual 0000 --partner-monthly 0000 --partner-annual 0000
 // Optional, for an arm with its own price:  --arm law --arm-monthly 0000 --arm-annual 0000
@@ -62,4 +62,4 @@ const seat = await product("Organisation seat", "A place in the Learning Hub pro
 console.log(`Organisation seat (${seat.id})`);
 await price(seat.id, "organisation_seat", 0, "month", "Organisation seat");
 
-console.log("\nDone. Next: set up the customer portal in the Stripe dashboard (docs/console-setup.md).");
+console.log("\nDone. Next: ./tasks stripe:portal, then ./tasks stripe:check.");
