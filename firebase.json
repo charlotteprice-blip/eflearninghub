@@ -1,87 +1,125 @@
 {
-  "hosting": {
-    "target": "learning",
-    "public": "public",
-    "trailingSlash": true,
-    "ignore": [
-      "**/.*",
-      "**/README.md"
-    ],
-    "rewrites": [
-      {
-        "regex": "^/library/?$",
-        "destination": "/index.html"
-      },
-      {
-        "regex": "^/hub/[a-z0-9-]+/?$",
-        "destination": "/index.html"
-      }
-    ],
-    "headers": [
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache"
-          },
-          {
-            "key": "X-Robots-Tag",
-            "value": "noindex"
-          },
-          {
-            "key": "X-Content-Type-Options",
-            "value": "nosniff"
-          },
-          {
-            "key": "Referrer-Policy",
-            "value": "strict-origin-when-cross-origin"
-          },
-          {
-            "key": "Permissions-Policy",
-            "value": "camera=(), microphone=(), geolocation=()"
-          }
-        ]
-      },
-      {
-        "source": "/assets/fonts/**",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=31536000, immutable"
-          },
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "*"
-          }
-        ]
-      }
-    ]
-  },
-  "functions": [
+  "hosting": [
     {
-      "source": "functions",
-      "codebase": "learning",
+      "target": "learning",
+      "public": "public",
+      "trailingSlash": true,
       "ignore": [
-        "node_modules",
-        ".git",
-        "test",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "**/README.md"
+      ],
+      "rewrites": [
+        {
+          "regex": "^/library/?$",
+          "destination": "/index.html"
+        },
+        {
+          "regex": "^/hub/[a-z0-9-]+/?$",
+          "destination": "/index.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Content-Security-Policy",
+              "value": "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://australia-southeast1-ef-client-hub.cloudfunctions.net http://127.0.0.1:9099 http://127.0.0.1:5001; frame-src 'self' https://executiveframe-learninghub.firebaseapp.com https://executiveframe-learninghub.web.app https://ef-client-hub.firebaseapp.com https://app.executiveframe.co.nz https://apis.google.com https://www.youtube-nocookie.com https://player.vimeo.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "strict-origin-when-cross-origin"
+            },
+            {
+              "key": "Permissions-Policy",
+              "value": "camera=(), microphone=(), geolocation=(), payment=(), interest-cohort=()"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin-allow-popups"
+            },
+            {
+              "key": "X-Robots-Tag",
+              "value": "noindex"
+            }
+          ]
+        },
+        {
+          "source": "**/*.html",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-store"
+            }
+          ]
+        },
+        {
+          "source": "/content/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        {
+          "source": "/assets/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=86400"
+            }
+          ]
+        },
+        {
+          "source": "/assets/fonts/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        }
       ]
     }
   ],
   "firestore": [
     {
-      "database": "(default)",
+      "database": "learninghub",
       "rules": "firestore.rules",
       "indexes": "firestore.indexes.json"
     }
   ],
-  "storage": {
-    "rules": "storage.rules"
-  },
+  "storage": [
+    {
+      "target": "learning",
+      "rules": "storage.rules"
+    }
+  ],
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "learning",
+      "runtime": "nodejs22",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "*.local",
+        "test/**",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" install --no-audit --no-fund"
+      ]
+    }
+  ],
   "emulators": {
     "auth": {
       "port": 9099

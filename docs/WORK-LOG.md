@@ -2,6 +2,24 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 4, 18 October 2026
+
+**Built.** The Learning Hub now follows the Client Hub's setup process and lives beside it in the `ef-client-hub` Firebase project, which the shared login requires. It keeps its own Firestore database (`learninghub`), Hosting site and Storage bucket (`executiveframe-learninghub`) and functions codebase (`learning`). The bash `./tasks` runner is replaced by `npm run` scripts on the Client Hub pattern: `setup:check` and `setup` (with `--only`, `--dry-run`, `--plan`, `--yes`), `tasks`, `stripe`, `secret`, `orgs`, `upload`, `serve`, `vendor`, `contrast`, `check`, `test:unit`, `test:rules`, `test`, `emulators`, `deploy:rules`, `deploy:functions`, `deploy:hosting`, `deploy`, `logs` and `worklog`. The Firebase SDK and Figtree (now with Latin Extended for macrons) are self hosted, a Content Security Policy is set, and inline scripts are removed. Security rules tests and a colour contrast check are added.
+
+**Files changed.** New: `package.json`, `firebase.test.json`, `scripts/setup.mjs`, `scripts/tasks.mjs`, `scripts/stripe.mjs`, `scripts/orgs.mjs`, `scripts/upload.mjs`, `scripts/vendor.mjs`, `scripts/check-contrast.mjs`, `scripts/worklog.mjs`, `tests/rules.test.js`, `public/assets/js/firebase-config.js`, `public/assets/js/settings-early.js`, `public/assets/vendor/firebase/`, `docs/firebase-setup.md`. Changed: `.firebaserc`, `firebase.json`, `firestore.rules` and `storage.rules` comments, `functions/index.js` (named database and bucket), `functions/core.js` (allowed addresses), `app.js` and the account page scripts (vendored SDK), fonts, `README.md`. Removed: `tasks`, `scripts/add-organisation.mjs` (now `npm run orgs`), `docs/setup.md` (now `docs/firebase-setup.md`). Renamed: `scripts/preview.mjs` to `scripts/serve.mjs`.
+
+**Checked.** Function tests (11) and the contrast check (14 pairings) pass; `setup:check` and `setup -- --plan` run; the viewer and account pages work with the self hosted SDK at 3 widths with no page errors. `npm run test:rules` could not run here (the emulator download is blocked in this workspace); it needs running once on the Mac.
+
+**Decisions and why.**
+1. Same project as the Client Hub, because shared sign in only works within one Firebase project. Separate database, site, bucket and codebase, so neither app's deploys or rules can reach the other's records.
+2. The project wide password policy is opt in (`--only=passwordpolicy`), because enforcing it changes sign up for the Client Hub too.
+3. The Microsoft client secret goes straight from the Azure CLI to Firebase when the Azure CLI is used, and is otherwise typed at a hidden prompt; it is never printed or stored in the repository.
+4. The functions' service account gets the signing role on itself and read access to the library bucket only, rather than project wide storage access.
+
+**Charlotte to configure.** Run the steps in `docs/firebase-setup.md` from section 2: `npm run setup`, the Google sign in browser step, the Stripe dashboard steps, `npm run stripe -- prices/portal/check` once prices are confirmed, then the 3 deploys and `npm run test:rules`.
+
+**Open questions.** As before. The project sits under Charlotte's account, as the Client Hub's does; moving ownership to Sarah's account remains open for both apps.
+
 ## Session 3, 18 October 2026
 
 **Built.** A terminal runner, `./tasks`, covering every build, setup and admin step that has a command line or API route (Charlotte's request). Local: `doctor`, `install`, `test`, `preview`, `emulators`. Google and Firebase: `login`, `firebase:project` (optionally inside Sarah's Workspace organisation), `firebase:owner`, `firebase:billing` (link plus NZ$10 budget alert), `firebase:apis`, `firebase:firestore`, `firebase:storage`, `firebase:webapp`, `firebase:signing`, `microsoft:app` (Entra registration through the Azure CLI), `firebase:auth` (email and password, password policy, authorised domain, Microsoft and Google providers through the Identity Toolkit API), `firebase:secret`, `firebase:domain` (connects the domain and prints the DNS records), `firebase:all`. Stripe: `stripe:prices`, `stripe:portal` (customer portal by API), `stripe:check`. Running: `deploy`, `deploy:site`, `deploy:functions`, `deploy:rules`, `logs`, `org:add`, `upload`.

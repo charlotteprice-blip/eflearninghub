@@ -3,8 +3,9 @@
 import { auth, firstUser, call, explainCallError, logOut, LOCAL } from "./app.js";
 import { $, show, say, nzDate } from "./ui.js";
 import { placeMark } from "./layout.js";
-import { sendEmailVerification } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { sendEmailVerification } from "/assets/vendor/firebase/firebase-auth.js";
 
+document.querySelectorAll("[data-reload]").forEach(b => b.addEventListener("click", () => location.reload()));
 const VIEWS = ["v-loading", "v-account", "v-error"];
 placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));

@@ -29,8 +29,8 @@ const STRIPE_API_VERSION = "2025-08-27.basil";
 // Pages that may start Checkout or open billing; return addresses are built from the page's own origin.
 const ORIGINS = [
   "https://app.executiveframe.co.nz",
-  "https://executiveframe-app.web.app",
-  "https://executiveframe-app.firebaseapp.com"
+  "https://executiveframe-learninghub.web.app",
+  "https://executiveframe-learninghub.firebaseapp.com"
 ];
 const LOCAL = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 

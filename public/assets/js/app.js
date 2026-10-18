@@ -1,30 +1,20 @@
-// Executive Frame Learning Hub: Firebase connection shared by every page.
-// The web app settings come from Firebase Hosting's reserved address /__/firebase/init.json, so no project
-// settings are copied into this repository. They are public identifiers, not secrets.
-// On localhost the pages use the Firebase emulators (firebase emulators:start).
+// Executive Frame Learning Hub: the single place the pages connect to Firebase.
+// Every Firebase module comes from /assets/vendor/firebase (copied there by npm run vendor), so nothing loads from
+// outside Firebase Hosting. Settings are in firebase-config.js, written by npm run setup.
+// On localhost the pages use the Firebase emulators on the demo project demo-learninghub (npm run emulators).
 // Browsers never write to Firestore: every change goes through a Cloud Function (see functions/core.js).
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import { getFunctions, httpsCallable, connectFunctionsEmulator } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-functions.js";
+import { initializeApp } from "/assets/vendor/firebase/firebase-app.js";
+import { getAuth, connectAuthEmulator, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "/assets/vendor/firebase/firebase-auth.js";
+import { getFunctions, httpsCallable, connectFunctionsEmulator } from "/assets/vendor/firebase/firebase-functions.js";
+import { firebaseConfig, FUNCTIONS_REGION } from "./firebase-config.js";
 
-export const REGION = "australia-southeast1";
+export const REGION = FUNCTIONS_REGION;
 export const LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
 
-async function loadConfig() {
-  try {
-    const res = await fetch("/__/firebase/init.json", { cache: "no-store" });
-    if (res.ok) return await res.json();
-  } catch (err) { /* falls through */ }
-  if (LOCAL) {
-    // Emulators accept any key; this lets the pages run from a plain local server as well.
-    return { apiKey: "local-emulator-key", authDomain: "executiveframe-app.firebaseapp.com", projectId: "executiveframe-app" };
-  }
-  throw new Error("Firebase settings could not be loaded");
-}
-
-const config = await loadConfig();
-export const app = initializeApp(config);
+export const app = initializeApp(
+  LOCAL ? { ...firebaseConfig, apiKey: "demo-key", projectId: "demo-learninghub", authDomain: location.host } : firebaseConfig
+);
 export const auth = getAuth(app);
 auth.languageCode = "en";
 const functions = getFunctions(app, REGION);
@@ -33,6 +23,7 @@ if (LOCAL) {
   connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
   connectFunctionsEmulator(functions, "127.0.0.1", 5001);
 }
+await setPersistence(auth, browserLocalPersistence);
 
 // The first auth state, then null or the user. Pages wait on this before deciding what to show.
 export const firstUser = new Promise(resolve => {

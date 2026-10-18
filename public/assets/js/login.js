@@ -4,7 +4,7 @@ import { $, show, say, busy, clearErrors, fieldError, liveClear, params, safeNex
 import { placeMark } from "./layout.js";
 import {
   signInWithPopup, signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, OAuthProvider
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+} from "/assets/vendor/firebase/firebase-auth.js";
 
 const VIEWS = ["v-login", "v-reset", "v-busy"];
 const NEXT = safeNext(params.get("next"));

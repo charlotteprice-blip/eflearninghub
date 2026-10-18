@@ -1,14 +1,15 @@
 rules_version = '2';
 
-// Executive Frame Learning Hub, (default) database, australia-southeast1.
+// Executive Frame Learning Hub, Firestore database learninghub in project ef-client-hub, australia-southeast1.
 // Browsers never write to Firestore. Every write goes through the Learning Hub Cloud Functions,
 // which use the Admin SDK and are not bound by these rules.
 //
 // A signed-in member may read their own members document and nothing else.
 // The organisations collection (domains, hashed access codes, seat counts) is never readable from a browser.
 //
-// The Client Hub shares this Firebase project for sign-in only. Its records belong in its own named
-// Firestore database with its own rules, so deploying this file can never open or close Client Hub data.
+// The Client Hub shares this Firebase project for sign in only. Its records are in its own database (clienthub)
+// with its own rules, and firebase.json here deploys only to learninghub, so this file can never open or close
+// Client Hub data.
 service cloud.firestore {
   match /databases/{database}/documents {
 

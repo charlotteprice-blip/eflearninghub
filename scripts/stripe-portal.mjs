@@ -1,7 +1,7 @@
 // Sets up the Stripe customer portal for the Learning Hub, through the API rather than the dashboard.
 // Members can: cancel at the end of the period they have paid for, update their card, change between the
 // Library monthly and annual prices, update their billing details and download invoices.
-// Run through ./tasks stripe:portal (it asks for the key). Run ./tasks stripe:prices first: the monthly and
+// Run through npm run stripe -- portal (it asks for the key). Run npm run stripe -- prices first: the monthly and
 // annual prices must exist. The partner and organisation seat prices are left out of plan changes.
 //
 // The default portal configuration (the one used when no configuration is named) is updated in place.
@@ -12,13 +12,13 @@ const require = createRequire(new URL("../functions/package.json", import.meta.u
 const Stripe = require("stripe");
 
 const key = process.env.STRIPE_SECRET_KEY || "";
-if (!key) { console.error("Set STRIPE_SECRET_KEY first, or use ./tasks stripe:portal."); process.exit(1); }
+if (!key) { console.error("Use npm run stripe -- portal."); process.exit(1); }
 if (/_live_/.test(key) && !process.argv.includes("--live")) { console.error("That is a live key. Add --live if you mean to change the live portal."); process.exit(1); }
 const stripe = new Stripe(key, { apiVersion: "2025-08-27.basil" });
 const SITE = "https://app.executiveframe.co.nz";
 
 const prices = await stripe.prices.list({ lookup_keys: ["library_monthly", "library_annual"], active: true, limit: 10, expand: ["data.product"] });
-if (prices.data.length < 2) { console.error("The library_monthly and library_annual prices are missing. Run ./tasks stripe:prices first."); process.exit(1); }
+if (prices.data.length < 2) { console.error("The library_monthly and library_annual prices are missing. Run npm run stripe -- prices first."); process.exit(1); }
 const product = typeof prices.data[0].product === "string" ? prices.data[0].product : prices.data[0].product.id;
 
 // Arm-specific prices, if any, can also be switched between within the same product.

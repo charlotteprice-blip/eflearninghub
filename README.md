@@ -4,7 +4,7 @@ The self directed subscription app for Executive Frame at `app.executiveframe.co
 
 Members use a single desktop viewer, laid out like the Themescape viewer: a library sidebar with the account menu on the left, the current step in the middle, and the topic's notes, reflections and files on the right. Both sidebars fold away on a computer and become drawers on a phone.
 
-The public website (executiveframe.co.nz, CloudCannon) is not touched by this repository. The Client Hub (`clients.executiveframe.co.nz`) is a separate repository and hosting site in the same Firebase project, sharing sign-in only, and it links into `/hub/<slug>/` pages here, so topic addresses never change.
+The public website (executiveframe.co.nz, CloudCannon) is not touched by this repository. The Client Hub (`clients.executiveframe.co.nz`, repository `efclienthub`) shares the Firebase project `ef-client-hub` for sign in only, so 1 login works in both apps. The Learning Hub has its own Firestore database (`learninghub`), Hosting site and Storage bucket (`executiveframe-learninghub`) and functions codebase (`learning`). The Client Hub links into `/hub/<slug>/` pages here, so topic addresses never change.
 
 ## Membership process
 
@@ -19,30 +19,43 @@ Adapted from the Themescape member journey (Notion, Themescape, Membership Proce
 ## Repository
 
 ```
-firebase.json            Hosting (site "learning"), Functions (codebase "learning"), Firestore (default), Storage, emulators
-firestore.rules          Members read their own document; nothing else readable; no browser writes
+firebase.json            Hosting (target learning), Firestore (learninghub database), Storage (target learning),
+                         Functions (codebase learning), Content Security Policy, emulators
+.firebaserc              Project ef-client-hub; targets point at executiveframe-learninghub
+firestore.rules          Members read their own record; nothing else readable; no browser writes
 storage.rules            No browser access; downloads only through signed links
 public/                  The site (Firebase Hosting)
-  index.html             The members' viewer. /, /library/ and /hub/<slug>/ all open it (firebase.json rewrites)
+  index.html             The members' viewer. /, /library/ and /hub/<slug>/ all open it
   login/ join/ account/ thank-you/ privacy/   the account pages, one folder each, as in Themescape
   content/               arms.json, plans.json (display prices), topics.json, topics/<slug>.json
-  assets/css/            tokens.css (every brand value), base.css, hub.css (step components), viewer.css (viewer layout)
-  assets/js/             app.js (Firebase), viewer.js (viewer shell), player.js (topic steps), gate.js, layout.js, ui.js, one script per account page
+  assets/css/            tokens.css (every brand value), base.css, hub.css, viewer.css
+  assets/js/             firebase-config.js (written by npm run setup), app.js, viewer.js, player.js, gate.js,
+                         layout.js, ui.js, one script per account page
+  assets/vendor/firebase Firebase SDK, self hosted (npm run vendor)
+  assets/fonts/          Figtree 300, 400, 500, Latin and Latin Extended, self hosted (OFL)
   assets/brand/          Placeholder SVGs until the brand files arrive (see its README)
-  assets/fonts/          Figtree 300, 400, 500, self hosted (OFL)
-functions/               core.js (rules), index.js (Cloud Functions wiring), test/ (npm test)
-scripts/                 stripe-setup, stripe-portal and stripe-check (Stripe by API), add-organisation (prepaid places), preview (local server)
-docs/                    setup.md, content-format.md, WORK-LOG.md
-tasks                    The terminal runner for every setup, test, deploy and admin task
+functions/               core.js (rules), index.js (Cloud Functions wiring), test/ (unit tests)
+scripts/                 setup.mjs, tasks.mjs, stripe.mjs (+ stripe-setup, stripe-portal, stripe-check), orgs.mjs,
+                         upload.mjs, serve.mjs, vendor.mjs, check-contrast.mjs, worklog.mjs
+tests/rules.test.js      Security rules tests in the emulators
+docs/                    firebase-setup.md, content-format.md, WORK-LOG.md
 ```
 
 ## Terminal tasks
 
-Every build, setup and admin step that can run in a terminal is a `./tasks` command. Run `./tasks help` for the list and `./tasks doctor` to check the tools. The setup order, and the few steps that have no command line route, are in `docs/setup.md`.
+The same process as the Client Hub: every build, setup and admin step is an `npm run` command. `npm run tasks` lists them all. The full setup, in order, is in `docs/firebase-setup.md`.
 
 ```
-./tasks test        # function tests
-./tasks preview     # local preview with sample content, no sign in
-./tasks emulators   # full local run with the Firebase emulators
-./tasks deploy      # tests, then deploys everything (asks first)
+npm install
+npm run setup:check     what exists and what is missing in Firebase; changes nothing
+npm run setup           creates each missing piece, asking first
+npm run check           function tests and colour contrast
+npm run serve           local preview with sample content, no sign in
+npm run deploy:rules
+npm run deploy:functions
+npm run deploy:hosting
 ```
+
+## Placeholders still to confirm
+
+Prices (NZ$XX), the trial download allowance (5), the partner rate amount, the privacy statement wording and contact email, the brand SVGs, the workshop video, and all sample topic content.

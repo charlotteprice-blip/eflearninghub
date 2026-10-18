@@ -1,6 +1,6 @@
 rules_version = '2';
 
-// Executive Frame Learning Hub, Cloud Storage, australia-southeast1.
+// Executive Frame Learning Hub, Storage bucket executiveframe-learninghub in project ef-client-hub, australia-southeast1.
 // library/{arm}/{file}.pdf is never read or written from a browser.
 // Members download through short lived signed links issued by the getDownloadLink function,
 // which checks the subscription first. Signed links do not pass through these rules.

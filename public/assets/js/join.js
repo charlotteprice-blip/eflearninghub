@@ -11,7 +11,7 @@ import { placeMark } from "./layout.js";
 import {
   signInWithPopup, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, signOut,
   GoogleAuthProvider, OAuthProvider
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+} from "/assets/vendor/firebase/firebase-auth.js";
 
 const VIEWS = ["v-loading", "v-code", "v-signup", "v-signed", "v-org", "v-plan", "v-have"];
 const STEP = { "v-code": 1, "v-signup": 2, "v-signed": 2, "v-org": 3, "v-plan": 3 };

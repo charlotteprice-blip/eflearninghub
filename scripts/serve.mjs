@@ -1,5 +1,5 @@
-// Local preview server that behaves like firebase.json: trailing slashes, the viewer rewrites, and 404.html.
-// Used by ./tasks preview. Pages open in preview mode (no sign in, sample content) because no emulators run.
+// Local preview server that behaves like firebase.json: trailing slashes, the viewer rewrites and 404.html.
+// npm run serve, then open http://127.0.0.1:5055/. Pages open in preview mode (sample content, no sign in).
 
 import http from "node:http";
 import fs from "node:fs";

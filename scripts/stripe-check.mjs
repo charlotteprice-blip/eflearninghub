@@ -1,12 +1,12 @@
 // Checks that Stripe is ready for the Learning Hub: key mode, every lookup key the functions use, and the portal.
-// Run through ./tasks stripe:check. Changes nothing.
+// Run through npm run stripe -- check. Changes nothing.
 
 import { createRequire } from "node:module";
 const require = createRequire(new URL("../functions/package.json", import.meta.url));
 const Stripe = require("stripe");
 
 const key = process.env.STRIPE_SECRET_KEY || "";
-if (!key) { console.error("Set STRIPE_SECRET_KEY first, or use ./tasks stripe:check."); process.exit(1); }
+if (!key) { console.error("Use npm run stripe -- check."); process.exit(1); }
 const stripe = new Stripe(key, { apiVersion: "2025-08-27.basil" });
 let problems = 0;
 const line = (good, text) => { if (!good) problems++; console.log(`  ${good ? "ok  " : "MISSING"}  ${text}`); };
@@ -30,6 +30,6 @@ if (portal) {
   line(f.subscription_update.enabled, "Monthly and annual switching");
 }
 
-console.log(problems ? `\n${problems} item(s) to fix. See docs/setup.md.` : "\nStripe is ready.");
+console.log(problems ? `\n${problems} item(s) to fix. See docs/firebase-setup.md.` : "\nStripe is ready.");
 console.log("Not checkable by API (do in the dashboard): customer emails, branding, team members.");
 process.exitCode = problems ? 1 : 0;

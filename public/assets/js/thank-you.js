@@ -5,6 +5,7 @@ import { firstUser, call, LOCAL } from "./app.js";
 import { $, show, params, nzDate } from "./ui.js";
 import { placeMark } from "./layout.js";
 
+document.querySelectorAll("[data-reload]").forEach(b => b.addEventListener("click", () => location.reload()));
 const VIEWS = ["v-loading", "v-done", "v-wait"];
 placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
 

@@ -1,5 +1,6 @@
 "use strict";
-// Executive Frame Learning Hub functions, region australia-southeast1. The rules are in core.js.
+// Executive Frame Learning Hub functions (codebase "learning"), project ef-client-hub, region australia-southeast1.
+// The rules are in core.js.
 // The Stripe key comes from Secret Manager (STRIPE_SECRET_KEY); it is never in this repository.
 // Test mode until launch: the secret holds a restricted test key (rk_test_...), then a live key at launch.
 
@@ -10,6 +11,10 @@ const { build, STRIPE_API_VERSION, ORIGINS, LOCAL } = require("./core");
 
 const STRIPE_SECRET_KEY = defineSecret("STRIPE_SECRET_KEY");
 const REGION = "australia-southeast1";
+// The Learning Hub shares the ef-client-hub project with the Client Hub (one login for both apps) but keeps its own
+// Firestore database and Storage bucket, so neither app can read or change the other's records.
+const DATABASE = "learninghub";
+const BUCKET = "executiveframe-learninghub";
 
 // Built once per instance.
 let live = null;
@@ -22,8 +27,8 @@ function api() {
     initializeApp();
     live = build({
       stripe: new Stripe(STRIPE_SECRET_KEY.value(), { apiVersion: STRIPE_API_VERSION, maxNetworkRetries: 2 }),
-      db: getFirestore(),
-      bucket: getStorage().bucket(),
+      db: getFirestore(DATABASE),
+      bucket: getStorage().bucket(BUCKET),
       now: () => new Date()
     });
   }

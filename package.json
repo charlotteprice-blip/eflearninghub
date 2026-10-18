@@ -1,0 +1,40 @@
+{
+  "name": "executive-frame-learning-hub",
+  "private": true,
+  "description": "Executive Frame Learning Hub: self directed subscription app at app.executiveframe.co.nz. Static HTML, CSS and JavaScript on Firebase, in the ef-client-hub project beside the Client Hub.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "tasks": "node scripts/tasks.mjs",
+    "setup:check": "node scripts/setup.mjs check",
+    "setup": "node scripts/setup.mjs",
+    "serve": "node scripts/serve.mjs",
+    "vendor": "node scripts/vendor.mjs",
+    "contrast": "node scripts/check-contrast.mjs",
+    "check": "npm run test:unit && npm run contrast",
+    "test:unit": "node --test \"functions/test/*.test.js\"",
+    "test:rules": "firebase emulators:exec --config firebase.test.json --project demo-learninghub --only firestore,storage \"node --test tests/rules.test.js\"",
+    "test": "npm run test:unit && npm run contrast && npm run test:rules",
+    "emulators": "firebase emulators:start --project demo-learninghub",
+    "deploy:rules": "firebase deploy --project ef-client-hub --only firestore,storage:learning",
+    "deploy:hosting": "npm run check && firebase deploy --project ef-client-hub --only hosting:learning",
+    "deploy:functions": "npm run test:unit && firebase deploy --project ef-client-hub --only functions:learning",
+    "deploy": "npm test && firebase deploy --project ef-client-hub --only hosting:learning,firestore,storage:learning,functions:learning",
+    "logs": "firebase functions:log --project ef-client-hub",
+    "secret": "firebase functions:secrets:set STRIPE_SECRET_KEY --project ef-client-hub",
+    "stripe": "node scripts/stripe.mjs",
+    "orgs": "node scripts/orgs.mjs",
+    "upload": "node scripts/upload.mjs",
+    "worklog": "node scripts/worklog.mjs",
+    "postinstall": "npm --prefix functions install --no-audit --no-fund"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^6.0.0",
+    "@fontsource/figtree": "^5.3.0",
+    "firebase": "^13.0.0",
+    "firebase-admin": "^14.5.0",
+    "firebase-tools": "^15.34.0"
+  }
+}
