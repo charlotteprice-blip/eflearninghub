@@ -2,6 +2,27 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 8, 2 November 2026
+
+Commit `d6c1adc` on main.
+
+**Built.** Stage B of the redesign: the learner dashboard. Home now opens on 6 cards from Sarah's proposal: Continue (the lesson to pick up, its programme and minutes, 1 button reading Start, Continue or Start the next lesson), Where you are in the loop (the current programme as Centre, Clarify, Choose and Return, each done, in progress, to come or coming soon; no percentage), This week's practice (the latest plan written anywhere in the programme, when it was written, and a reminder that the next lesson starts by asking how it went), Tool library (1 button per tool), Next step (the next programme for the member's arm that has not been started) and Support (education not therapy, 1737, 111, the practice contact). The full library, grouped by programme and course, follows below. Each lesson now records when it was last touched (`at` in its localStorage record), which is how the dashboard picks the current programme and the lesson to continue. The sidebar's home button reads Home.
+
+**Files changed.** `public/assets/js/viewer.js` (dashboard helpers and render), `player.js` (`at` on save), `public/index.html` (Home copy), `public/assets/css/hub.css` (dashboard, loop segments, tool list), `docs/redesign-plan.md` (status).
+
+**Checked.** Function tests (11) and contrast (14 pairings) pass. In the local preview: with lesson 1 finished and Centre at step 3, Home shows Continue Centre, the loop with Centre in progress and the other 3 coming soon, the plan from lesson 1 written today, the tool, and the next step note; with the browser storage cleared, it shows Start The Tunnel and the way back, Centre to come, and the empty plan text. No console errors beyond the expected emulator check. Not deployed.
+
+**Decisions and why.**
+1. The current programme is the one touched most recently, then the one for the member's arm, then the first. No server state is needed.
+2. A loop segment with no published lessons reads coming soon rather than being hidden, so the learner sees the whole shape of the programme from day 1.
+3. Done segments use ink on the warm white text pairing already in the contrast check (6.65:1); nothing new to verify.
+4. The dashboard cards and the library sit on 1 page rather than 2 views, so a lesson is never more than 1 tap away and the `/`, `/library/` and `/hub/<slug>/` addresses are unchanged.
+5. Live groups in Next step are not modelled yet; the card shows the next programme only.
+
+**Charlotte to configure.** Nothing new. `npm run deploy:hosting` when you want stages A and B live.
+
+**Open questions.** As session 7, plus the practice contact email for the Support card (placeholder now, the same as the help dialog), and whether live groups should appear in Next step and where their dates would come from.
+
 ## Session 7, 2 November 2026
 
 Commit `d16d759` on main.
