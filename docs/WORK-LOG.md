@@ -2,6 +2,26 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 9, 2 November 2026
+
+Commit `634014e` on main.
+
+**Built.** Stage C of the redesign: arms and safeguards. The `education` arm is added to `arms.json`, `ARMS` in `functions/core.js` and `scripts/upload.mjs` (9 arms; Elite and Performance stay as `elite` until Sarah decides). The scope and crisis lines (education not therapy; call or text 1737; 111 in an emergency) are written once, as `SUPPORT` in `layout.js`, and shown in 3 places: the dashboard's Support card, a line under every lesson's controls, and the new `check` step. `check` is a suitability self check for the first lesson of a programme: a short scope paragraph, the signs it may not be the right time, 1 question and 2 answers; choosing "not right now" shows its feedback plus the support lines and the practice contact, and nothing blocks Next, so the learner can carry on, stop or come back. The Reset's first lesson opens with one as sample content. The privacy statement now names plans and scenario answers among what stays on the device, and says lesson rather than topic.
+
+**Files changed.** `public/assets/js/layout.js` (`SUPPORT`), `player.js` (`check` step), `viewer.js` (Support card and lesson footer from `SUPPORT`), `public/index.html` (footer line), `hub.css`, `public/privacy/index.html`, `public/content/arms.json`, `functions/core.js`, `scripts/upload.mjs`, `public/content/lessons/the-tunnel-and-the-way-back.json` (check step), `docs/content-format.md`, `docs/redesign-plan.md`.
+
+**Checked.** Function tests (11) and contrast (14 pairings) pass; JSON parses. In the local preview: the Reset's first lesson opens on Before you start with 3 signs and 2 answers; choosing not right now shows the feedback, the support lines and the contact placeholder; Next still moves to step 2 of 10; the support line shows under the lesson controls. No console errors beyond the expected emulator check. Not deployed.
+
+**Decisions and why.**
+1. 1 constant for the support wording, so a change to the 1737 line or the contact email is made once and appears everywhere.
+2. The check never blocks the lesson. Sarah's proposal asks for a self check, not a gate, and a gate would need to decide who may learn, which the Learning Hub should not do.
+3. The check's answer is kept in the browser with the scenario answers; nothing about it is sent anywhere.
+4. The sample check sits at the start of the Reset rather than only before specialist programmes, so Sarah can see and edit the wording now; she may move or remove it.
+
+**Charlotte to configure.** Nothing new. `npm run deploy:hosting` when you want stages A to C live. `npm run deploy:functions` (once the Stripe key is set) carries the education arm into the functions.
+
+**Open questions.** As session 8, plus: Sarah's wording for the check step and whether the Reset should have one; the practice contact email, which now appears in 4 places from the 1 constant.
+
 ## Session 8, 2 November 2026
 
 Commit `d6c1adc` on main.
