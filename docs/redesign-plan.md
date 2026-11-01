@@ -1,6 +1,6 @@
 # Redesign plan: Sarah's architecture in this app
 
-Drafted 1 November 2026 from Sarah's architecture proposal email of the same day. Status: waiting for Charlotte's approval. Nothing in this plan is built yet.
+Drafted 1 November 2026 from Sarah's architecture proposal email of the same day. Approved by Charlotte on 2 November. Status: stages A and B built (sessions 7 and 8); C, D and E to come.
 
 ## What stays
 

@@ -10,7 +10,7 @@ import { requireMember } from "./gate.js";
 import { logOut } from "./app.js";
 import { $, store, params, nzDate } from "./ui.js";
 import { placeMark } from "./layout.js";
-import { createPlayer, progressLabel, lessonKey, esc } from "./player.js";
+import { createPlayer, progressLabel, lessonKey, loadState, latestPlan, esc } from "./player.js";
 
 placeMark(document.querySelector("[data-cover-mark]"), { draw: false });
 
@@ -55,14 +55,111 @@ await Promise.all(order.map(async l => {
 const lessons = order.filter(l => files[l.slug]).map(l => ({ ...l, file: files[l.slug] }));
 const lessonsOf = c => lessons.filter(l => l.course.id === c.id);
 
+// A programme's lessons in order (draft courses are skipped).
+const seqOf = p => (p.courses || []).flatMap(id => (courseOf(id) ? lessonsOf(courseOf(id)) : []));
+// What the learner has done in a lesson on this device, or null if never opened.
+const stateOf = slug => (store.get(lessonKey(slug)) ? loadState(slug) : null);
+
 // The lesson before this one, for return steps: within the first programme that holds its course, else in the library order.
 function priorOf(slug) {
   const me = lessons.find(l => l.slug === slug);
   if (!me) return null;
   const prog = programmes.find(p => (p.courses || []).includes(me.course.id));
-  const seq = prog ? (prog.courses || []).flatMap(id => (courseOf(id) ? lessonsOf(courseOf(id)) : [])) : lessons;
+  const seq = prog ? seqOf(prog) : lessons;
   const i = seq.findIndex(l => l.slug === slug);
   return i > 0 ? seq[i - 1].slug : null;
+}
+
+// ---------- Dashboard: what the learner sees after logging in ----------
+const LOOP = [["centre", "Centre"], ["clarify", "Clarify"], ["choose", "Choose"], ["return", "Return"]];
+const LOOP_STATE = { done: "Done", going: "In progress", new: "To come", soon: "Coming soon" };
+const daysSince = iso => (iso ? Math.floor((Date.now() - new Date(iso).getTime()) / 86400000) : null);
+
+// The programme the learner touched most recently; otherwise the one for their arm; otherwise the first.
+function currentProgramme() {
+  let best = null, bestAt = "";
+  for (const p of programmes) for (const l of seqOf(p)) {
+    const s = stateOf(l.slug);
+    if (s && s.at && s.at > bestAt) { bestAt = s.at; best = p; }
+  }
+  return best || programmes.find(p => p.arm && p.arm === access.arm) || programmes[0] || null;
+}
+// The lesson to continue: an unfinished lesson already opened (latest first), else the first not yet finished.
+function nextLesson(p) {
+  const seq = seqOf(p);
+  const open = seq.map(l => ({ l, s: stateOf(l.slug) })).filter(x => x.s && !x.s.done).sort((a, b) => (b.s.at || "").localeCompare(a.s.at || ""));
+  if (open.length) return open[0].l;
+  return seq.find(l => !(stateOf(l.slug) || {}).done) || null;
+}
+// The 4 moves of the loop for a programme, each done, in progress, to come, or coming soon (no lessons published yet).
+function loopSegments(p) {
+  return LOOP.map(([key, label]) => {
+    const ls = (p.courses || []).map(id => courseOf(id)).filter(c => c && c.loop === key).flatMap(lessonsOf);
+    let state = "soon";
+    if (ls.length) {
+      const done = ls.filter(l => (stateOf(l.slug) || {}).done).length;
+      state = done === ls.length ? "done" : ls.some(l => stateOf(l.slug)) ? "going" : "new";
+    }
+    return { key, label, state };
+  });
+}
+// The latest plan written anywhere in the programme.
+function weekPlan(p) {
+  let best = null;
+  for (const l of seqOf(p)) {
+    const pl = latestPlan(l.slug);
+    if (pl && (!best || (pl.at || "") > (best.at || ""))) best = { ...pl, lesson: l };
+  }
+  return best;
+}
+
+function renderDashboard() {
+  const p = currentProgramme();
+  if (!p) return "";
+  const next = nextLesson(p);
+  const started = seqOf(p).some(l => stateOf(l.slug));
+  const plan = weekPlan(p);
+  const days = plan ? daysSince(plan.at) : null;
+  const tools = courses.filter(c => c.layer === "tool").flatMap(lessonsOf);
+  const nextProg = programmes.find(q => q.slug !== p.slug && (!q.arm || q.arm === access.arm) && !seqOf(q).some(l => stateOf(l.slug)));
+  const written = days === 0 ? "Written today" : days === 1 ? "Written yesterday" : `Written ${days} days ago`;
+  return `<div class="dash">
+    <section class="dash-card dash-wide" aria-labelledby="d-continue">
+      <h3 id="d-continue" class="dash-h">Continue</h3>
+      ${next ? `<p class="t-heading">${esc(next.file.title)}</p>
+        <p class="muted">${esc(p.title)}${next.file.minutes ? `, about ${esc(next.file.minutes)} minutes` : ""}</p>
+        <p><button class="btn btn-primary" type="button" data-open="${esc(next.slug)}">${stateOf(next.slug) ? "Continue" : started ? "Start the next lesson" : "Start"}</button></p>`
+      : `<p class="t-heading">You have finished ${esc(p.title)}</p><p class="muted">Open any lesson again from your library below.</p>`}
+    </section>
+    <section class="dash-card" aria-labelledby="d-loop">
+      <h3 id="d-loop" class="dash-h">Where you are in the loop</h3>
+      <p class="muted">${esc(p.title)}</p>
+      <ol class="loop" aria-label="The 4 moves of the loop">${loopSegments(p).map(s => `
+        <li class="loop-seg" data-state="${s.state}"><span class="loop-label">${s.label}</span><span class="t-caption">${LOOP_STATE[s.state]}</span></li>`).join("")}</ol>
+    </section>
+    <section class="dash-card" aria-labelledby="d-plan">
+      <h3 id="d-plan" class="dash-h">This week's practice</h3>
+      ${plan ? `<blockquote class="plan-quote"><p>When ${esc(plan.when || "")},</p><p>I will ${esc(plan.will || "")}.</p></blockquote>
+        <p class="muted">${written}, in ${esc(plan.lesson.file.title)}.${days >= 1 && next ? " Your next lesson starts by asking how it went." : ""}</p>`
+      : `<p class="muted">Each lesson ends with a plan: when X, I will Y. Your latest one appears here.</p>`}
+    </section>
+    <section class="dash-card" aria-labelledby="d-tools">
+      <h3 id="d-tools" class="dash-h">Tool library</h3>
+      ${tools.length ? `<ul class="toollist">${tools.map(l => `
+        <li><button class="btn" type="button" data-open="${esc(l.slug)}"><span>${esc(l.file.title)}</span>${l.file.minutes ? `<span class="t-caption">${esc(l.file.minutes)} min</span>` : ""}</button></li>`).join("")}</ul>`
+      : `<p class="muted">Tools are on their way.</p>`}
+    </section>
+    <section class="dash-card" aria-labelledby="d-next">
+      <h3 id="d-next" class="dash-h">Next step</h3>
+      ${nextProg ? `<p class="t-heading">${esc(nextProg.title)}</p><p class="muted">${esc(nextProg.summary || "")}</p>`
+      : `<p class="muted">When you finish ${esc(p.title)}, the next programme for you appears here.</p>`}
+    </section>
+    <section class="dash-card" aria-labelledby="d-support">
+      <h3 id="d-support" class="dash-h">Support</h3>
+      <p>The Learning Hub is education, not therapy. If things are hard right now, call or text 1737 at any time, free, to talk with a trained counsellor. In an emergency, call 111.</p>
+      <p class="muted">For anything about the Learning Hub, contact Executive Frame at <span class="placeholder">contact email to be confirmed</span>.</p>
+    </section>
+  </div>`;
 }
 
 // ---------- Layout: folding on desktop, drawers on phones ----------
@@ -99,7 +196,7 @@ const titleOf = s => s.heading || ({ intro: "Introduction", summary: "Summary", 
 function header(title, sub) {
   $("v-title").textContent = title;
   $("v-sub").textContent = sub || "";
-  document.title = title === "Your library" ? "Executive Frame Learning Hub" : `${title} | Executive Frame Learning Hub`;
+  document.title = title === "Home" ? "Executive Frame Learning Hub" : `${title} | Executive Frame Learning Hub`;
 }
 function showSection(id) {
   ["home", "lesson", "missing"].forEach(s => { $(s).hidden = s !== id; });
@@ -171,7 +268,7 @@ function courseGroup(c) {
 
 function openHome(push, finishedSlug) {
   if (current) current = null;
-  header("Your library", membershipText());
+  header("Home", membershipText());
   const inProg = new Set(programmes.flatMap(p => p.courses || []));
   const tools = courses.filter(c => c.layer === "tool" && !inProg.has(c.id));
   const others = courses.filter(c => c.layer !== "tool" && !inProg.has(c.id));
@@ -182,7 +279,8 @@ function openHome(push, finishedSlug) {
   }).join("");
   const toolHtml = tools.length ? `<section class="home-prog" aria-labelledby="prog-tools"><h3 class="t-title" id="prog-tools">Tools</h3>
     <p>Single lessons to use on their own, whenever you need them.</p>${tools.map(courseGroup).join("")}</section>` : "";
-  $("home-body").innerHTML = progHtml + toolHtml + others.map(courseGroup).join("");
+  const libHtml = progHtml + toolHtml + others.map(courseGroup).join("");
+  $("home-body").innerHTML = renderDashboard() + (libHtml ? `<h3 class="t-title home-libhead" id="lib-title">Your library</h3>${libHtml}` : "");
   $("home-empty").hidden = lessons.length > 0;
   const done = finishedSlug && lessons.find(l => l.slug === finishedSlug);
   $("finished-note").hidden = !done;
@@ -195,6 +293,8 @@ function openHome(push, finishedSlug) {
   if (push || done) $(done ? "finished-note" : "home-title").focus({ preventScroll: true });
 }
 $("home-body").addEventListener("click", e => {
+  const b = e.target.closest("[data-open]");
+  if (b) { openLesson(b.dataset.open, null, true); return; }
   const a = e.target.closest("[data-card]");
   if (!a) return;
   e.preventDefault();

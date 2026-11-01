@@ -28,7 +28,8 @@ export function loadState(slug) {
     sub: s.sub || {}, sort: s.sort || {}, reflect: s.reflect || {}, scenario: s.scenario || {}, plan: s.plan || {},
     notes: typeof s.notes === "string" ? s.notes : "",
     done: !!s.done,
-    started: !!s.started || Number.isInteger(s.step)
+    started: !!s.started || Number.isInteger(s.step),
+    at: typeof s.at === "string" ? s.at : null
   };
 }
 export function progressLabel(slug, total) {
@@ -55,7 +56,8 @@ export function latestPlan(slug) {
 export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
   const state = loadState(lesson.slug);
   state.started = true;
-  const save = () => { store.set(lessonKey(lesson.slug), state); if (hooks.onSave) hooks.onSave(state); };
+  // at: when the lesson was last touched, so the dashboard knows which programme and lesson to continue.
+  const save = () => { state.at = new Date().toISOString(); store.set(lessonKey(lesson.slug), state); if (hooks.onSave) hooks.onSave(state); };
   const { stage } = els;
   let frame = null;
 
