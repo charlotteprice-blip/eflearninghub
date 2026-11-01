@@ -6,6 +6,14 @@
 
 import { session } from "./ui.js";
 
+// The scope and crisis lines, written once here and shown on the dashboard, under every lesson and in the
+// suitability check (Sarah's safeguards). PLACEHOLDER: the practice contact email.
+export const SUPPORT = {
+  scope: "The Learning Hub is education, not therapy.",
+  crisis: "If things are hard right now, call or text 1737 at any time, free, to talk with a trained counsellor. In an emergency, call 111.",
+  contact: "contact email to be confirmed"
+};
+
 const MARK_URL = "/assets/brand/mark.svg";
 let markText = null;
 async function loadMark() {

@@ -10,6 +10,25 @@
   "notionPageId": "",
   "steps": [
     {
+      "type": "check",
+      "beat": "Recognise",
+      "heading": "Before you start",
+      "body": [
+        "The Reset is self directed education. It teaches a method for thinking under load. It is not treatment, and it does not replace support from a health professional."
+      ],
+      "signsIntro": "It may not be the right time if:",
+      "signs": [
+        "You are in the middle of a crisis, or your safety is at risk.",
+        "You are finding it hard to get through the day at the moment.",
+        "A health professional has asked you to hold off on self directed programmes."
+      ],
+      "question": "Is now a good time to work through this on your own?",
+      "options": [
+        { "text": "Yes. I will carry on.", "feedback": "Good. Go at your own pace, and come back to this page at any time." },
+        { "text": "I am not sure, or not right now.", "feedback": "That is a sensible answer, and the lessons will be here when you are ready.", "pause": true }
+      ]
+    },
+    {
       "type": "intro",
       "beat": "Recognise",
       "heading": "The Tunnel and the way back",

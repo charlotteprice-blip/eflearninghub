@@ -114,6 +114,10 @@
 .scen-fb { padding: var(--space-3) var(--space-4); margin-left: var(--space-4); border-left: 2px solid var(--hairline); font-size: var(--type-ui-size); line-height: var(--type-ui-line); }
 .scen-fb.best { border-left-color: var(--ink); }
 .scen-fb:focus { outline: none; }
+.scen-fb .support-line { margin: var(--space-3) 0 0; }
+
+/* Scope and crisis lines under every lesson */
+.lesson-foot { margin: var(--space-4) 0 0; padding: 0 var(--space-2); opacity: 0.85; }
 
 /* Plan: when X, I will Y */
 .plan { display: grid; gap: var(--space-4); }

@@ -1,6 +1,6 @@
 # Redesign plan: Sarah's architecture in this app
 
-Drafted 1 November 2026 from Sarah's architecture proposal email of the same day. Approved by Charlotte on 2 November. Status: stages A and B built (sessions 7 and 8); C, D and E to come.
+Drafted 1 November 2026 from Sarah's architecture proposal email of the same day. Approved by Charlotte on 2 November. Status: stages A, B and C built (sessions 7 to 9); D (Notion export) waits for the database to be shared, E (real content) waits for D and Sarah's review.
 
 ## What stays
 

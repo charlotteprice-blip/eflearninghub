@@ -1,5 +1,5 @@
 {
-  "_note": "The 8 Executive Frame arms. The slug is what /join/?arm= takes and what Stripe lookup keys use (library_<slug>_monthly). Never change a slug once links are published.",
+  "_note": "The 9 Executive Frame arms. The slug is what /join/?arm= takes and what Stripe lookup keys use (library_<slug>_monthly). Never change a slug once links are published. Whether Elite and Performance are 1 arm is Sarah's call; elite stays until then.",
   "arms": [
     { "slug": "law", "name": "EF Law" },
     { "slug": "health", "name": "EF Health" },
@@ -8,6 +8,7 @@
     { "slug": "women", "name": "EF Women" },
     { "slug": "neurodiversity", "name": "EF Neurodiversity" },
     { "slug": "family", "name": "EF Family" },
+    { "slug": "education", "name": "EF Education" },
     { "slug": "c3", "name": "C3 Consulting" }
   ]
 }

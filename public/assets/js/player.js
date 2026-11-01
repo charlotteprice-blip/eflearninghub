@@ -2,13 +2,15 @@
 // Step types: intro, text (with an optional claim label), frame (rotating triangle, one panel per point, draggable),
 // sort (drag moments into groups), reflect (kept in this browser only), scenario (choose a response, read what
 // follows), plan ("When X, I will Y", kept in this browser), return (shows the previous lesson's plan and asks how it
-// went), workshop (video loads only when played), download (signed link from getDownloadLink) and summary.
+// went), check (a suitability self check with a route to support; never blocks the lesson), workshop (video loads
+// only when played), download (signed link from getDownloadLink) and summary.
 // Each step may carry a beat label (Recognise, Understand, Practise, Rehearse, Transfer, Return).
 // The content format is in docs/content-format.md.
 // Progress, answers, reflections, plans and notes stay in this browser under ef-hub-<slug>. Nothing is sent anywhere.
 
 import { call, explainCallError } from "./app.js";
 import { store } from "./ui.js";
+import { SUPPORT } from "./layout.js";
 
 export const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const paras = body => (Array.isArray(body) ? body : body ? [body] : []).map(p => `<p>${esc(p)}</p>`).join("");
@@ -84,6 +86,19 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
           </div>`).join("")}</div>
         ${chosen && s.closing ? `<p class="notice">${esc(s.closing)}</p>` : ""}
         <p class="field-hint">Choose a response to read what tends to follow. You can try each one. Nothing is scored or sent anywhere.</p>`;
+    },
+    // A suitability self check. The answer is kept like a scenario choice; Next is never blocked.
+    check: (s, i) => {
+      const picked = state.scenario[i];
+      return `<h2 class="t-title">${esc(s.heading)}</h2>${paras(s.body)}
+        ${(s.signs || []).length ? `<p class="t-ui-strong">${esc(s.signsIntro || "This may not be the right time if:")}</p><ul class="points">${s.signs.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+        ${s.question ? `<p class="t-ui-strong" style="margin-top:var(--space-4)">${esc(s.question)}</p>` : ""}
+        <div class="scen" data-scen role="group" aria-label="Your answer">${(s.options || []).map((o, k) => `
+          <div class="scen-row">
+            <button type="button" class="scen-opt" data-opt="${k}" aria-pressed="${picked === k}">${esc(o.text)}</button>
+            ${picked === k ? `<div class="scen-fb${o.pause ? " pause" : ""}" role="status" tabindex="-1" data-fb>${esc(o.feedback || "")}${o.pause ? `<p class="support-line">${esc(SUPPORT.scope)} ${esc(SUPPORT.crisis)} You can also contact Executive Frame at <span class="placeholder">${esc(SUPPORT.contact)}</span>.</p>` : ""}</div>` : ""}
+          </div>`).join("")}</div>
+        <p class="field-hint">Your answer is kept in this browser only. Whatever you choose, you can carry on, stop, or come back later.</p>`;
     },
     plan: (s, i) => {
       const p = state.plan[i] || {};
@@ -203,6 +218,7 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
         if (fb) fb.focus({ preventScroll: false });
       });
     },
+    check: (s, i) => A.scenario(s, i),
     plan: (s, i) => {
       let t = null;
       const read = () => {

@@ -34,7 +34,7 @@ const ORIGINS = [
 ];
 const LOCAL = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
 
-const ARMS = ["law", "health", "elite", "corporate", "women", "neurodiversity", "family", "c3"];
+const ARMS = ["law", "health", "elite", "corporate", "women", "neurodiversity", "family", "education", "c3"];
 const INTERVALS = ["monthly", "annual"];
 const TRIAL_DAYS = 7;
 // PLACEHOLDER: trial download allowance, assumed 5 in the September plan. Confirm with Sarah.

@@ -12,7 +12,7 @@ import { basename } from 'node:path';
 
 const BUCKET = process.env.LEARNINGHUB_BUCKET ?? 'executiveframe-learninghub';
 const PROJECT = process.env.LEARNINGHUB_PROJECT ?? 'ef-client-hub';
-const ARMS = ['all', 'law', 'health', 'elite', 'corporate', 'women', 'neurodiversity', 'family', 'c3'];
+const ARMS = ['all', 'law', 'health', 'elite', 'corporate', 'women', 'neurodiversity', 'family', 'education', 'c3'];
 const [file, arm] = process.argv.slice(2);
 
 function gcloud(args) {

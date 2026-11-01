@@ -9,7 +9,7 @@
 import { requireMember } from "./gate.js";
 import { logOut } from "./app.js";
 import { $, store, params, nzDate } from "./ui.js";
-import { placeMark } from "./layout.js";
+import { placeMark, SUPPORT } from "./layout.js";
 import { createPlayer, progressLabel, lessonKey, loadState, latestPlan, esc } from "./player.js";
 
 placeMark(document.querySelector("[data-cover-mark]"), { draw: false });
@@ -156,8 +156,8 @@ function renderDashboard() {
     </section>
     <section class="dash-card" aria-labelledby="d-support">
       <h3 id="d-support" class="dash-h">Support</h3>
-      <p>The Learning Hub is education, not therapy. If things are hard right now, call or text 1737 at any time, free, to talk with a trained counsellor. In an emergency, call 111.</p>
-      <p class="muted">For anything about the Learning Hub, contact Executive Frame at <span class="placeholder">contact email to be confirmed</span>.</p>
+      <p>${esc(SUPPORT.scope)} ${esc(SUPPORT.crisis)}</p>
+      <p class="muted">For anything about the Learning Hub, contact Executive Frame at <span class="placeholder">${esc(SUPPORT.contact)}</span>.</p>
     </section>
   </div>`;
 }
@@ -460,6 +460,9 @@ function route(push) {
   }
 }
 window.addEventListener("popstate", () => route(false));
+
+// The scope and crisis lines sit under every lesson, from the 1 place they are written (layout.js).
+$("lesson-foot").textContent = `${SUPPORT.scope} ${SUPPORT.crisis}`;
 
 $("cover").hidden = true;
 $("app").hidden = false;
