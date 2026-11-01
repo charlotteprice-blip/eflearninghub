@@ -527,10 +527,12 @@ function writeConfig(cfg) {
 }
 
 function printDns(info) {
-  const records = (info.requiredDnsUpdates?.desired ?? []).flatMap((d) => (d.records ?? []).map((r) => ({ domain: d.domainName, ...r })));
+  const flat = (list) => (list ?? []).flatMap((d) => (d.records ?? []).map((r) => ({ domain: d.domainName, ...r })));
+  // Desired records are added; discovered records with an action (usually REMOVE) point somewhere else today.
+  const records = [...flat(info.requiredDnsUpdates?.desired), ...flat(info.requiredDnsUpdates?.discovered).filter((r) => r.requiredAction)];
   if (!records.length) return;
-  console.log('  Add these records at the DNS host for executiveframe.co.nz, then log the change in the Site Changes Log:');
-  for (const r of records) console.log(`    ${r.type.padEnd(6)} ${r.domainName ?? r.domain}  ${r.rdata}${r.requiredAction ? `  (${r.requiredAction.toLowerCase()})` : ''}`);
+  console.log('  Change these records at the DNS host for executiveframe.co.nz, then log the change in the Site Changes Log:');
+  for (const r of records) console.log(`    ${(r.requiredAction ?? 'ADD').toLowerCase().padEnd(7)} ${r.type.padEnd(6)} ${r.domainName ?? r.domain}  ${r.rdata}`);
 }
 
 // ---------- run ----------
