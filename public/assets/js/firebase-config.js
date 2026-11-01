@@ -4,7 +4,7 @@
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyDDzJ4W5VliWxKjRYxvfMEkLsTNrOYkr1U',
-  // Switch to 'app.executiveframe.co.nz' once the custom domain is live.
+  // Switch to 'learn.executiveframe.co.nz' once the custom domain is live.
   authDomain: 'executiveframe-learninghub.web.app',
   projectId: 'ef-client-hub',
   storageBucket: 'executiveframe-learninghub',
