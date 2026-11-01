@@ -26,7 +26,7 @@
           "headers": [
             {
               "key": "Content-Security-Policy",
-              "value": "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://australia-southeast1-ef-client-hub.cloudfunctions.net http://127.0.0.1:9099 http://127.0.0.1:5001; frame-src 'self' https://executiveframe-learninghub.firebaseapp.com https://executiveframe-learninghub.web.app https://ef-client-hub.firebaseapp.com https://app.executiveframe.co.nz https://apis.google.com https://www.youtube-nocookie.com https://player.vimeo.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'"
+              "value": "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://australia-southeast1-ef-client-hub.cloudfunctions.net http://127.0.0.1:9099 http://127.0.0.1:5001; frame-src 'self' https://executiveframe-learninghub.firebaseapp.com https://executiveframe-learninghub.web.app https://ef-client-hub.firebaseapp.com https://learn.executiveframe.co.nz https://apis.google.com https://www.youtube-nocookie.com https://player.vimeo.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'"
             },
             {
               "key": "X-Content-Type-Options",

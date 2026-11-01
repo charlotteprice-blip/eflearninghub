@@ -1,7 +1,7 @@
 {
   "name": "executive-frame-learning-hub",
   "private": true,
-  "description": "Executive Frame Learning Hub: self directed subscription app at app.executiveframe.co.nz. Static HTML, CSS and JavaScript on Firebase, in the ef-client-hub project beside the Client Hub.",
+  "description": "Executive Frame Learning Hub: self directed subscription app at learn.executiveframe.co.nz. Static HTML, CSS and JavaScript on Firebase, in the ef-client-hub project beside the Client Hub.",
   "type": "module",
   "engines": {
     "node": ">=20"

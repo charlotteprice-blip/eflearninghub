@@ -35,7 +35,7 @@ const CONFIG = {
   site: process.env.LEARNINGHUB_SITE ?? 'executiveframe-learninghub',
   bucket: process.env.LEARNINGHUB_BUCKET ?? 'executiveframe-learninghub',
   target: 'learning',
-  domain: 'app.executiveframe.co.nz',
+  domain: 'learn.executiveframe.co.nz',
   appName: 'Executive Frame Learning Hub',
   secret: 'STRIPE_SECRET_KEY',
 };

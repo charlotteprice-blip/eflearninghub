@@ -1,6 +1,6 @@
 # Executive Frame Learning Hub: working notes for Claude
 
-This repo is the Executive Frame Learning Hub (App 1), the self directed subscription learning app for Sarah Anticich's practice. Charlotte Price (hello@charlotteprice.co.nz) builds and runs it. It will live at app.executiveframe.co.nz; until DNS is connected it is https://executiveframe-learninghub.web.app. The repo is at ~/eflearninghub and pushes to github.com/charlotteprice-blip/eflearninghub on `main`. Read README.md, docs/firebase-setup.md, docs/content-format.md and docs/WORK-LOG.md before changing anything substantial.
+This repo is the Executive Frame Learning Hub (App 1), the self directed subscription learning app for Sarah Anticich's practice. Charlotte Price (hello@charlotteprice.co.nz) builds and runs it. It will live at learn.executiveframe.co.nz; until DNS is connected it is https://executiveframe-learninghub.web.app. The repo is at ~/eflearninghub and pushes to github.com/charlotteprice-blip/eflearninghub on `main`. Read README.md, docs/firebase-setup.md, docs/content-format.md and docs/WORK-LOG.md before changing anything substantial.
 
 ## Stack
 

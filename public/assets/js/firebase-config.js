@@ -3,13 +3,13 @@
 // Functions and the security rules. npm run setup writes them here when it registers the web app.
 
 export const firebaseConfig = {
-  apiKey: 'REPLACE_ME',
+  apiKey: 'AIzaSyDDzJ4W5VliWxKjRYxvfMEkLsTNrOYkr1U',
   // Switch to 'app.executiveframe.co.nz' once the custom domain is live.
   authDomain: 'executiveframe-learninghub.web.app',
   projectId: 'ef-client-hub',
   storageBucket: 'executiveframe-learninghub',
-  messagingSenderId: 'REPLACE_ME',
-  appId: 'REPLACE_ME',
+  messagingSenderId: '311513487129',
+  appId: '1:311513487129:web:a28a9be4b31d7141429788',
 };
 
 export const FUNCTIONS_REGION = 'australia-southeast1';

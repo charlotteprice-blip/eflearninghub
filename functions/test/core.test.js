@@ -57,7 +57,7 @@ const bucket = { file: path => ({ exists: async () => [path !== "library/all/mis
 const NOW = new Date("2026-10-18T00:00:00Z");
 const req = (uid, email, data = {}, verified = true) => ({
   auth: { uid, token: { email, email_verified: verified } }, data,
-  rawRequest: { headers: { origin: "https://app.executiveframe.co.nz" } }
+  rawRequest: { headers: { origin: "https://learn.executiveframe.co.nz" } }
 });
 function setup() {
   const db = fakeDb(), stripe = fakeStripe();

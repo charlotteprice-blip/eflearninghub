@@ -12,7 +12,7 @@ The Learning Hub shares the Client Hub's project, `ef-client-hub`, so 1 login wo
 | Hosting site | `executiveframe-clienthub` | `executiveframe-learninghub` |
 | Storage bucket | `executiveframe-clienthub` | `executiveframe-learninghub` |
 | Functions codebase | `clienthub` | `learning` |
-| Address | clients.executiveframe.co.nz | app.executiveframe.co.nz |
+| Address | clients.executiveframe.co.nz | learn.executiveframe.co.nz |
 
 Every deploy names its parts (`hosting:learning`, `storage:learning`, `functions:learning`, and the `learninghub` database in `firebase.json`), so a Learning Hub deploy never touches the Client Hub, and the reverse.
 
@@ -59,7 +59,7 @@ npm run setup:check
 npm run setup
 ```
 
-`setup` asks before each change. It switches on the Google services (most are already on from the Client Hub), creates the `learninghub` database in Sydney with backups and delete protection, creates and links the Hosting site and Storage bucket, registers the web app and writes `public/assets/js/firebase-config.js`, authorises the Learning Hub's sign in addresses, sets up Microsoft sign in, checks Google sign in, confirms the audit logs, gives the functions' service account the access it needs (build, Firestore, logs, reading the library bucket and signing download links), saves the Stripe key, adds `app.executiveframe.co.nz`, and lists who has broad access.
+`setup` asks before each change. It switches on the Google services (most are already on from the Client Hub), creates the `learninghub` database in Sydney with backups and delete protection, creates and links the Hosting site and Storage bucket, registers the web app and writes `public/assets/js/firebase-config.js`, authorises the Learning Hub's sign in addresses, sets up Microsoft sign in, checks Google sign in, confirms the audit logs, gives the functions' service account the access it needs (build, Firestore, logs, reading the library bucket and signing download links), saves the Stripe key, adds `learn.executiveframe.co.nz`, and lists who has broad access.
 
 Run `npm run setup:check` again afterwards; every line should read done, apart from the domain, which waits for DNS.
 
@@ -78,7 +78,7 @@ git push
 ```
 https://executiveframe-learninghub.web.app/__/auth/handler
 https://executiveframe-learninghub.firebaseapp.com/__/auth/handler
-https://app.executiveframe.co.nz/__/auth/handler
+https://learn.executiveframe.co.nz/__/auth/handler
 ```
 
 **Stripe key.** The `secret` step runs `firebase functions:secrets:set STRIPE_SECRET_KEY`, which asks for the key itself, hidden. Use the restricted key from Sarah's Executive Frame Stripe account (step 4). To replace it later: `npm run secret`.
@@ -145,10 +145,10 @@ Needs Java 21, as for the Client Hub. Checks that members read only their own re
 ## 8. Launch
 
 ```
-npm run setup:check        prints the DNS records for app.executiveframe.co.nz
+npm run setup:check        prints the DNS records for learn.executiveframe.co.nz
 ```
 
-Add the records at the executiveframe.co.nz DNS host (browser step) and log the change in the Site Changes Log. Then repeat step 4 with live keys (`--live`), replace the secret with the live restricted key (`npm run secret`), and `npm run deploy:functions`. Finally, change `authDomain` in `public/assets/js/firebase-config.js` to `app.executiveframe.co.nz` and `npm run deploy:hosting`.
+Add the records at the executiveframe.co.nz DNS host (browser step) and log the change in the Site Changes Log. Then repeat step 4 with live keys (`--live`), replace the secret with the live restricted key (`npm run secret`), and `npm run deploy:functions`. Finally, change `authDomain` in `public/assets/js/firebase-config.js` to `learn.executiveframe.co.nz` and `npm run deploy:hosting`.
 
 ## Day to day
 

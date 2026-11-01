@@ -15,7 +15,7 @@ const key = process.env.STRIPE_SECRET_KEY || "";
 if (!key) { console.error("Use npm run stripe -- portal."); process.exit(1); }
 if (/_live_/.test(key) && !process.argv.includes("--live")) { console.error("That is a live key. Add --live if you mean to change the live portal."); process.exit(1); }
 const stripe = new Stripe(key, { apiVersion: "2025-08-27.basil" });
-const SITE = "https://app.executiveframe.co.nz";
+const SITE = "https://learn.executiveframe.co.nz";
 
 const prices = await stripe.prices.list({ lookup_keys: ["library_monthly", "library_annual"], active: true, limit: 10, expand: ["data.product"] });
 if (prices.data.length < 2) { console.error("The library_monthly and library_annual prices are missing. Run npm run stripe -- prices first."); process.exit(1); }

@@ -1,6 +1,6 @@
 # Executive Frame Learning Hub
 
-The self directed subscription app for Executive Frame at `app.executiveframe.co.nz`. Static HTML, CSS and vanilla JavaScript on Firebase (no framework, no build step), following the Themescape member app pattern. Developer and contact: Charlotte Price, hello@charlotteprice.co.nz. Work log: Notion, Executive Frame, App 1 (`docs/WORK-LOG.md` keeps a copy).
+The self directed subscription app for Executive Frame at `learn.executiveframe.co.nz`. Static HTML, CSS and vanilla JavaScript on Firebase (no framework, no build step), following the Themescape member app pattern. Developer and contact: Charlotte Price, hello@charlotteprice.co.nz. Work log: Notion, Executive Frame, App 1 (`docs/WORK-LOG.md` keeps a copy).
 
 Members use a single desktop viewer, laid out like the Themescape viewer: a library sidebar with the account menu on the left, the current step in the middle, and the topic's notes, reflections and files on the right. Both sidebars fold away on a computer and become drawers on a phone.
 
