@@ -2,6 +2,29 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 6, 1 November 2026
+
+Commit `3ed3617` on main.
+
+**Built.** The start page, `/start/`, from the meeting with Sarah and Levi on 1 November: the 1 address the public website, Sarah's emails and the Client Hub send people to. A logged in member goes straight to the Learning Hub, or to `?next=/hub/<slug>/`. Someone logged in without a membership sees Join (or Your account, if they have had a plan or an organisation place) and the Client Hub side by side, with a log out link. Everyone else sees 3 path cards: I am a client (the Client Hub), I am a Learning Hub member (log in, which returns to the start page), and I am new here (Join, with `?arm=` carried through). The trial length comes from `plans.json`. The Client Hub address is 1 constant, `CLIENT_HUB` in `app.js`. README has a table of the addresses the website buttons and emails should use.
+
+**Files changed.** New: `public/start/index.html`, `public/assets/js/start.js`. Changed: `public/assets/js/app.js` (Client Hub address), `public/assets/css/base.css` (path cards), `README.md` (membership process step 0, repository tree, links from the website and emails), `docs/firebase-setup.md` (launch step for the Client Hub address).
+
+**Checked.** Function tests (11) and contrast (14 pairings) pass. In the local preview at desktop and phone width: the 3 path cards, `?arm=neurodiversity&next=/hub/planning/` carried into the log in and join links, the logged in view (`?view=member`, preview only), no console errors. `deploy:hosting` completed and https://executiveframe-learninghub.web.app/start/ serves the page. The logged in paths were not exercised against live sign in, because the Stripe key is not yet set, so checkAccess is not deployed.
+
+**Decisions and why.**
+1. The start page never works out who is a client. The Client Hub recognises clients from its own database, which the Learning Hub must never read, and it sets no claim on the shared login for clients (only `practitioner` and `admin`). So the Client Hub link is offered to everyone alike, and nothing in any address says who is a client (Health Information Privacy Code 2020).
+2. The automatic client routing described to Sarah (a logged in client sent straight to the Client Hub) needs a signal from the Client Hub, for example a callable in the `clienthub` codebase that tells the person's own browser whether they have a Client Hub account. That is a Client Hub change and is listed as an open question.
+3. The website keeps 1 address for every button (Open my hub, I am a client, Get started), so CloudCannon never needs login state.
+4. The meeting router skill was not used for this meeting (Charlotte's instruction); no Notion cards or email drafts were made from it.
+
+**Charlotte to configure.**
+- Website (CloudCannon, log in the Site Changes Log): point every hub button at `https://executiveframe-learninghub.web.app/start/` (later `https://learn.executiveframe.co.nz/start/`); arm pages and Sarah's email use `/start/?arm=<slug>`.
+- At launch, change `CLIENT_HUB` in `app.js` to `https://clients.executiveframe.co.nz/` once the Client Hub's DNS is connected.
+- As before: the Stripe key, then `deploy:functions`, and DNS for learn.executiveframe.co.nz.
+
+**Open questions.** As session 5, plus: whether the Client Hub should expose a small callable so a logged in client skips the start page's choice; and whether the start page should also be the viewer's default sign out destination.
+
 ## Session 5, 1 November 2026
 
 Commit `8e4fa02` on main.
