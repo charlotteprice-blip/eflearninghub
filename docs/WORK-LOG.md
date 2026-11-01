@@ -2,6 +2,30 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 5, 1 November 2026
+
+Commit `8e4fa02` on main.
+
+**Built.** `CLAUDE.md` records the working rules for every session: the shared `ef-client-hub` project and the parts the Learning Hub owns, Stripe only in Sarah's Executive Frame account with test keys, `pricingTier: "partner"` and browser only learner data, npm scripts for every repeatable task with secrets typed at hidden prompts, UK English with no dashes or testimonials, the Notion Worklog and Site Changes Log. The Learning Hub's Firebase parts now exist: the `learninghub` database, the Hosting site and Storage bucket `executiveframe-learninghub`, the registered web app (real values in `firebase-config.js`), the authorised sign in addresses with email and password on, and the functions' service account access. Rules and hosting are deployed; the pages are live at https://executiveframe-learninghub.web.app. Sign in is email and password only: the Google and Microsoft buttons, provider code, OAuth and Entra setup steps and icons are removed, and the Content Security Policy no longer allows apis.google.com or pop ups. The address is `learn.executiveframe.co.nz` throughout (was app.), and the custom domain is added to the site, waiting for DNS. `setup:check` now lists the DNS record to remove as well as the one to add.
+
+**Files changed.** New: `CLAUDE.md`. Changed: `README.md`, `docs/firebase-setup.md`, `firebase.json` (CSP, COOP), `functions/core.js` and `functions/test/core.test.js` (address), `package.json`, `public/assets/js/firebase-config.js`, `app.js`, `account.js`, `join.js`, `login.js`, `public/join/index.html`, `public/login/index.html`, `public/privacy/index.html`, `scripts/setup.mjs`, `scripts/stripe-portal.mjs`, `scripts/tasks.mjs`. Removed: `public/assets/auth/google.svg`, `microsoft.svg`.
+
+**Checked.** Function tests (11), contrast (14 pairings) and the security rules tests (10, in the emulators on the Mac) pass. `setup:check` reads done for every step except the Stripe key and the domain. Login and Join open with no console errors in the local preview at desktop width. The live site serves the new pages with the tightened policy and no provider buttons. `deploy:rules` and `deploy:hosting` completed; `deploy:functions` waits for the Stripe key.
+
+**Decisions and why.**
+1. Sarah's architecture proposal (1 November) suggested LearnWorlds. Charlotte's decision: build Sarah's design (foundation courses, arm bridge courses, tools, programmes, the learner dashboard) in this Firebase app, keep the subscription model, and keep 1 login with the Client Hub. The redesign is outlined, not started.
+2. Address `learn.executiveframe.co.nz`, as Sarah proposed, rather than app.
+3. Email and password only (Charlotte). Fewer moving parts, no OAuth clients or Entra registration, and the Microsoft unconfirmed email question (session 1, open question 9) goes away.
+4. The password policy step was left out, because it would change sign up for the Client Hub too.
+5. Setup was run 1 step at a time with `--only`, from Charlotte's terminal, so every change to the shared project was confirmed by her.
+
+**Charlotte to configure.**
+- Stripe: Sarah invites hello@charlotteprice.co.nz as Administrator on the Executive Frame account and creates the restricted test key (`docs/firebase-setup.md` section 4). Then `npm run setup -- --only=secret`, `npm run deploy:functions`, `npm run logs`, and the step 6 test mode checks.
+- DNS: `learn.executiveframe.co.nz` currently points at `sites.cloudcannon.com` (the public website). Check what lives there with Sarah before changing it. To connect: remove that CNAME, add CNAME `learn.executiveframe.co.nz` to `executiveframe-learninghub.web.app`, log it in the Site Changes Log, then at launch set `authDomain` in `firebase-config.js` to `learn.executiveframe.co.nz` and `npm run deploy:hosting`.
+- Notion: share the learning resources database (`1dab155b5e2e476d994f4f334b489f5b`) with the Claude connection, or move it into Charlotte Price's Space, so the content export can be built.
+
+**Open questions.** Session 1's questions 1 to 8 and 10 remain; 9 is closed. New: what is at learn.executiveframe.co.nz on CloudCannon today, and may it move; Charlotte's approval of the redesign outline (3 content layers, 5 beat lessons with new `scenario` and `plan` step types, the dashboard, an `education` arm, Elite and Performance merged or not); Sarah's own open items (S.H.I.F.T. wording, Elite vs Performance, email platform); project ownership under Sarah's account.
+
 ## Session 4, 18 October 2026
 
 **Built.** The Learning Hub now follows the Client Hub's setup process and lives beside it in the `ef-client-hub` Firebase project, which the shared login requires. It keeps its own Firestore database (`learninghub`), Hosting site and Storage bucket (`executiveframe-learninghub`) and functions codebase (`learning`). The bash `./tasks` runner is replaced by `npm run` scripts on the Client Hub pattern: `setup:check` and `setup` (with `--only`, `--dry-run`, `--plan`, `--yes`), `tasks`, `stripe`, `secret`, `orgs`, `upload`, `serve`, `vendor`, `contrast`, `check`, `test:unit`, `test:rules`, `test`, `emulators`, `deploy:rules`, `deploy:functions`, `deploy:hosting`, `deploy`, `logs` and `worklog`. The Firebase SDK and Figtree (now with Latin Extended for macrons) are self hosted, a Content Security Policy is set, and inline scripts are removed. Security rules tests and a colour contrast check are added.
