@@ -82,7 +82,7 @@
 .reflect textarea { min-height: 180px; padding: var(--space-3) var(--space-4); line-height: var(--type-body-line); resize: vertical; }
 
 /* Scenario: choose a response, read what follows */
-.scen-situation { padding: var(--space-4) var(--space-5); border-left: 4px solid var(--slate); background: var(--ground); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.scen-situation { padding: var(--space-4) var(--space-5); background: var(--ground); border-radius: var(--radius-md); }
 .scen { display: grid; gap: var(--space-3); margin: var(--space-4) 0; }
 .scen-row { display: grid; gap: var(--space-2); }
 .scen-opt {
@@ -100,7 +100,7 @@
 /* Plan: when X, I will Y */
 .plan { display: grid; gap: var(--space-4); }
 .plan .input { min-height: var(--touch-min); }
-.plan-quote { margin: 0 0 var(--space-5); padding: var(--space-4) var(--space-5); border-left: 4px solid var(--ink); background: var(--ground); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+.plan-quote { margin: 0 0 var(--space-5); padding: var(--space-4) var(--space-5); background: var(--ground); border-radius: var(--radius-md); }
 .plan-quote p { margin: 0; font-size: var(--type-heading-size); line-height: var(--type-heading-line); }
 .plan-quote p + p { margin-top: var(--space-1); }
 
