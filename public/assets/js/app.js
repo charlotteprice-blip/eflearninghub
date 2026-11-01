@@ -74,3 +74,7 @@ export function passwordProblem(pw) {
 
 // Version of the privacy statement members agree to, recorded with their consent.
 export const PRIVACY_VERSION = "2026-10-18-draft";
+
+// The Client Hub: the other Executive Frame app, with the same login. Linked from /start/.
+// Change to https://clients.executiveframe.co.nz once that DNS record is connected (docs/firebase-setup.md, Launch).
+export const CLIENT_HUB = "https://executiveframe-clienthub.web.app/";

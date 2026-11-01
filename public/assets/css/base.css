@@ -169,6 +169,19 @@ ef-footer { display: block; }
 .choice-price { display: block; font-size: var(--type-heading-size); line-height: var(--type-heading-line); margin-top: var(--space-2); }
 .choice-note { display: block; font-size: var(--type-caption-size); line-height: var(--type-caption-line); margin-top: var(--space-1); }
 
+/* Path cards (start page): a link per destination */
+.paths { display: grid; gap: var(--space-3); }
+.path {
+  display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4) var(--space-5); border-radius: var(--radius-md);
+  border: 2px solid var(--hairline); background: #FFFFFF; color: var(--on-panel); text-decoration: none;
+  transition: border-color var(--motion-duration) var(--motion-ease);
+}
+.path:hover { border-color: var(--slate); }
+.path-title { font-weight: var(--weight-medium); font-size: var(--type-heading-size); line-height: var(--type-heading-line); }
+.path-note { font-size: var(--type-ui-size); line-height: var(--type-ui-line); }
+.path-go { margin-top: var(--space-2); font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.path:hover .path-go { text-decoration-thickness: 2px; }
+
 /* Steps: one piece of information at a time */
 .steps-dots { display: flex; gap: var(--space-2); align-items: center; }
 .steps-dots span { width: 8px; height: 8px; border-radius: var(--radius-pill); background: var(--hairline); transition: background-color var(--motion-duration) var(--motion-ease), width var(--motion-duration) var(--motion-ease); }

@@ -140,7 +140,7 @@ Needs Java 21, as for the Client Hub. Checks that members read only their own re
 npm run setup:check        prints the DNS records for learn.executiveframe.co.nz
 ```
 
-Add the records at the executiveframe.co.nz DNS host (browser step) and log the change in the Site Changes Log. Then repeat step 4 with live keys (`--live`), replace the secret with the live restricted key (`npm run secret`), and `npm run deploy:functions`. Finally, change `authDomain` in `public/assets/js/firebase-config.js` to `learn.executiveframe.co.nz` and `npm run deploy:hosting`.
+Add the records at the executiveframe.co.nz DNS host (browser step) and log the change in the Site Changes Log. Then repeat step 4 with live keys (`--live`), replace the secret with the live restricted key (`npm run secret`), and `npm run deploy:functions`. Finally, change `authDomain` in `public/assets/js/firebase-config.js` to `learn.executiveframe.co.nz` and `npm run deploy:hosting`. When the Client Hub's own DNS is connected, change `CLIENT_HUB` in `public/assets/js/app.js` to `https://clients.executiveframe.co.nz/` and deploy hosting again.
 
 ## Day to day
 

@@ -10,6 +10,7 @@ The public website (executiveframe.co.nz, CloudCannon) is not touched by this re
 
 Adapted from the Themescape member journey (Notion, Themescape, Membership Process):
 
+0. **Start** (`/start/`): the 1 address the public website, Sarah's emails and the Client Hub send people to. A member who is logged in goes straight to the viewer (or to `?next=/hub/<slug>/`). Someone logged in without a membership sees their account or join page and the Client Hub side by side. Everyone else chooses: I am a client (the Client Hub), I am a member (log in), or I am new here (join, with `?arm=` carried through). Who is a client is never read here and never appears in an address; the Client Hub link is offered to everyone alike.
 1. **Join** (`/join/?arm=law`): "Has your organisation given you an access code?", then **create a login** with email and password, accepting the privacy statement.
 2. A code is checked by **claimSeat**. Without a code, **checkAccess** looks for an organisation that owns the member's work email domain and offers its place (email confirmation required first). Otherwise the member **chooses monthly or annual** and **createCheckoutSession** opens Stripe Checkout: card collected, 7 day trial once per person, NZ$ with GST included.
 3. **Thank you** confirms the trial or place, then the member opens the **viewer**, which checks membership with checkAccess (read from Stripe each time) behind a cover screen, as Themescape's viewer does.
@@ -26,11 +27,11 @@ firestore.rules          Members read their own record; nothing else readable; n
 storage.rules            No browser access; downloads only through signed links
 public/                  The site (Firebase Hosting)
   index.html             The members' viewer. /, /library/ and /hub/<slug>/ all open it
-  login/ join/ account/ thank-you/ privacy/   the account pages, one folder each, as in Themescape
+  start/ login/ join/ account/ thank-you/ privacy/   the account pages, one folder each, as in Themescape
   content/               arms.json, plans.json (display prices), topics.json, topics/<slug>.json
   assets/css/            tokens.css (every brand value), base.css, hub.css, viewer.css
-  assets/js/             firebase-config.js (written by npm run setup), app.js, viewer.js, player.js, gate.js,
-                         layout.js, ui.js, one script per account page
+  assets/js/             firebase-config.js (written by npm run setup), app.js (Firebase and the Client Hub address),
+                         viewer.js, player.js, gate.js, layout.js, ui.js, one script per account page
   assets/vendor/firebase Firebase SDK, self hosted (npm run vendor)
   assets/fonts/          Figtree 300, 400, 500, Latin and Latin Extended, self hosted (OFL)
   assets/brand/          Placeholder SVGs until the brand files arrive (see its README)
@@ -40,6 +41,18 @@ scripts/                 setup.mjs, tasks.mjs, stripe.mjs (+ stripe-setup, strip
 tests/rules.test.js      Security rules tests in the emulators
 docs/                    firebase-setup.md, content-format.md, WORK-LOG.md
 ```
+
+## Links from the website and emails
+
+Every button on executiveframe.co.nz and every link in an email points at `/start/`, so the website never needs to know who is logged in or who is a client:
+
+| Button or link | Address |
+| --- | --- |
+| Open my hub, I am a client, Launch my hub, Get started | `https://learn.executiveframe.co.nz/start/` |
+| Get started from an arm's page or email (preselects that arm's prices on Join) | `/start/?arm=neurodiversity` (any slug in `public/content/arms.json`) |
+| Open a topic (the Client Hub's results links) | `/start/?next=/hub/<slug>/` or the topic address itself, `/hub/<slug>/` |
+
+Until DNS is connected the host is `https://executiveframe-learninghub.web.app`. The Client Hub address the start page links to is `CLIENT_HUB` in `public/assets/js/app.js`.
 
 ## Terminal tasks
 
