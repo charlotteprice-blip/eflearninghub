@@ -2,6 +2,27 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 7, 2 November 2026
+
+Commit `d16d759` on main.
+
+**Built.** Stage A of the redesign to Sarah's architecture (`docs/redesign-plan.md`, approved by Charlotte). Content is now 3 layers: `programmes.json` (an ordered list of courses), `courses.json` (foundation, bridge or tool; an ordered list of lessons; a loop move) and `lessons/<slug>.json`. Lessons run the 5 beats and each step carries a `beat` label shown above the heading; text steps may carry a `claim` label (established research, applied practice, Executive Frame method). 3 step types are new in `player.js`: `scenario` (a situation, 3 or 4 responses, feedback on each, a darker rule on the method's response, nothing scored), `plan` ("When X, I will Y", saved with the date) and `return` (the previous lesson's latest plan, shown at the start of the next lesson with a box for how it went). The viewer groups the library by programme and course, the sidebar shows course headings with the layer, and the right column lists reflections and plans together. The sample Autonomy topic is replaced by 2 sample lessons (The Tunnel and the way back; Centre) and 1 sample tool (Centre in 90 seconds). "Topic" is now "lesson" in the code and copy. The localStorage key keeps its `ef-hub-` prefix so nothing a tester has done is lost.
+
+**Files changed.** New: `docs/redesign-plan.md`, `public/content/programmes.json`, `courses.json`, `lessons/the-tunnel-and-the-way-back.json`, `lessons/centre.json`, `lessons/centre-in-90-seconds.json`. Rewritten: `player.js`, `viewer.js`, `docs/content-format.md`. Changed: `public/index.html`, `hub.css`, `viewer.css`, `README.md`, `CLAUDE.md`. Removed: `content/topics.json`, `content/topics/autonomy.json`.
+
+**Checked.** Function tests (11) and contrast (14 pairings) pass; every JSON file parses. In the local preview at desktop width: the library shows The Executive Frame Reset with its 2 published courses and the Tools section; lesson 1 runs all 9 steps by keyboard; the scenario shows feedback and the closing note and stores the choice; the plan saves both fields with a date; Finish returns to the library with the finished note; the Centre lesson opens on its Return step showing lesson 1's plan; the claim label shows on Centre step 3; the tool opens; an unknown slug shows the not available page. No console errors beyond the expected emulator check. The design hook flags a navy glow shadow on `index.html` that predates this session and is not in that file; left as it is.
+
+**Decisions and why.**
+1. The 3 index files rather than 1 catalogue file, so Sarah's export can write programmes, courses and lessons separately and a draft course in a published programme is simply skipped.
+2. A lesson's progress is keyed by slug, not by programme, so a foundation course shows the same progress in every programme that includes it.
+3. The return step finds the previous lesson within the first programme that holds its course, then falls back to the library order, so the Reset's lesson 2 always looks back at lesson 1.
+4. Scenarios are never scored and every option can be tried, keeping to the no points, no badges rule.
+5. The plan and scenario answers join reflections in localStorage under the same key; nothing new is sent anywhere.
+
+**Charlotte to configure.** Nothing new. As session 6: the Stripe key, `deploy:functions`, DNS for learn.executiveframe.co.nz (check what is on CloudCannon first), the website buttons. Stage A is not deployed; `npm run deploy:hosting` when you want it live.
+
+**Open questions.** As session 6, plus: Sarah's review of the 2 sample lessons and the tool before they are shown to anyone; whether the free tool opens without an account (it is behind the member gate now); whether Elite and Performance are 1 arm; the Reset's real lesson sequence so stage B's loop segments match.
+
 ## Session 6, 1 November 2026
 
 Commit `3ed3617` on main.
