@@ -1,0 +1,105 @@
+{
+  "_note": "SAMPLE CONTENT showing the 5 beat lesson shape. Replace with the Notion export; keep the slug. Needs Sarah's clinical review before it is shown to members. Format: docs/content-format.md.",
+  "slug": "the-tunnel-and-the-way-back",
+  "title": "The Tunnel and the way back",
+  "summary": "What happens to thinking under load, and the first move out.",
+  "minutes": 10,
+  "course": "reset-open",
+  "sample": true,
+  "version": "2026-11-02",
+  "notionPageId": "",
+  "steps": [
+    {
+      "type": "intro",
+      "beat": "Recognise",
+      "heading": "The Tunnel and the way back",
+      "body": [
+        "It is 4.40 on a Thursday. The email you have been dreading arrives, the phone goes at the same time, and the thing you were in the middle of is still open on the screen.",
+        "Somewhere in the next 2 minutes you say yes to something you did not mean to, and the afternoon narrows to a single point.",
+        "This lesson is about that narrowing, and the first way back from it."
+      ]
+    },
+    {
+      "type": "text",
+      "beat": "Understand",
+      "claim": "method",
+      "heading": "The Tunnel",
+      "body": [
+        "In the Executive Frame method, the Tunnel is what happens to attention when pressure rises faster than you can meet it. The field of view shrinks, options drop away, and the quickest answer looks like the only one.",
+        "The Tunnel is not a failing. It is the body doing what it does under load. The skill is noticing you are in it, which is harder than it sounds, because from inside the Tunnel everything looks reasonable."
+      ]
+    },
+    {
+      "type": "frame",
+      "beat": "Understand",
+      "heading": "The way back: the loop",
+      "intro": "3 moves, in this order, every time. The lessons that follow take each one in turn.",
+      "points": [
+        { "label": "Centre", "body": "Settle the body first. 2 slow breaths out, feet on the floor. You are not solving anything yet; you are widening the field of view." },
+        { "label": "Clarify", "body": "Name what is actually in front of you, in a sentence. Not the whole afternoon, just the next thing." },
+        { "label": "Choose", "body": "Pick the next move on purpose, and say it to yourself before you do it. Small is fine." }
+      ]
+    },
+    {
+      "type": "reflect",
+      "beat": "Practise",
+      "heading": "Your own Tunnel",
+      "prompt": "Think of a recent moment when the afternoon narrowed. What was the first sign, in your body or your thinking, that you were in the Tunnel?",
+      "placeholder": "For example: my shoulders came up and I stopped reading to the end of anything."
+    },
+    {
+      "type": "reflect",
+      "beat": "Practise",
+      "heading": "Centre, in that moment",
+      "prompt": "In that same moment, what would Centre have looked like? Describe it as something you could actually do in 30 seconds, where you were.",
+      "placeholder": "For example: put the phone face down, both feet on the floor, 2 breaths out before I open the email."
+    },
+    {
+      "type": "reflect",
+      "beat": "Practise",
+      "heading": "Clarify and Choose",
+      "prompt": "Write the 1 sentence that names what was in front of you, and the 1 small move you would choose next.",
+      "placeholder": "For example: The next thing is to find out what the email is asking by 5. I will read it once, then decide."
+    },
+    {
+      "type": "scenario",
+      "beat": "Rehearse",
+      "heading": "Try it on",
+      "situation": "You are 10 minutes into a meeting that was meant to take 30. Someone asks you, in front of everyone, to commit to a date for a piece of work you have not looked at. You can feel the Tunnel starting.",
+      "options": [
+        {
+          "text": "Give a date now so the meeting can move on.",
+          "feedback": "This is the Tunnel's answer: the quickest route out of the moment. It is understandable, and it often costs more later. Notice how reasonable it felt."
+        },
+        {
+          "text": "Take a breath out, then say: I want to give you a date I can keep. I will look at it today and confirm by 4.",
+          "feedback": "This is Centre, Clarify and Choose in 1 sentence. You settled first, named what was actually being asked, and chose a small move you can keep.",
+          "best": true
+        },
+        {
+          "text": "Say nothing and hope the question moves on.",
+          "feedback": "Waiting is sometimes right, but inside the Tunnel it usually means the decision is made for you a minute later. A short sentence buys the same time more cleanly."
+        }
+      ],
+      "closing": "There is no scoring here. The point is to feel the difference between the Tunnel's answer and a chosen one."
+    },
+    {
+      "type": "plan",
+      "beat": "Transfer",
+      "heading": "This week",
+      "prompt": "Finish the sentence for 1 moment you know is coming this week. Keep it small enough to do.",
+      "when": "When I notice my shoulders come up on a call",
+      "will": "I will put both feet on the floor and breathe out twice before I answer"
+    },
+    {
+      "type": "summary",
+      "beat": "Transfer",
+      "heading": "Before you go",
+      "points": [
+        "The Tunnel is attention narrowing under load. It feels reasonable from inside.",
+        "The way back is the same 3 moves every time: Centre, Clarify, Choose.",
+        "Your plan for this week is kept on this device. The next lesson starts by asking how it went."
+      ]
+    }
+  ]
+}

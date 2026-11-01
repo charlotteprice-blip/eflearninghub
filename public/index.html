@@ -49,14 +49,14 @@
             <button class="foldbtn" type="button" data-close="l" aria-label="Close the library"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
           </div>
           <div class="lsearch field">
-            <label class="visually-hidden" for="find">Find a topic</label>
-            <input class="input" id="find" type="search" placeholder="Find a topic" autocomplete="off">
+            <label class="visually-hidden" for="find">Find a lesson</label>
+            <input class="input" id="find" type="search" placeholder="Find a lesson" autocomplete="off">
           </div>
           <button class="navbtn" id="go-home" type="button">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>All topics
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>The library
           </button>
-          <ul class="tlist" id="topic-list"></ul>
-          <p id="find-none" class="t-caption muted" hidden>No topics match.</p>
+          <ul class="clist" id="lesson-list"></ul>
+          <p id="find-none" class="t-caption muted" hidden>No lessons match.</p>
           <div class="lfoot">
             <button class="navbtn" id="btn-help" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.7 9.5a2.4 2.4 0 1 1 3.4 2.2c-.7.3-1.1.9-1.1 1.7v.4"/><path d="M12 16.8v.1"/></svg>Help and support</button>
             <button class="navbtn" id="btn-settings" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h11M19 17h1"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17" r="2"/></svg>Viewer settings</button>
@@ -80,22 +80,22 @@
 
       <main class="stage-wrap" id="main">
         <div class="stage-in">
-          <!-- Home: all topics -->
+          <!-- Home: programmes, their courses and lessons, and the tools -->
           <section id="home" aria-labelledby="home-title">
             <div class="home-head stack">
               <h2 id="home-title" class="t-display" tabindex="-1">Your library</h2>
-              <p id="home-note">Choose a topic. Each one opens a step at a time, and your place is kept on this device.</p>
+              <p id="home-note">Choose a lesson. Each one opens a step at a time, and your place is kept on this device.</p>
               <p id="finished-note" class="notice" role="status" hidden></p>
             </div>
-            <ul class="home-grid" id="home-grid"></ul>
-            <p id="home-empty" class="panel" hidden>New topics are on their way. Please check back soon.</p>
+            <div id="home-body"></div>
+            <p id="home-empty" class="panel" hidden>New lessons are on their way. Please check back soon.</p>
           </section>
 
-          <!-- One topic, one step at a time -->
-          <section id="topic" hidden>
+          <!-- One lesson, one step at a time -->
+          <section id="lesson" hidden>
             <div class="hub-progress" aria-hidden="true"><span id="bar"></span></div>
             <article id="stage" class="panel hub-step" tabindex="-1" aria-live="polite"></article>
-            <nav class="hub-controls stage-controls" aria-label="Topic steps">
+            <nav class="hub-controls stage-controls" aria-label="Lesson steps">
               <button id="btn-prev" class="btn" type="button">Back</button>
               <span id="count" class="hub-count t-caption" aria-live="polite"></span>
               <button id="btn-next" class="btn btn-primary" type="button">Next</button>
@@ -103,9 +103,9 @@
           </section>
 
           <section id="missing" class="panel stack" hidden>
-            <h2 class="t-title" tabindex="-1" id="missing-title">This topic is not available</h2>
+            <h2 class="t-title" tabindex="-1" id="missing-title">This lesson is not available</h2>
             <p id="missing-text">It may have moved, or it is not part of your membership.</p>
-            <button class="btn btn-primary" type="button" data-home>Back to all topics</button>
+            <button class="btn btn-primary" type="button" data-home>Back to the library</button>
           </section>
         </div>
       </main>
@@ -133,12 +133,13 @@
     <div class="vdialog-in">
       <h2 id="help-title" class="t-title">Help and support</h2>
       <ul class="t-ui">
-        <li>Choose a topic in the library on the left. It opens one step at a time.</li>
+        <li>Choose a lesson in the library on the left. It opens one step at a time.</li>
         <li>Move on with Next and Back, or the left and right arrow keys.</li>
-        <li>In the C³ Loop, drag the triangle to turn it, or select a point.</li>
+        <li>In the loop, drag the shape to turn it, or select a point.</li>
         <li>In sorting exercises, drag a moment into a group, or select it and then select the group.</li>
-        <li>Your place, notes and reflections are kept in this browser only, so they stay on this device.</li>
-        <li>Downloads are in each topic and in Notes and files. During a free trial the number of downloads is limited.</li>
+        <li>In a scenario, choose a response to read what tends to follow. You can try each one.</li>
+        <li>Your place, notes, reflections and plans are kept in this browser only, so they stay on this device.</li>
+        <li>Downloads are in each lesson and in Notes and files. During a free trial the number of downloads is limited.</li>
         <li>Billing, your plan and your login are on My account.</li>
       </ul>
       <p class="t-ui">For anything else, contact Executive Frame at <span class="placeholder">contact email to be confirmed</span>.</p>

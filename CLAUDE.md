@@ -41,7 +41,7 @@ The app shares the Firebase project `ef-client-hub` with the Client Hub (repo `e
 
 ## Writing and copy
 
-UK English, no em dashes or en dashes, no testimonials, and digits for numbers. This applies to page copy, topic content, docs, commit messages and the work log. Topic text is plain text with no HTML or Markdown (docs/content-format.md).
+UK English, no em dashes or en dashes, no testimonials, and digits for numbers. This applies to page copy, lesson content, docs, commit messages and the work log. Topic text is plain text with no HTML or Markdown (docs/content-format.md).
 
 ## Replies to Charlotte
 

@@ -37,6 +37,9 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .navbtn { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: var(--touch-min); padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-md); background: transparent; color: var(--on-panel); font: inherit; font-size: var(--type-ui-size); line-height: var(--type-ui-line); text-align: left; cursor: pointer; }
 .navbtn:hover { background: rgba(207, 218, 232, 0.55); }
 .navbtn[aria-current="page"] { background: var(--ground); font-weight: var(--weight-medium); }
+.clist { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); }
+.chead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); margin: 0 0 var(--space-1); padding: 0 var(--space-3); font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); }
+.chead .t-caption { opacity: 0.7; }
 .tlist { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); }
 .titem { flex-direction: column; align-items: flex-start; gap: 2px; }
 .titem .ttitle { font-weight: var(--weight-medium); }

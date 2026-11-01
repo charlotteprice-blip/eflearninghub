@@ -28,7 +28,7 @@ storage.rules            No browser access; downloads only through signed links
 public/                  The site (Firebase Hosting)
   index.html             The members' viewer. /, /library/ and /hub/<slug>/ all open it
   start/ login/ join/ account/ thank-you/ privacy/   the account pages, one folder each, as in Themescape
-  content/               arms.json, plans.json (display prices), topics.json, topics/<slug>.json
+  content/               arms.json, plans.json (display prices), programmes.json, courses.json, lessons/<slug>.json
   assets/css/            tokens.css (every brand value), base.css, hub.css, viewer.css
   assets/js/             firebase-config.js (written by npm run setup), app.js (Firebase and the Client Hub address),
                          viewer.js, player.js, gate.js, layout.js, ui.js, one script per account page
@@ -50,7 +50,7 @@ Every button on executiveframe.co.nz and every link in an email points at `/star
 | --- | --- |
 | Open my hub, I am a client, Launch my hub, Get started | `https://learn.executiveframe.co.nz/start/` |
 | Get started from an arm's page or email (preselects that arm's prices on Join) | `/start/?arm=neurodiversity` (any slug in `public/content/arms.json`) |
-| Open a topic (the Client Hub's results links) | `/start/?next=/hub/<slug>/` or the topic address itself, `/hub/<slug>/` |
+| Open a lesson (the Client Hub's results links) | `/start/?next=/hub/<slug>/` or the lesson address itself, `/hub/<slug>/` |
 
 Until DNS is connected the host is `https://executiveframe-learninghub.web.app`. The Client Hub address the start page links to is `CLIENT_HUB` in `public/assets/js/app.js`.
 

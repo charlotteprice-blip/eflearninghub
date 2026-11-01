@@ -1,0 +1,96 @@
+{
+  "_note": "SAMPLE CONTENT: the first lesson of a foundation course, opening with a Return step that reads the previous lesson's plan from this browser. Replace with the Notion export; keep the slug. Needs Sarah's clinical review. Format: docs/content-format.md.",
+  "slug": "centre",
+  "title": "Centre",
+  "summary": "The first move of the loop: settle the body before you solve anything.",
+  "minutes": 9,
+  "course": "centre",
+  "sample": true,
+  "version": "2026-11-02",
+  "notionPageId": "",
+  "steps": [
+    {
+      "type": "return",
+      "beat": "Return",
+      "heading": "How did it go?",
+      "prompt": "This was your plan from the last lesson. Did the moment come? What happened, in a sentence or 2. No marks for getting it right; noticing is the work.",
+      "fallback": "You have not written a plan yet. The last lesson ends with one; you can go back to it at any time, or carry on from here."
+    },
+    {
+      "type": "intro",
+      "beat": "Recognise",
+      "heading": "Centre",
+      "body": [
+        "You have read the first line of the message 3 times and nothing has gone in. Your jaw is tight. You are about to reply anyway.",
+        "This lesson is about the 30 seconds before that reply."
+      ]
+    },
+    {
+      "type": "text",
+      "beat": "Understand",
+      "claim": "research",
+      "heading": "Why the body comes first",
+      "body": [
+        "Under pressure the body prepares to act before thinking has caught up. Breathing shortens, muscles brace, and attention narrows to the nearest threat. In that state, clear thinking is not available, however hard you try.",
+        "Lengthening the out breath and settling the body is one of the quickest ways to signal that the moment is survivable. It does not fix anything. It gives thinking a chance to come back."
+      ]
+    },
+    {
+      "type": "text",
+      "beat": "Understand",
+      "claim": "method",
+      "heading": "Centre, in practice",
+      "body": [
+        "In the Executive Frame method, Centre is 3 small actions you can do anywhere without anyone noticing: feet on the floor, 2 slow breaths with a longer out breath, and 1 glance away from the screen.",
+        "Done well, it takes about 30 seconds. Done badly, it still helps."
+      ]
+    },
+    {
+      "type": "reflect",
+      "beat": "Practise",
+      "heading": "Your version",
+      "prompt": "Feet, breath, glance. Which of the 3 is easiest for you to do at your desk, and which is hardest? Write your own 30 second version.",
+      "placeholder": "For example: feet are easy, I will start there. The glance away is hardest, so I will look at the window, not the phone."
+    },
+    {
+      "type": "scenario",
+      "beat": "Rehearse",
+      "heading": "Try it on",
+      "situation": "A message lands at 8.05: Can we talk this morning? No subject, no detail, from someone senior. You feel the brace in your shoulders.",
+      "options": [
+        {
+          "text": "Reply straight away: Of course, when suits you? and start guessing what it is about.",
+          "feedback": "Fast, polite, and the guessing will run for the rest of the morning. Nothing was settled first."
+        },
+        {
+          "text": "Feet on the floor, 2 breaths out, look up from the screen. Then reply: Yes. 10.30 or 11.45 work for me.",
+          "feedback": "That is Centre. The reply is nearly the same, but you sent it with the field of view open, and you offered times instead of waiting for them.",
+          "best": true
+        },
+        {
+          "text": "Leave it until you feel calmer.",
+          "feedback": "Sometimes right. But waiting without Centre often means the brace stays on while you wait. Settle first, then decide whether to wait."
+        }
+      ],
+      "closing": "The move is the same every time. What changes is how quickly you notice you need it."
+    },
+    {
+      "type": "plan",
+      "beat": "Transfer",
+      "heading": "This week",
+      "prompt": "Pick 1 moment that comes round every week. Finish the sentence with your own 30 second Centre.",
+      "when": "When the first message of the day makes my shoulders brace",
+      "will": "I will put my feet on the floor and breathe out twice before I open it"
+    },
+    {
+      "type": "summary",
+      "beat": "Transfer",
+      "heading": "Before you go",
+      "points": [
+        "Under pressure the body acts before thinking catches up.",
+        "Centre is feet, breath, glance. About 30 seconds, anywhere.",
+        "Your plan for this week is kept on this device. The next lesson starts by asking how it went."
+      ]
+    }
+  ]
+}

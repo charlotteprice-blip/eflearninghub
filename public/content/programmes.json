@@ -1,0 +1,22 @@
+{
+  "_note": "A programme is an ordered list of course ids from courses.json. arm: null for every member, or an arm slug. Foundation courses appear in many programmes; a learner's progress on them carries across because it is kept per lesson. priceNote is display text only; the amount charged always comes from the Stripe plan. Drafts are hidden. Slugs never change once published.",
+  "programmes": [
+    {
+      "slug": "the-executive-frame-reset",
+      "title": "The Executive Frame Reset",
+      "summary": "6 lessons and a workbook. About 75 minutes over 2 weeks.",
+      "arm": null,
+      "courses": ["reset-open", "centre", "clarify", "choose", "return", "reset-close"],
+      "status": "published",
+      "sample": true
+    },
+    {
+      "slug": "chaos-to-clarity",
+      "title": "Chaos to Clarity",
+      "summary": "The foundations, inside an ADHD week.",
+      "arm": "neurodiversity",
+      "courses": ["neuro-1", "centre", "clarify", "choose", "return", "neuro-2"],
+      "status": "draft"
+    }
+  ]
+}

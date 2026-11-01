@@ -1,0 +1,50 @@
+{
+  "_note": "SAMPLE CONTENT: a tool, 1 standalone lesson. Replace with the Notion export; keep the slug. Needs Sarah's clinical review. Format: docs/content-format.md.",
+  "slug": "centre-in-90-seconds",
+  "title": "Centre in 90 seconds",
+  "summary": "The quickest version of the first move. Use it when the pressure is already up.",
+  "minutes": 3,
+  "course": "centre-in-90-seconds",
+  "sample": true,
+  "version": "2026-11-02",
+  "notionPageId": "",
+  "steps": [
+    {
+      "type": "intro",
+      "beat": "Recognise",
+      "heading": "Centre in 90 seconds",
+      "body": [
+        "For the moment when you are already in it: the meeting is going badly, the message has landed, the child is shouting.",
+        "3 moves, 90 seconds, nothing anyone else will notice."
+      ]
+    },
+    {
+      "type": "frame",
+      "beat": "Understand",
+      "heading": "Feet, breath, glance",
+      "intro": "Do them in this order. Turn the shape or press Next.",
+      "points": [
+        { "label": "Feet", "body": "Both feet flat on the floor. Press down a little. Notice the floor is holding you up." },
+        { "label": "Breath", "body": "Breathe in normally. Breathe out slowly, longer than the in breath. Twice." },
+        { "label": "Glance", "body": "Look away from the screen or the person, to something that is not asking anything of you. A window, a wall, the ceiling. Then come back." }
+      ]
+    },
+    {
+      "type": "reflect",
+      "beat": "Practise",
+      "heading": "Right now",
+      "prompt": "Do the 3 moves now, wherever you are. Then write 1 line about what changed, even if it was small.",
+      "placeholder": "For example: my breathing is slower and the message does not look as urgent."
+    },
+    {
+      "type": "summary",
+      "beat": "Transfer",
+      "heading": "Keep it",
+      "points": [
+        "Feet, breath, glance. 90 seconds.",
+        "It works better with practice, so use it on small moments too.",
+        "The full lesson on Centre is in The Executive Frame Reset."
+      ]
+    }
+  ]
+}

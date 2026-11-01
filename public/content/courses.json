@@ -1,0 +1,91 @@
+{
+  "_note": "Every course, in display order. A course is an ordered list of lessons (public/content/lessons/<slug>.json). layer: foundation (built once, used in every programme), bridge (one arm's world; arm is set), tool (1 standalone lesson). loop: which move of the loop the course belongs to (centre, clarify, choose, return) or null. Drafts are hidden. Ids never change once a programme lists them. Format: docs/content-format.md.",
+  "courses": [
+    {
+      "id": "reset-open",
+      "title": "Opening the Reset",
+      "summary": "Where the Reset starts: the tunnel, and the way back.",
+      "layer": "foundation",
+      "loop": null,
+      "lessons": ["the-tunnel-and-the-way-back"],
+      "status": "published",
+      "sample": true
+    },
+    {
+      "id": "centre",
+      "title": "F1 Centre",
+      "summary": "Settle first. A steadier body makes clearer thinking possible.",
+      "layer": "foundation",
+      "loop": "centre",
+      "lessons": ["centre"],
+      "status": "published",
+      "sample": true
+    },
+    {
+      "id": "clarify",
+      "title": "F2 Clarify",
+      "summary": "Name what is actually in front of you.",
+      "layer": "foundation",
+      "loop": "clarify",
+      "lessons": [],
+      "status": "draft"
+    },
+    {
+      "id": "choose",
+      "title": "F3 Choose",
+      "summary": "Pick the next move on purpose.",
+      "layer": "foundation",
+      "loop": "choose",
+      "lessons": [],
+      "status": "draft"
+    },
+    {
+      "id": "return",
+      "title": "F4 Return and the tools",
+      "summary": "Come back to the loop, and the tools that make it quicker each time.",
+      "layer": "foundation",
+      "loop": "return",
+      "lessons": [],
+      "status": "draft"
+    },
+    {
+      "id": "reset-close",
+      "title": "Your Frame plan",
+      "summary": "Bring the loop together into a plan you can keep.",
+      "layer": "foundation",
+      "loop": null,
+      "lessons": [],
+      "status": "draft"
+    },
+    {
+      "id": "centre-in-90-seconds",
+      "title": "Centre in 90 seconds",
+      "summary": "One tool, used anywhere, when the pressure is already up.",
+      "layer": "tool",
+      "loop": "centre",
+      "lessons": ["centre-in-90-seconds"],
+      "status": "published",
+      "sample": true
+    },
+    {
+      "id": "neuro-1",
+      "title": "Chaos to Clarity: arriving",
+      "summary": "The method in an ADHD morning.",
+      "layer": "bridge",
+      "arm": "neurodiversity",
+      "loop": null,
+      "lessons": [],
+      "status": "draft"
+    },
+    {
+      "id": "neuro-2",
+      "title": "Chaos to Clarity: keeping it",
+      "summary": "Making the loop stick when the day is loud.",
+      "layer": "bridge",
+      "arm": "neurodiversity",
+      "loop": null,
+      "lessons": [],
+      "status": "draft"
+    }
+  ]
+}

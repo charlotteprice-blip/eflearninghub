@@ -1,8 +1,11 @@
-// Topic player: shows one topic, one step at a time, inside the viewer's stage.
-// Step types: intro, text, frame (rotating triangle, one panel per point, draggable), sort (drag moments into groups),
-// reflect (kept in this browser only), workshop (video loads only when played), download (signed link from
-// getDownloadLink) and summary. The content format is in docs/content-format.md.
-// Progress, sort answers, reflections and notes stay in this browser under ef-hub-<slug>. Nothing is sent anywhere.
+// Lesson player: shows one lesson, one step at a time, inside the viewer's stage.
+// Step types: intro, text (with an optional claim label), frame (rotating triangle, one panel per point, draggable),
+// sort (drag moments into groups), reflect (kept in this browser only), scenario (choose a response, read what
+// follows), plan ("When X, I will Y", kept in this browser), return (shows the previous lesson's plan and asks how it
+// went), workshop (video loads only when played), download (signed link from getDownloadLink) and summary.
+// Each step may carry a beat label (Recognise, Understand, Practise, Rehearse, Transfer, Return).
+// The content format is in docs/content-format.md.
+// Progress, answers, reflections, plans and notes stay in this browser under ef-hub-<slug>. Nothing is sent anywhere.
 
 import { call, explainCallError } from "./app.js";
 import { store } from "./ui.js";
@@ -11,37 +14,54 @@ export const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "
 const paras = body => (Array.isArray(body) ? body : body ? [body] : []).map(p => `<p>${esc(p)}</p>`).join("");
 const mod = (a, n) => ((a % n) + n) % n;
 
-export const topicKey = slug => `ef-hub-${slug}`;
+const CLAIMS = { research: "Established research", practice: "Applied practice", method: "Executive Frame method" };
+const beatOf = s => (s.beat ? `<p class="beat">${esc(s.beat)}</p>` : "");
+const claimOf = s => (CLAIMS[s.claim] ? `<p class="claim">${CLAIMS[s.claim]}</p>` : "");
+
+// The storage key keeps its old prefix so nothing a learner has done is lost by the rename from topic to lesson.
+export const lessonKey = slug => `ef-hub-${slug}`;
 export function loadState(slug) {
-  const s = store.get(topicKey(slug), {}) || {};
+  const s = store.get(lessonKey(slug), {}) || {};
   return {
     step: Number.isInteger(s.step) ? s.step : 0,
     max: Number.isInteger(s.max) ? s.max : (Number.isInteger(s.step) ? s.step : 0),
-    sub: s.sub || {}, sort: s.sort || {}, reflect: s.reflect || {},
+    sub: s.sub || {}, sort: s.sort || {}, reflect: s.reflect || {}, scenario: s.scenario || {}, plan: s.plan || {},
     notes: typeof s.notes === "string" ? s.notes : "",
     done: !!s.done,
     started: !!s.started || Number.isInteger(s.step)
   };
 }
 export function progressLabel(slug, total) {
-  const raw = store.get(topicKey(slug));
+  const raw = store.get(lessonKey(slug));
   if (!raw) return { text: "Not started", state: "new" };
   const s = loadState(slug);
   if (s.done) return { text: "Finished", state: "done" };
   return { text: `Step ${s.step + 1} of ${total || "?"}`, state: "going" };
 }
+// The last plan written in a lesson ("When X, I will Y"), or null. Used by return steps and the dashboard.
+export function latestPlan(slug) {
+  if (!slug || !store.get(lessonKey(slug))) return null;
+  const plans = loadState(slug).plan;
+  const keys = Object.keys(plans).map(Number).filter(Number.isInteger).sort((a, b) => a - b);
+  for (let k = keys.length - 1; k >= 0; k--) {
+    const p = plans[keys[k]];
+    if (p && (p.when || p.will)) return { slug, ...p };
+  }
+  return null;
+}
 
 // els: { stage, bar, count, prev, next }   hooks: { onStep(i), onFinish(), onSave(state) }
-export function createPlayer(topic, access, els, hooks = {}) {
-  const state = loadState(topic.slug);
+// opts: { prior } the slug of the lesson before this one, for return steps.
+export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
+  const state = loadState(lesson.slug);
   state.started = true;
-  const save = () => { store.set(topicKey(topic.slug), state); if (hooks.onSave) hooks.onSave(state); };
+  const save = () => { store.set(lessonKey(lesson.slug), state); if (hooks.onSave) hooks.onSave(state); };
   const { stage } = els;
   let frame = null;
 
   const R = {
-    intro: s => `<h2 class="t-display">${esc(s.heading || topic.title)}</h2>${paras(s.body)}`,
-    text: s => `<h2 class="t-title">${esc(s.heading)}</h2>${paras(s.body)}`,
+    intro: s => `<h2 class="t-display">${esc(s.heading || lesson.title)}</h2>${paras(s.body)}`,
+    text: s => `<h2 class="t-title">${esc(s.heading)}</h2>${paras(s.body)}${claimOf(s)}`,
     summary: s => `<h2 class="t-title">${esc(s.heading)}</h2>
       <ul class="points">${(s.points || []).map(p => `<li>${esc(p)}</li>`).join("")}</ul>`,
     reflect: (s, i) => `<h2 class="t-title">${esc(s.heading)}</h2>
@@ -50,6 +70,41 @@ export function createPlayer(topic, access, els, hooks = {}) {
         <textarea class="input" id="reflect-${i}" placeholder="${esc(s.placeholder || "")}">${esc(state.reflect[i] || "")}</textarea>
         <span class="field-hint">Kept in this browser only. It is not sent to Executive Frame or anyone else.</span>
       </div>`,
+    scenario: (s, i) => {
+      const picked = state.scenario[i];
+      const chosen = Number.isInteger(picked);
+      return `<h2 class="t-title">${esc(s.heading)}</h2>
+        ${s.situation ? `<p class="scen-situation">${esc(s.situation)}</p>` : ""}
+        <div class="scen" data-scen role="group" aria-label="Your response">${(s.options || []).map((o, k) => `
+          <div class="scen-row">
+            <button type="button" class="scen-opt" data-opt="${k}" aria-pressed="${picked === k}">${esc(o.text)}</button>
+            ${picked === k ? `<div class="scen-fb${o.best ? " best" : ""}" role="status" tabindex="-1" data-fb>${esc(o.feedback)}</div>` : ""}
+          </div>`).join("")}</div>
+        ${chosen && s.closing ? `<p class="notice">${esc(s.closing)}</p>` : ""}
+        <p class="field-hint">Choose a response to read what tends to follow. You can try each one. Nothing is scored or sent anywhere.</p>`;
+    },
+    plan: (s, i) => {
+      const p = state.plan[i] || {};
+      return `<h2 class="t-title">${esc(s.heading)}</h2>${s.prompt ? `<p>${esc(s.prompt)}</p>` : ""}
+        <div class="plan">
+          <div class="field"><label class="field-label" for="plan-when-${i}">When</label>
+            <input class="input" id="plan-when-${i}" type="text" maxlength="300" placeholder="${esc(s.when || "")}" value="${esc(p.when || "")}"></div>
+          <div class="field"><label class="field-label" for="plan-will-${i}">I will</label>
+            <input class="input" id="plan-will-${i}" type="text" maxlength="300" placeholder="${esc(s.will || "")}" value="${esc(p.will || "")}"></div>
+          <span class="field-hint">Kept in this browser only. The next lesson starts by asking how it went.</span>
+        </div>`;
+    },
+    return: (s, i) => {
+      const p = latestPlan(opts.prior);
+      if (!p) return `<h2 class="t-title">${esc(s.heading)}</h2><p>${esc(s.fallback || "There is no plan from the last lesson to look back on. Carry on from here.")}</p>`;
+      return `<h2 class="t-title">${esc(s.heading)}</h2>
+        <blockquote class="plan-quote"><p>When ${esc(p.when || "the moment came")},</p><p>I will ${esc(p.will || "")}.</p></blockquote>
+        <div class="reflect field">
+          <label class="field-label" for="reflect-${i}">${esc(s.prompt)}</label>
+          <textarea class="input" id="reflect-${i}">${esc(state.reflect[i] || "")}</textarea>
+          <span class="field-hint">Kept in this browser only.</span>
+        </div>`;
+    },
     workshop: s => {
       const v = s.video || {};
       const playable = v.id && (v.provider === "youtube" || v.provider === "vimeo");
@@ -123,13 +178,36 @@ export function createPlayer(topic, access, els, hooks = {}) {
   };
 
   const q = sel => stage.querySelector(sel);
+  const reflectListener = i => {
+    const box = q(`#reflect-${i}`);
+    if (!box) return;
+    let t = null;
+    box.addEventListener("input", e => {
+      clearTimeout(t);
+      t = setTimeout(() => { state.reflect[i] = e.target.value.slice(0, 10000); save(); }, 300);
+    });
+  };
   const A = {
-    reflect: (s, i) => {
-      let t = null;
-      q(`#reflect-${i}`).addEventListener("input", e => {
-        clearTimeout(t);
-        t = setTimeout(() => { state.reflect[i] = e.target.value.slice(0, 10000); save(); }, 300);
+    reflect: (s, i) => reflectListener(i),
+    return: (s, i) => reflectListener(i),
+    scenario: (s, i) => {
+      q("[data-scen]").addEventListener("click", e => {
+        const b = e.target.closest("[data-opt]");
+        if (!b) return;
+        state.scenario[i] = Number(b.dataset.opt);
+        save();
+        render(false);
+        const fb = q("[data-fb]");
+        if (fb) fb.focus({ preventScroll: false });
       });
+    },
+    plan: (s, i) => {
+      let t = null;
+      const read = () => {
+        state.plan[i] = { when: q(`#plan-when-${i}`).value.slice(0, 300), will: q(`#plan-will-${i}`).value.slice(0, 300), at: new Date().toISOString() };
+        save();
+      };
+      [`#plan-when-${i}`, `#plan-will-${i}`].forEach(sel => q(sel).addEventListener("input", () => { clearTimeout(t); t = setTimeout(read, 300); }));
     },
     workshop: s => {
       const b = q("[data-play]");
@@ -188,7 +266,7 @@ export function createPlayer(topic, access, els, hooks = {}) {
       nodes.forEach((nd, j) => nd.setAttribute("aria-current", String(j === k)));
       const p = s.points[k];
       q("[data-frame-panel]").innerHTML = `<p class="t-caption">${k + 1} of ${n}</p><h3 class="t-heading">${esc(p.label)}</h3><p>${esc(p.body)}</p>
-        ${k === 0 ? `<p class="frame-hint t-caption muted">Turn the triangle by dragging it, or press Next.</p>` : ""}`;
+        ${k === 0 ? `<p class="frame-hint t-caption muted">Turn the shape by dragging it, or press Next.</p>` : ""}`;
       if (focusNode) nodes[k].focus();
       update();
     }
@@ -301,8 +379,8 @@ export function createPlayer(topic, access, els, hooks = {}) {
   }
 
   function update() {
-    const n = topic.steps.length;
-    const s = topic.steps[state.step];
+    const n = lesson.steps.length;
+    const s = lesson.steps[state.step];
     const within = s.type === "frame" ? (state.sub[state.step] || 0) / s.points.length : 0;
     els.bar.style.width = `${((state.step + within + (state.step === n - 1 ? 1 : 0.5)) / n) * 100}%`;
     els.count.textContent = `Step ${state.step + 1} of ${n}`;
@@ -310,10 +388,10 @@ export function createPlayer(topic, access, els, hooks = {}) {
     els.next.textContent = state.step === n - 1 ? "Finish" : "Next";
   }
   function render(focus = true) {
-    const s = topic.steps[state.step];
+    const s = lesson.steps[state.step];
     frame = null;
     state.max = Math.max(state.max, state.step);
-    stage.innerHTML = (R[s.type] || R.text)(s, state.step);
+    stage.innerHTML = beatOf(s) + (R[s.type] || R.text)(s, state.step);
     if (A[s.type]) A[s.type](s, state.step);
     update();
     if (focus) {
@@ -325,12 +403,12 @@ export function createPlayer(topic, access, els, hooks = {}) {
     if (hooks.onStep) hooks.onStep(state.step);
   }
   function go(i, focus = true) {
-    state.step = Math.min(Math.max(0, i), topic.steps.length - 1);
+    state.step = Math.min(Math.max(0, i), lesson.steps.length - 1);
     render(focus);
   }
   function next() {
     if (frame && frame.get() < frame.n - 1) { frame.set(frame.get() + 1); return; }
-    if (state.step < topic.steps.length - 1) { go(state.step + 1); return; }
+    if (state.step < lesson.steps.length - 1) { go(state.step + 1); return; }
     state.done = true;
     save();
     if (hooks.onFinish) hooks.onFinish();
@@ -338,7 +416,7 @@ export function createPlayer(topic, access, els, hooks = {}) {
   function prev() {
     if (frame && frame.get() > 0) { frame.set(frame.get() - 1); return; }
     if (state.step === 0) return;
-    const s = topic.steps[state.step - 1];
+    const s = lesson.steps[state.step - 1];
     if (s.type === "frame") state.sub[state.step - 1] = s.points.length - 1;
     go(state.step - 1);
   }
