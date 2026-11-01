@@ -10,7 +10,7 @@ The public website (executiveframe.co.nz, CloudCannon) is not touched by this re
 
 Adapted from the Themescape member journey (Notion, Themescape, Membership Process):
 
-1. **Join** (`/join/?arm=law`): "Has your organisation given you an access code?", then **create a login** with Google, Microsoft, or email and password, accepting the privacy statement.
+1. **Join** (`/join/?arm=law`): "Has your organisation given you an access code?", then **create a login** with email and password, accepting the privacy statement.
 2. A code is checked by **claimSeat**. Without a code, **checkAccess** looks for an organisation that owns the member's work email domain and offers its place (email confirmation required first). Otherwise the member **chooses monthly or annual** and **createCheckoutSession** opens Stripe Checkout: card collected, 7 day trial once per person, NZ$ with GST included.
 3. **Thank you** confirms the trial or place, then the member opens the **viewer**, which checks membership with checkAccess (read from Stripe each time) behind a cover screen, as Themescape's viewer does.
 4. **Account** shows the plan, trial end or renewal date and opens the Stripe portal (**createPortalSession**) to switch monthly and annual, update the card or cancel at period end. Organisation seat holders see their organisation and no billing controls.

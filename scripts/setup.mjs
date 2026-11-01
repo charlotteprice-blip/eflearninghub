@@ -39,9 +39,6 @@ const CONFIG = {
   appName: 'Executive Frame Learning Hub',
   secret: 'STRIPE_SECRET_KEY',
 };
-const HANDLERS = [CONFIG.site + '.web.app', CONFIG.site + '.firebaseapp.com', CONFIG.domain, CONFIG.project + '.firebaseapp.com']
-  .map((h) => `https://${h}/__/auth/handler`);
-
 const APIS = [
   'firebase.googleapis.com',
   'firebasehosting.googleapis.com',
@@ -194,19 +191,6 @@ async function askHidden(question) {
     stdin.resume();
     stdin.on('data', onData);
   });
-}
-
-const idpUrl = (id) => `https://identitytoolkit.googleapis.com/admin/v2/projects/${CONFIG.project}/defaultSupportedIdpConfigs/${id}`;
-async function idpState(id) {
-  const r = await rest('GET', idpUrl(id)).catch(() => ({ ok: false }));
-  return r.ok ? r.data : null;
-}
-async function idpSave(id, clientId, clientSecret, exists) {
-  const body = { enabled: true, clientId, clientSecret };
-  const r = exists
-    ? await rest('PATCH', `${idpUrl(id)}?updateMask=enabled,clientId,clientSecret`, body)
-    : await rest('POST', `https://identitytoolkit.googleapis.com/admin/v2/projects/${CONFIG.project}/defaultSupportedIdpConfigs?idpId=${id}`, body);
-  return r.ok ? { ok: true } : { ok: false, err: JSON.stringify(r.data) };
 }
 
 // ---------- steps ----------
@@ -389,55 +373,6 @@ const steps = [
       }
       const r = await rest('PATCH', `https://identitytoolkit.googleapis.com/admin/v2/projects/${CONFIG.project}/config?updateMask=${mask.join(',')}`, body);
       return r.ok ? { ok: true } : { ok: false, err: JSON.stringify(r.data) };
-    },
-  },
-  {
-    id: 'microsoft',
-    title: 'Microsoft sign in ("Continue with Microsoft")',
-    async check() {
-      const s = await idpState('microsoft.com');
-      this.exists = Boolean(s);
-      if (s?.enabled && s.clientId) return { state: 'done' };
-      return { state: 'missing', detail: [s ? 'set up but switched off' : 'not set up', `redirect addresses for the Entra app: ${HANDLERS.join(', ')}`] };
-    },
-    async apply() {
-      let clientId;
-      let clientSecret;
-      if (look('az', ['--version']).ok && (await confirm('Create the Microsoft Entra app registration now with the Azure CLI (az login first)?'))) {
-        const app = run('az', ['ad', 'app', 'create', '--display-name', CONFIG.appName, '--sign-in-audience', 'AzureADandPersonalMicrosoftAccount', '--web-redirect-uris', ...HANDLERS, '--query', 'appId', '-o', 'tsv']);
-        if (!app.ok) return app;
-        clientId = app.out;
-        // The secret goes straight from Azure to Firebase; it is never printed.
-        const cred = run('az', ['ad', 'app', 'credential', 'reset', '--id', clientId, '--display-name', 'Firebase', '--years', '2', '--query', 'password', '-o', 'tsv']);
-        if (!cred.ok) return cred;
-        clientSecret = cred.out;
-        console.log(c.dim(`  Entra application (client) ID ${clientId}; its secret expires in 24 months.`));
-      } else {
-        console.log(c.dim(`  Entra admin centre, App registrations: add these redirect addresses, then paste the IDs. ${HANDLERS.join(', ')}`));
-        clientId = await ask('Entra application (client) ID');
-        clientSecret = await askHidden('Entra client secret');
-      }
-      if (!clientId || !clientSecret) return { ok: false, err: 'No ID or secret entered' };
-      return idpSave('microsoft.com', clientId, clientSecret, this.exists);
-    },
-  },
-  {
-    id: 'google',
-    title: 'Google sign in ("Continue with Google")',
-    async check() {
-      const s = await idpState('google.com');
-      this.exists = Boolean(s);
-      if (s?.enabled && s.clientId) return { state: 'done' };
-      return { state: 'missing', detail: [s ? 'set up but switched off' : 'not set up'] };
-    },
-    async apply() {
-      console.log(c.dim('  Easiest: Firebase console, Authentication, Sign in method, Google, Enable (it makes the OAuth client), then run this again.'));
-      console.log(c.dim(`  Or paste an existing OAuth web client whose redirect addresses include: ${HANDLERS.join(', ')}`));
-      if (!(await confirm('Paste an existing OAuth web client now?'))) return { ok: true, skipped: true };
-      const clientId = await ask('OAuth client ID');
-      const clientSecret = await askHidden('OAuth client secret');
-      if (!clientId || !clientSecret) return { ok: false, err: 'No ID or secret entered' };
-      return idpSave('google.com', clientId, clientSecret, this.exists);
     },
   },
   {
@@ -652,5 +587,5 @@ for (const step of steps) {
 
 rl?.close();
 console.log(
-  `\nStill done outside the terminal: the DNS records at the executiveframe.co.nz DNS host, switching Google sign in on once in the Firebase console, and the Stripe dashboard settings (docs/firebase-setup.md).\nNext: npm run stripe -- check, then npm run deploy:rules, npm run deploy:functions, npm run deploy:hosting.\n`,
+  `\nStill done outside the terminal: the DNS records at the executiveframe.co.nz DNS host and the Stripe dashboard settings (docs/firebase-setup.md).\nNext: npm run stripe -- check, then npm run deploy:rules, npm run deploy:functions, npm run deploy:hosting.\n`,
 );

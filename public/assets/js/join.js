@@ -1,16 +1,15 @@
 // Join: the Themescape membership process, adapted.
 // 1. Access code question (organisation code, or joining for myself).
-// 2. Create a login (Google, Microsoft, or email and password) and accept the privacy statement.
+// 2. Create a login (email and password) and accept the privacy statement.
 // 3. A code is claimed (claimSeat); otherwise a matching work email domain is offered, otherwise a plan is chosen
 //    and Stripe Checkout opens (createCheckoutSession). One free trial per person, card collected.
 // ?arm=law (or any slug in /content/arms.json) preselects that arm's prices; unknown values are ignored.
 
-import { auth, firstUser, call, explainCallError, explainAuthError, QUIET_AUTH, passwordProblem, PRIVACY_VERSION } from "./app.js";
+import { auth, firstUser, call, explainCallError, explainAuthError, passwordProblem, PRIVACY_VERSION } from "./app.js";
 import { $, show, say, busy, clearErrors, fieldError, liveClear, params, session } from "./ui.js";
 import { placeMark } from "./layout.js";
 import {
-  signInWithPopup, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, signOut,
-  GoogleAuthProvider, OAuthProvider
+  createUserWithEmailAndPassword, updateProfile, sendEmailVerification, signOut
 } from "/assets/vendor/firebase/firebase-auth.js";
 
 const VIEWS = ["v-loading", "v-code", "v-signup", "v-signed", "v-org", "v-plan", "v-have"];
@@ -79,35 +78,13 @@ async function afterStep1() {
 }
 
 // ---- Step 2: login ----
-const SIGNUP_BUTTONS = ["btn-google", "btn-microsoft", "btn-create"];
+const SIGNUP_BUTTONS = ["btn-create"];
 function needPrivacy(box, msgId) {
   if ($(box).checked) { privacyOk = true; session.set("ef-privacy", PRIVACY_VERSION); return true; }
   say(msgId, "Please tick the privacy statement to continue.");
   $(box).focus();
   return false;
 }
-const google = new GoogleAuthProvider();
-google.setCustomParameters({ prompt: "select_account" });
-const microsoft = new OAuthProvider("microsoft.com");
-microsoft.setCustomParameters({ prompt: "select_account" });
-
-async function withProvider(provider) {
-  clearErrors();
-  say("signup-msg", "");
-  if (!needPrivacy("privacy", "signup-msg")) return;
-  busy(SIGNUP_BUTTONS, true);
-  try {
-    await signInWithPopup(auth, provider);
-    await afterLogin();
-  } catch (err) {
-    if (!QUIET_AUTH.includes(err && err.code)) say("signup-msg", explainAuthError(err));
-  } finally {
-    busy(SIGNUP_BUTTONS, false);
-  }
-}
-$("btn-google").addEventListener("click", () => withProvider(google));
-$("btn-microsoft").addEventListener("click", () => withProvider(microsoft));
-
 liveClear($("form-signup"));
 $("form-signup").addEventListener("submit", async e => {
   e.preventDefault();

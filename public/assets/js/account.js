@@ -16,7 +16,7 @@ if (!user) {
   await new Promise(() => {});
 }
 
-const PROVIDERS = { "google.com": "Google", "microsoft.com": "Microsoft", password: "Email and password" };
+const PROVIDERS = { password: "Email and password" };
 $("acc-email").textContent = user.email || "";
 $("acc-provider").textContent = user.providerData.map(p => PROVIDERS[p.providerId] || p.providerId).join(", ") || "Email and password";
 $("acc-verified").textContent = user.emailVerified ? "Yes" : "Not yet";

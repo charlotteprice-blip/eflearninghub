@@ -15,7 +15,7 @@ const groups = [
     ['npm run setup:check', 'Report what exists and what is missing; changes nothing'],
     ['npm run setup', 'Create each missing piece, asking before every change'],
     ['npm run setup -- --dry-run', 'Show the commands setup would run, change nothing'],
-    ['npm run setup -- --only=functionsaccess', 'Run 1 step: tools, project, apis, database, site, bucket, webapp, authdomains, microsoft, google, auditlogs, functionsaccess, secret, domain, access'],
+    ['npm run setup -- --only=functionsaccess', 'Run 1 step: tools, project, apis, database, site, bucket, webapp, authdomains, auditlogs, functionsaccess, secret, domain, access'],
     ['npm run setup -- --only=passwordpolicy', 'Enforce the 10 character password rule for the shared login (affects the Client Hub too)'],
   ]],
   ['Stripe (Sarah\'s Executive Frame account; asks for the key, hidden)', [

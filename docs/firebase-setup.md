@@ -59,7 +59,7 @@ npm run setup:check
 npm run setup
 ```
 
-`setup` asks before each change. It switches on the Google services (most are already on from the Client Hub), creates the `learninghub` database in Sydney with backups and delete protection, creates and links the Hosting site and Storage bucket, registers the web app and writes `public/assets/js/firebase-config.js`, authorises the Learning Hub's sign in addresses, sets up Microsoft sign in, checks Google sign in, confirms the audit logs, gives the functions' service account the access it needs (build, Firestore, logs, reading the library bucket and signing download links), saves the Stripe key, adds `learn.executiveframe.co.nz`, and lists who has broad access.
+`setup` asks before each change. It switches on the Google services (most are already on from the Client Hub), creates the `learninghub` database in Sydney with backups and delete protection, creates and links the Hosting site and Storage bucket, registers the web app and writes `public/assets/js/firebase-config.js`, authorises the Learning Hub's sign in addresses and switches on email and password sign in (the only sign in method), confirms the audit logs, gives the functions' service account the access it needs (build, Firestore, logs, reading the library bucket and signing download links), saves the Stripe key, adds `learn.executiveframe.co.nz`, and lists who has broad access.
 
 Run `npm run setup:check` again afterwards; every line should read done, apart from the domain, which waits for DNS.
 
@@ -71,15 +71,7 @@ git commit -m "Add Firebase web app settings for the Learning Hub"
 git push
 ```
 
-**Microsoft sign in.** If the Azure CLI is installed and logged in (`brew install azure-cli`, `az login`), `setup` creates the Entra app registration itself and passes its secret straight to Firebase without showing it. Otherwise it lists the redirect addresses to enter in the Entra admin centre and asks for the client ID and secret (the secret is hidden as you type).
-
-**Google sign in (browser step).** Firebase console, Authentication, Sign in method, Google, Enable. This creates the OAuth client. Then, in Google Cloud console, APIs and Services, Credentials, open the web client Firebase made and add these authorised redirect addresses:
-
-```
-https://executiveframe-learninghub.web.app/__/auth/handler
-https://executiveframe-learninghub.firebaseapp.com/__/auth/handler
-https://learn.executiveframe.co.nz/__/auth/handler
-```
+**Sign in methods.** Email and password only (Charlotte's decision, 1 November 2026). There is no Google or Microsoft sign in, so no OAuth clients, redirect addresses or Entra app registration are needed.
 
 **Stripe key.** The `secret` step runs `firebase functions:secrets:set STRIPE_SECRET_KEY`, which asks for the key itself, hidden. Use the restricted key from Sarah's Executive Frame Stripe account (step 4). To replace it later: `npm run secret`.
 

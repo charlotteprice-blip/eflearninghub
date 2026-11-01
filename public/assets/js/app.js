@@ -56,13 +56,10 @@ const AUTH_MESSAGES = {
   "auth/missing-password": "Please enter your password.",
   "auth/password-does-not-meet-requirements": "Please choose a password of at least 10 characters, with a number and a symbol such as ! ? # @ or %.",
   "auth/too-many-requests": "There have been too many attempts. Please wait a few minutes and try again.",
-  "auth/popup-blocked": "Your browser blocked the sign in window. Allow pop ups for this page and try again.",
-  "auth/operation-not-allowed": "This way of signing in is not available yet. Please use another option.",
-  "auth/account-exists-with-different-credential": "This email address already has an account that uses a different way of signing in. Please use that option instead.",
+  "auth/operation-not-allowed": "Signing in is not available yet. Please try again later.",
   "auth/network-request-failed": "The Learning Hub could not be reached. Check your internet connection and try again.",
   "auth/unauthorized-domain": "Signing in is not set up for this web address yet."
 };
-export const QUIET_AUTH = ["auth/popup-closed-by-user", "auth/cancelled-popup-request", "auth/user-cancelled"];
 export const explainAuthError = err => AUTH_MESSAGES[err && err.code] || "Something went wrong. Please try again.";
 
 // Password rule, matching the Firebase password policy to be set in the console:

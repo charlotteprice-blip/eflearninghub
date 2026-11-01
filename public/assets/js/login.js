@@ -1,14 +1,12 @@
-// Log in: Google, Microsoft, or email and password, then on to the page the member was going to (default Library).
-import { auth, firstUser, explainAuthError, QUIET_AUTH } from "./app.js";
+// Log in with email and password, then on to the page the member was going to (default Library).
+import { auth, firstUser, explainAuthError } from "./app.js";
 import { $, show, say, busy, clearErrors, fieldError, liveClear, params, safeNext } from "./ui.js";
 import { placeMark } from "./layout.js";
-import {
-  signInWithPopup, signInWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, OAuthProvider
-} from "/assets/vendor/firebase/firebase-auth.js";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "/assets/vendor/firebase/firebase-auth.js";
 
 const VIEWS = ["v-login", "v-reset", "v-busy"];
 const NEXT = safeNext(params.get("next"));
-const BUTTONS = ["btn-google", "btn-microsoft", "btn-login"];
+const BUTTONS = ["btn-login"];
 placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
 
 if (params.get("email")) $("email").value = params.get("email");
@@ -22,27 +20,6 @@ function done() {
   show(VIEWS, "v-busy");
   location.replace(NEXT);
 }
-
-const google = new GoogleAuthProvider();
-google.setCustomParameters({ prompt: "select_account" });
-const microsoft = new OAuthProvider("microsoft.com");
-microsoft.setCustomParameters({ prompt: "select_account" });
-
-async function withProvider(provider) {
-  clearErrors();
-  say("login-msg", "");
-  busy(BUTTONS, true);
-  try {
-    await signInWithPopup(auth, provider);
-    done();
-  } catch (err) {
-    if (!QUIET_AUTH.includes(err && err.code)) say("login-msg", explainAuthError(err));
-  } finally {
-    busy(BUTTONS, false);
-  }
-}
-$("btn-google").addEventListener("click", () => withProvider(google));
-$("btn-microsoft").addEventListener("click", () => withProvider(microsoft));
 
 liveClear($("form-login"));
 $("form-login").addEventListener("submit", async e => {
