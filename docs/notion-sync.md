@@ -149,7 +149,7 @@ The report lists every row or page that is marked Published but left out, with t
 1. Sarah (or Charlotte as a workspace owner) creates the integration and shares the catalogue with it.
 2. Sarah adds the 3 catalogue columns and marks 1 or 2 rows Published.
 3. `npm run content -- check` until the report is clean.
-4. `npm run setup -- --only=apis` (adds Cloud Scheduler), `npm run secret:notion`, then `npm run deploy:functions` and `npm run deploy:hosting`. The functions deploy also needs the Stripe key to be set, because every function deploys together.
+4. `npm run setup -- --only=apis` (adds Cloud Scheduler), `npm run secret:notion`, then `npm run deploy:functions` and `npm run deploy:hosting`. `deploy:functions` deploys every function together, so it needs both the Stripe key and the Notion key. If the Notion key is not ready, `npm run deploy:functions:members` deploys the 5 membership functions alone and needs the Stripe key only; if the Stripe key is not ready, the sync cannot go live yet.
 5. `npm run content -- sync`, then open the Learning Hub and look at Resources on Home.
 6. Sarah creates Hub Lessons, shares it with the integration and writes the first lesson. Its id goes in `NOTION.lessonsDb`, then `npm run deploy:functions`.
 

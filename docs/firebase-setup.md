@@ -108,6 +108,8 @@ npm run deploy:functions
 npm run deploy:hosting
 ```
 
+`deploy:functions` deploys every function, so it needs both secrets to exist: the Stripe key (`npm run secret`) and the read only Notion key (`npm run secret:notion`, `docs/notion-sync.md`). To get membership working before the Notion key is ready, use `npm run deploy:functions:members`, which deploys only checkAccess, createCheckoutSession, claimSeat, createPortalSession and getDownloadLink and needs the Stripe key alone. Until those 5 are deployed, a person can log in but the viewer cannot check their membership, so it stays on its cover screen.
+
 The functions deploy runs the function tests first, and `deploy:hosting` runs the tests and the colour contrast check. The app is then live at https://executiveframe-learninghub.web.app.
 
 If every function fails with "missing permission on the build service account", run `npm run setup -- --only=functionsaccess`, then `npm run deploy:functions` again. The Client Hub's setup has usually done this already, because both apps share the service account.
