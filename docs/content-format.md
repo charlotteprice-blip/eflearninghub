@@ -66,4 +66,16 @@ Text is plain text: no HTML, no Markdown. Write in UK English, without em dashes
 
 ## From Notion
 
-The export script (`scripts/notion-export.mjs`, `npm run content`, not written yet) should produce the 2 index files and 1 lesson file per lesson. Suggested Notion properties on the resources database: Title, Slug, Type (lesson, course, programme), Layer, Arm, Course, Order, Minutes, Status, Summary; and on each lesson page, 1 child block per step with a Type select, a Beat select and, for text steps, a Claim select. Rows that are not Published become drafts.
+Lessons and resource cards come live from Sarah's Notion workspace, without a deploy: `docs/notion-sync.md` has the design, the Notion columns and how a lesson page is written. The scheduled sync turns each Published lesson page into a lesson file in the format above and each Published catalogue row into a resource card.
+
+Until a source has synced, and in the local preview, the files here stand in: `public/content/lessons/` for lessons and `public/content/resources.json` for cards. Programmes and courses are always the files in this repository.
+
+## `resources.json` and resource cards
+
+| Field | Meaning |
+| --- | --- |
+| `id` | The catalogue ID, for example `EF-UNI-002`. |
+| `slug`, `title`, `summary` | Shown on the card. `summary` is the catalogue's Hub summary, never its Description. |
+| `arm` | `null` for every member, or an arm slug. |
+| `kind` | A short label: Tool, Handout, Workbook, FAQ, Guide, Course or Resource. |
+| `url` or `file` | `url` opens a page on executiveframe.co.nz in a new tab. `file` is a library path (`library/<arm>/<file>.pdf`) downloaded through getDownloadLink. |

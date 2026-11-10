@@ -32,6 +32,9 @@
   transition: border-color var(--motion-duration) var(--motion-ease), transform var(--motion-duration) var(--motion-ease);
 }
 .lesson-card:hover { border-color: var(--hairline); transform: translateY(-2px); }
+/* A resource card is not a link itself: its button is, so the card does not lift. */
+.res-card:hover { border-color: transparent; transform: none; }
+.res-card .lesson-meta { align-items: center; }
 .lesson-card .t-heading { margin: 0; }
 .lesson-card p { margin: 0; }
 .lesson-meta { margin-top: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); }

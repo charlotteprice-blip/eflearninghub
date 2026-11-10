@@ -51,6 +51,7 @@ const APIS = [
   'cloudbuild.googleapis.com',
   'artifactregistry.googleapis.com',
   'eventarc.googleapis.com',
+  'cloudscheduler.googleapis.com',
   'secretmanager.googleapis.com',
   'iamcredentials.googleapis.com',
 ];

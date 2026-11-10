@@ -7,10 +7,10 @@
 // because the Client Hub links to them. Everything a learner writes stays in this browser.
 
 import { requireMember } from "./gate.js";
-import { logOut } from "./app.js";
+import { logOut, call } from "./app.js";
 import { $, store, params, nzDate } from "./ui.js";
 import { placeMark, SUPPORT } from "./layout.js";
-import { createPlayer, progressLabel, lessonKey, loadState, latestPlan, esc } from "./player.js";
+import { createPlayer, progressLabel, lessonKey, loadState, latestPlan, esc, downloadFile } from "./player.js";
 
 placeMark(document.querySelector("[data-cover-mark]"), { draw: false });
 
@@ -25,10 +25,27 @@ $("acct-mail").textContent = user ? user.email || "" : "Membership not checked";
 $("acct-av").textContent = (name || "?").trim().charAt(0).toUpperCase();
 
 // ---------- Content ----------
+// Programmes and courses are files on this site. Lessons and resource cards come live from Sarah's Notion through
+// getContent (functions/sync.js, docs/notion-sync.md), so they change without a deploy. Until a source has synced,
+// and in the local preview, the files in /content stand in for it.
 const getJson = path => fetch(path, { cache: "no-cache" }).then(r => (r.ok ? r.json() : null)).catch(() => null);
-const [coursesData, programmesData] = await Promise.all([getJson("/content/courses.json"), getJson("/content/programmes.json")]);
-const allCourses = (coursesData && coursesData.courses) || [];
+const liveContent = async () => {
+  if (!user || access.preview) return null;
+  try { const b = await call("getContent"); return b && b.ok ? b : null; } catch (err) { console.warn("getContent failed", err && err.code); return null; }
+};
+const [coursesData, programmesData, resourcesData, live] = await Promise.all([
+  getJson("/content/courses.json"), getJson("/content/programmes.json"), getJson("/content/resources.json"), liveContent()
+]);
+const liveLessons = live && live.live && live.live.lessons ? live.lessons || [] : null;
+// With live lessons, a course lists whichever published lessons name it, in their Order, and shows once it has one.
+const allCourses = ((coursesData && coursesData.courses) || []).map(c => {
+  if (!liveLessons) return c;
+  const mine = liveLessons.filter(l => l.course === c.id).map(l => l.slug);
+  return { ...c, lessons: mine, status: mine.length ? "published" : c.status };
+});
 const inMembership = arm => !arm || !access.arms || access.arms === "all" || access.arms.includes(arm);
+const resources = (live && live.live && live.live.resources ? live.resources || [] : (resourcesData && resourcesData.resources) || [])
+  .filter(r => r && r.title && (r.url || r.file) && inMembership(r.arm));
 const courses = allCourses.filter(c => c.status !== "draft" && inMembership(c.arm));
 const programmes = ((programmesData && programmesData.programmes) || []).filter(p => p.status !== "draft" && inMembership(p.arm));
 const courseOf = id => courses.find(c => c.id === id);
@@ -48,7 +65,7 @@ courses.forEach(addCourse);
 // Lesson files are small, so they load together at the start; the library then knows every step count.
 const files = {};
 await Promise.all(order.map(async l => {
-  const f = await getJson(`/content/lessons/${l.slug}.json`);
+  const f = liveLessons ? liveLessons.find(x => x.slug === l.slug) : await getJson(`/content/lessons/${l.slug}.json`);
   if (f && Array.isArray(f.steps) && f.steps.length) files[l.slug] = f;
   else console.warn("Lesson not loaded", l.slug);
 }));
@@ -279,9 +296,20 @@ function openHome(push, finishedSlug) {
   }).join("");
   const toolHtml = tools.length ? `<section class="home-prog" aria-labelledby="prog-tools"><h3 class="t-title" id="prog-tools">Tools</h3>
     <p>Single lessons to use on their own, whenever you need them.</p>${tools.map(courseGroup).join("")}</section>` : "";
-  const libHtml = progHtml + toolHtml + others.map(courseGroup).join("");
+  // Resource cards: 1 per catalogue row Sarah has published. A card opens a page on the public website, or
+  // downloads a file from the library through getDownloadLink.
+  const resHtml = resources.length ? `<section class="home-prog" aria-labelledby="prog-resources"><h3 class="t-title" id="prog-resources">Resources</h3>
+    <p>Handouts, tools and workbooks to open or download.</p>
+    <ul class="home-grid">${resources.map(r => `<li><div class="lesson-card res-card">
+      <h4 class="t-heading">${esc(r.title)}</h4><p>${esc(r.summary || "")}</p>
+      <span class="lesson-meta"><span class="tag">${esc(r.kind || "Resource")}</span>${r.file
+        ? `<button class="btn" type="button" data-res-file="${esc(r.file)}">Download<span class="visually-hidden">: ${esc(r.title)}</span></button>`
+        : `<a class="btn" href="${esc(r.url)}" target="_blank" rel="noopener">Open<span class="visually-hidden">: ${esc(r.title)} (opens in a new tab)</span></a>`}</span>
+    </div></li>`).join("")}</ul>
+    <p class="msg" id="res-msg" role="status"></p></section>` : "";
+  const libHtml = progHtml + toolHtml + others.map(courseGroup).join("") + resHtml;
   $("home-body").innerHTML = renderDashboard() + (libHtml ? `<h3 class="t-title home-libhead" id="lib-title">Your library</h3>${libHtml}` : "");
-  $("home-empty").hidden = lessons.length > 0;
+  $("home-empty").hidden = lessons.length > 0 || resources.length > 0;
   const done = finishedSlug && lessons.find(l => l.slug === finishedSlug);
   $("finished-note").hidden = !done;
   if (done) $("finished-note").textContent = `You have finished ${done.file.title}. You can open it again at any time.`;
@@ -295,6 +323,8 @@ function openHome(push, finishedSlug) {
 $("home-body").addEventListener("click", e => {
   const b = e.target.closest("[data-open]");
   if (b) { openLesson(b.dataset.open, null, true); return; }
+  const f = e.target.closest("[data-res-file]");
+  if (f) { downloadFile(access, f, $("res-msg"), f.dataset.resFile); return; }
   const a = e.target.closest("[data-card]");
   if (!a) return;
   e.preventDefault();

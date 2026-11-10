@@ -1,0 +1,25 @@
+{
+  "_note": "SAMPLE CONTENT: resource cards for the local preview, and for the live site until the catalogue has synced from Notion (functions/sync.js, docs/notion-sync.md). After that the cards come from catalogue rows whose Learning Hub status is Published, and this file is not used. url: a page or file on executiveframe.co.nz. file: a path in the library bucket (npm run upload), downloaded through getDownloadLink. arm: null for every member, or an arm slug.",
+  "resources": [
+    {
+      "id": "SAMPLE-1",
+      "slug": "sample-capacity-check",
+      "title": "Capacity Check",
+      "summary": "A 5 minute check of where your capacity is today, to fill in on screen or on paper.",
+      "arm": null,
+      "kind": "Tool",
+      "url": "https://executiveframe.co.nz/executive-frame-assessment.html",
+      "sample": true
+    },
+    {
+      "id": "SAMPLE-2",
+      "slug": "sample-reset-workbook",
+      "title": "The Reset workbook",
+      "summary": "The pages that go with The Executive Frame Reset: 1 for each lesson, and your Frame plan.",
+      "arm": null,
+      "kind": "Workbook",
+      "file": "library/all/reset-workbook.pdf",
+      "sample": true
+    }
+  ]
+}

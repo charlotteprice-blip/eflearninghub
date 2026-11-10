@@ -42,6 +42,10 @@ tests/rules.test.js      Security rules tests in the emulators
 docs/                    firebase-setup.md, content-format.md, WORK-LOG.md
 ```
 
+## Content from Notion
+
+Lessons and resource cards come live from Sarah's Notion workspace: a scheduled function (`syncContent`) reads it every 15 minutes with a read only key and the viewer asks `getContent` for the result, so publishing needs no deploy. Only rows and pages Sarah marks Published are read in. `docs/notion-sync.md` has the design, the columns Sarah adds and how a lesson page is written. `npm run content -- check` shows what would be published and what is wrong, and changes nothing. Programmes and courses stay as files in `public/content`.
+
 ## Links from the website and emails
 
 Every button on executiveframe.co.nz and every link in an email points at `/start/`, so the website never needs to know who is logged in or who is a client:
@@ -64,6 +68,7 @@ npm run setup:check     what exists and what is missing in Firebase; changes not
 npm run setup           creates each missing piece, asking first
 npm run check           function tests and colour contrast
 npm run serve           local preview with sample content, no sign in
+npm run content -- check   what Notion would publish, and what is wrong; changes nothing
 npm run deploy:rules
 npm run deploy:functions
 npm run deploy:hosting

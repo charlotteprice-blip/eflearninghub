@@ -124,6 +124,7 @@ If every function fails with "missing permission on the build service account", 
 npm run upload -- test-workbook.pdf all
 npm run orgs -- add --id test-org --name "Test Org" --seats 2 --contract-end 2027-12-31
 npm run orgs -- list
+npm run content -- status  the last sync from Notion (docs/notion-sync.md)
 ```
 
 ## 7. Security rules tests

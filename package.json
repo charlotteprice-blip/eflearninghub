@@ -24,6 +24,8 @@
     "deploy": "npm test && firebase deploy --project ef-client-hub --only hosting:learning,firestore,storage:learning,functions:learning",
     "logs": "firebase functions:log --project ef-client-hub",
     "secret": "firebase functions:secrets:set STRIPE_SECRET_KEY --project ef-client-hub",
+    "secret:notion": "firebase functions:secrets:set NOTION_TOKEN --project ef-client-hub",
+    "content": "node scripts/content.mjs",
     "stripe": "node scripts/stripe.mjs",
     "orgs": "node scripts/orgs.mjs",
     "upload": "node scripts/upload.mjs",

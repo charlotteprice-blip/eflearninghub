@@ -53,6 +53,27 @@ export function latestPlan(slug) {
   return null;
 }
 
+// A library file (library/<arm>/<file>.pdf) through getDownloadLink, which checks membership and the trial
+// allowance. Used by download steps, the reader's Files list and the resource cards on Home.
+export async function downloadFile(access, button, msg, path) {
+  msg.classList.remove("ok");
+  if (access.preview) { msg.textContent = "Downloads are switched off in the local preview."; return; }
+  button.disabled = true;
+  msg.classList.add("ok");
+  msg.textContent = "Preparing your download";
+  try {
+    const res = await call("getDownloadLink", { path });
+    if (typeof res.downloadsUsed === "number") access.downloadsUsed = res.downloadsUsed;
+    msg.textContent = "Your download has started.";
+    location.assign(res.url);
+  } catch (err) {
+    msg.classList.remove("ok");
+    msg.textContent = explainCallError(err, "The file could not be prepared just now. Please try again in a moment.");
+  } finally {
+    button.disabled = false;
+  }
+}
+
 // els: { stage, bar, count, prev, next }   hooks: { onStep(i), onFinish(), onSave(state) }
 // opts: { prior } the slug of the lesson before this one, for return steps.
 export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
@@ -246,24 +267,7 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
   };
 
   // Downloads, shared with the reader's Files list.
-  async function download(button, msg) {
-    msg.classList.remove("ok");
-    if (access.preview) { msg.textContent = "Downloads are switched off in the local preview."; return; }
-    button.disabled = true;
-    msg.classList.add("ok");
-    msg.textContent = "Preparing your download";
-    try {
-      const res = await call("getDownloadLink", { path: button.dataset.file });
-      if (typeof res.downloadsUsed === "number") access.downloadsUsed = res.downloadsUsed;
-      msg.textContent = "Your download has started.";
-      location.assign(res.url);
-    } catch (err) {
-      msg.classList.remove("ok");
-      msg.textContent = explainCallError(err, "The file could not be prepared just now. Please try again in a moment.");
-    } finally {
-      button.disabled = false;
-    }
-  }
+  const download = (button, msg) => downloadFile(access, button, msg, button.dataset.file);
 
   function frameController(s, i) {
     const n = s.points.length, stepDeg = 360 / n;

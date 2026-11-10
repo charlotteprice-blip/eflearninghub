@@ -1,6 +1,6 @@
 # Redesign plan: Sarah's architecture in this app
 
-Drafted 1 November 2026 from Sarah's architecture proposal email of the same day. Approved by Charlotte on 2 November. Status: stages A, B and C built (sessions 7 to 9); D (Notion export) waits for the database to be shared, E (real content) waits for D and Sarah's review.
+Drafted 1 November 2026 from Sarah's architecture proposal email of the same day. Approved by Charlotte on 2 November. Status: stages A, B and C built (sessions 7 to 9); D is built as a live sync from Notion, not a manual export (session 11, `docs/notion-sync.md`), and waits for the Notion key, the catalogue columns and the lessons database; E (real content) waits for D and Sarah's review.
 
 ## What stays
 
@@ -87,9 +87,9 @@ The left sidebar lists the current programme's courses and lessons rather than a
 - Reflections, plans and scenario answers never leave the browser (already the rule).
 - Privacy statement: name the Google (Sydney) storage and Stripe only. No LearnWorlds DPA needed.
 
-### 6. Notion export
+### 6. Content from Notion
 
-The export script (docs/content-format.md, open item) now targets the 3 layer model. Suggested Notion properties on the resources database: Title, Slug, Type (lesson, course, programme, tool), Layer, Arm, Course, Order, Minutes, Status, Summary, Claim; 1 child block per step with a Beat select. Built once the database is shared with the connection.
+Changed on 10 November 2026: Charlotte asked for the Learning Hub to update as Sarah adds to her catalogue, so the manual export became a live sync. A scheduled function reads Sarah's workspace every 15 minutes with a read only key. The catalogue (389 rows of products and files) feeds resource cards; a separate lessons database, 1 page per lesson written step by step, feeds lessons. Only what Sarah marks Published is read in. The design, the Notion columns and the lesson page format are in `docs/notion-sync.md`.
 
 ### 7. Pricing and products
 
@@ -104,7 +104,7 @@ Each stage is 1 working session, checked with `npm run check`, `npm run serve` a
 | A | Content model and the 3 new step types, with 1 sample foundation lesson in 5 beats and 1 sample tool. The sample Autonomy topic is replaced. | `content/courses.json`, `content/programmes.json`, `content/lessons/`, `player.js`, `viewer.js`, `viewer.css`, `docs/content-format.md`, `README.md` |
 | B | The learner dashboard and the programme sidebar. | `index.html`, `viewer.js`, `viewer.css`, `layout.js` (footer lines) |
 | C | Arms, safeguards, privacy wording, the `claim` label, the suitability `check` step. | `arms.json`, `functions/core.js`, `upload.mjs`, `player.js`, `privacy/index.html`, tests |
-| D | Notion export (`scripts/notion-export.mjs`, `npm run content`), once the database is shared. | `scripts/`, `package.json`, `tasks.mjs`, `.gitignore` (imports/) |
+| D | Live sync from Notion: `syncContent` and `getContent`, `npm run content`, resource cards on Home. Built; first real run waits for the Notion key. | `functions/content.js`, `functions/sync.js`, `functions/index.js`, `scripts/content.mjs`, `viewer.js`, `player.js`, `content/resources.json`, `docs/notion-sync.md` |
 | E | Real content from Notion, PDFs uploaded, Sarah's clinical review, end to end check in test mode. | content only |
 
 Stages A to C do not need the Stripe key or the functions deploy; they run against sample content locally. Stage E needs both.

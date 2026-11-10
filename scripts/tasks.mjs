@@ -24,6 +24,12 @@ const groups = [
     ['npm run stripe -- portal', 'Cancel at period end, card updates, monthly and annual switching'],
     ['npm run secret', 'Save or replace the restricted Stripe key in Secret Manager'],
   ]],
+  ['Content from Notion (lessons and resource cards; asks for the Notion key, hidden)', [
+    ['npm run content -- check', 'Read Notion and print what would be published and what is wrong; changes nothing'],
+    ['npm run content -- sync', 'Run the 15 minute sync now, from this computer'],
+    ['npm run content -- status', 'Print the report from the last sync'],
+    ['npm run secret:notion', 'Save or replace the read only Notion key in Secret Manager'],
+  ]],
   ['Organisations and files', [
     ['npm run orgs -- list', 'Show organisations, places in use and contract end dates'],
     ['npm run orgs -- add --id ID --name "Name" --domains a.co.nz --seats 20 --contract-end 2027-06-30', 'Add or update an organisation; prints a new access code once'],
