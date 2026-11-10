@@ -1,9 +1,11 @@
 // Start (/start/): the 1 address the public website, Sarah's emails and the Client Hub send people to.
 // Logged in with an active membership: straight on to the Learning Hub, or to ?next= (a same site path such as
-// /hub/planning/). Logged in without one: the account or join page, and the Client Hub, offered side by side.
+// /hub/planning/). Logged in without one: the Client Hub's own function hasClientHub (codebase clienthub, same
+// project and region) is asked whether this login has a place there, and a client goes straight to the Client Hub.
+// Otherwise the account or join page, and the Client Hub link, are offered side by side.
 // Not logged in: 3 choices, the Client Hub, log in, or join (?arm=law carries through to Join).
-// Who is a client is never read here and never appears in an address. The Client Hub keeps that to itself;
-// the page only offers the Client Hub link to everyone alike.
+// Who is a client is never read from a database here and never appears in an address. The answer comes from the
+// Client Hub, only to the person's own browser, about themselves, and is not kept.
 import { firstUser, call, logOut, LOCAL, CLIENT_HUB } from "./app.js";
 import { $, show, params, safeNext } from "./ui.js";
 import { placeMark } from "./layout.js";
@@ -56,6 +58,14 @@ if (!user) {
   } catch (err) {
     console.warn("checkAccess failed", err && err.code);
   }
-  if (access && access.active) location.replace(NEXT);
+  if (access && access.active) { location.replace(NEXT); await new Promise(() => {}); }
+  // A member who is also a client lands in the Learning Hub above; the Client Hub is a link away.
+  let hub = false;
+  try {
+    hub = (await call("hasClientHub")).hasHub === true;
+  } catch (err) {
+    console.warn("hasClientHub failed", err && err.code);
+  }
+  if (hub) { $("loading-text").textContent = "Opening the Client Hub"; location.replace(CLIENT_HUB); }
   else member(user.email || "", access);
 }
