@@ -59,13 +59,22 @@
   --slate: #3E5680;
   --sky: #CFDAE8;
   --warm-white: #F5F3EE;
+  /* The Client Hub's names for the same 4 colours, so a component can be shared between the 2 apps */
+  --ef-navy: var(--navy);
+  --ef-slate: var(--slate);
+  --ef-sky: var(--sky);
+  --ef-warm-white: var(--warm-white);
 
   /* App theme (the default everywhere in the app) */
   --ground: #CFDAE8;
   --ink: #3E5680;
   --panel: #F5F3EE;
   --on-panel: #3E5680;
+  /* The reading ground: the warm white sheet that lessons and long text sit on, inside the sky frame */
+  --reading-ground: #F5F3EE;
+  --on-reading: #3E5680;
   --hairline: rgba(62, 86, 128, 0.25);
+  --underline: rgba(62, 86, 128, 0.40);
   --focus: #3E5680;
   --error: #8A3F34;
 
@@ -74,6 +83,19 @@
   --cta-ink: #F5F3EE;
   --cta-panel: #CFDAE8;
   --cta-on-panel: #2E4062;
+  /* The Client Hub's names for the inverted theme */
+  --inv-ground: var(--cta-ground);
+  --inv-ink: var(--cta-ink);
+  --inv-panel: var(--cta-panel);
+  --inv-on-panel: var(--cta-on-panel);
+
+  /* Status colours, as in the Client Hub (its brand/app-colours.json). A status is never colour alone: it has words. */
+  --status-done: #2F5D3A;
+  --status-done-tint: #E3ECE2;
+  --status-progress: #2E4062;
+  --status-progress-tint: #E4E9F1;
+  --status-attention: #6E4A10;
+  --status-attention-tint: #F2E8D6;
 
   /* Form fields: 2px slate border for 3:1 contrast, never the hairline */
   --field-border: 2px solid var(--slate);
@@ -83,8 +105,8 @@
   --weight-light: 300;
   --weight-regular: 400;
   --weight-medium: 500;
-  /* Body weight is 300 in the kit; set to 400 here if the heavier weight is adopted */
-  --body-weight: var(--weight-light);
+  /* Body weight is 400 for readability, as in the Client Hub. The kit's 300 is a viewer setting (text-light). */
+  --body-weight: var(--weight-regular);
 
   --type-display-size: 40px;  --type-display-line: 42px;
   --type-title-size: 28px;    --type-title-line: 32px;
@@ -115,6 +137,7 @@
   --margin-phone: 24px;
   --margin-tablet: 48px;
   --focus-ring: 2px;
+  --icon-stroke: 1.5;
   --content-max: 720px;
   --wide-max: 1040px;
 

@@ -268,12 +268,14 @@ function membershipText() {
   }
 }
 
+// Progress is a status (in progress, done); a lesson not yet opened carries the neutral tag.
+const STATE_CLASS = { going: "status status-progress", done: "status status-done" };
 function lessonCard(l) {
   const f = l.file;
   const p = progressLabel(l.slug, f.steps.length);
   return `<li><a class="lesson-card" href="/hub/${encodeURIComponent(l.slug)}/" data-card="${esc(l.slug)}">
       <h5 class="t-heading">${esc(f.title)}</h5><p>${esc(f.summary || "")}</p>
-      <span class="lesson-meta"><span class="tag">${esc(p.text)}</span>${f.minutes ? `<span class="t-caption">${esc(f.minutes)} minutes</span>` : ""}</span></a></li>`;
+      <span class="lesson-meta"><span class="${STATE_CLASS[p.state] || "tag"}">${esc(p.text)}</span>${f.minutes ? `<span class="t-caption">${esc(f.minutes)} minutes</span>` : ""}</span></a></li>`;
 }
 function courseGroup(c) {
   const ls = lessonsOf(c);
@@ -445,14 +447,14 @@ document.querySelectorAll("[data-dialog-close]").forEach(b => b.addEventListener
 
 const settings = store.get("ef-viewer-settings", {}) || {};
 const form = $("form-settings");
-form.weight.value = settings.weight || "light";
+form.weight.value = settings.weight || "regular";
 form.size.value = settings.size || "standard";
 form.motion.value = settings.motion || "device";
 form.addEventListener("change", () => {
   const s = { weight: form.weight.value, size: form.size.value, motion: form.motion.value };
   store.set("ef-viewer-settings", s);
   const c = document.documentElement.classList;
-  c.toggle("text-regular", s.weight === "regular");
+  c.toggle("text-light", s.weight === "light");
   c.toggle("text-large", s.size === "large");
   c.toggle("calm-motion", s.motion === "calm");
 });

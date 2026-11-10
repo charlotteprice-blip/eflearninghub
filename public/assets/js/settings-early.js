@@ -3,7 +3,7 @@
 try {
   var s = JSON.parse(localStorage.getItem("ef-viewer-settings") || "{}");
   var c = document.documentElement.classList;
-  if (s.weight === "regular") c.add("text-regular");
+  if (s.weight === "light") c.add("text-light");
   if (s.size === "large") c.add("text-large");
   if (s.motion === "calm") c.add("calm-motion");
 } catch (e) { /* storage unavailable: defaults apply */ }
