@@ -24,7 +24,7 @@ The app shares the Firebase project `ef-client-hub` with the Client Hub (repo `e
 ## Stripe
 
 1. Stripe work happens only in Sarah's Executive Frame Stripe account, never the Charlotte Price Consulting account. If a key, dashboard or customer looks like it belongs to Charlotte Price Consulting, stop and ask.
-2. Test keys only (`sk_test_...`, `rk_test_...`) until Charlotte says to go live. Never pass `--live` to `npm run stripe` without that instruction.
+2. Live key since 10 November 2026. On Charlotte's instruction the functions use a restricted live key (`rk_live_...`) from the Executive Frame account (`executive-frame-products`), saved as `STRIPE_SECRET_KEY`. Payments are still closed: no Learning Hub prices exist in live mode, so Checkout answers that a price is missing. Never create prices, and never pass `--live` to `npm run stripe`, until Charlotte gives the amounts and says to open payments.
 3. Prices are found by lookup key (see the comment at the top of functions/core.js), so test and live use the same code.
 
 ## Privacy

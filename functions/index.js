@@ -2,7 +2,8 @@
 // Executive Frame Learning Hub functions (codebase "learning"), project ef-client-hub, region australia-southeast1.
 // The rules are in core.js.
 // The Stripe key comes from Secret Manager (STRIPE_SECRET_KEY); it is never in this repository.
-// Test mode until launch: the secret holds a restricted test key (rk_test_...), then a live key at launch.
+// Since 10 November 2026 the secret holds a restricted live key (rk_live_...) from the Executive Frame account.
+// Payments stay closed until the prices are created in live mode (npm run stripe -- prices --live).
 
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { defineSecret } = require("firebase-functions/params");

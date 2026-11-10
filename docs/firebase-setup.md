@@ -79,6 +79,8 @@ git push
 
 ## 4. Stripe
 
+**Where this stands (10 November 2026).** Charlotte chose to skip test mode. A restricted live key (`rk_live_...`) from the Executive Frame account (`executive-frame-products`) is saved as `STRIPE_SECRET_KEY`, with the permissions below. No Learning Hub prices exist in live mode, so payments are closed: logging in works, and Checkout answers that a price is missing. Payments open when the prices are created with `--live`, which waits for Charlotte's amounts and her say so. The test mode steps below and in section 6 are kept for reference; in live mode section 6 means paying with a real card and refunding it.
+
 **Browser steps in Sarah's Executive Frame Stripe account** (never the Charlotte Price Consulting account; Stripe has no API for these):
 
 ```

@@ -472,7 +472,7 @@ const steps = [
     async check() {
       const r = look(...gc(['secrets', 'versions', 'list', CONFIG.secret, '--filter=state=ENABLED', '--format=value(name)']));
       if (r.ok && r.out) return { state: 'done' };
-      return { state: 'missing', detail: [r.ok ? 'secret exists with no enabled version' : 'secret not created yet', "use the restricted key from Sarah's Executive Frame Stripe account (test mode until launch)"] };
+      return { state: 'missing', detail: [r.ok ? 'secret exists with no enabled version' : 'secret not created yet', "use the restricted key from Sarah's Executive Frame Stripe account (live since 10 November 2026)"] };
     },
     async apply() {
       // The Firebase CLI asks for the value itself, hidden, and stores it directly.

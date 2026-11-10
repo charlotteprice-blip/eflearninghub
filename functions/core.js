@@ -1,7 +1,7 @@
 "use strict";
 // Executive Frame Learning Hub functions: the rules. index.js connects them to Cloud Functions, Stripe,
 // Firestore and Cloud Storage. Adapted from the Themescape account functions (functions/core.js there).
-// Region australia-southeast1. Stripe account: Sarah's Executive Frame account, test mode until launch.
+// Region australia-southeast1. Stripe account: Sarah's Executive Frame account, live key since 10 November 2026; no prices yet.
 //
 // checkAccess           Is this person a member, and what should the Library and Account pages show?
 //                       Read from Stripe on every call, as Themescape's membership function does.
