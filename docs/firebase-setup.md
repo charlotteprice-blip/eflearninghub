@@ -108,7 +108,7 @@ npm run deploy:functions
 npm run deploy:hosting
 ```
 
-`deploy:functions` deploys every function, so it needs both secrets to exist: the Stripe key (`npm run secret`) and the read only Notion key (`npm run secret:notion`, `docs/notion-sync.md`). To get membership working before the Notion key is ready, use `npm run deploy:functions:members`, which deploys only checkAccess, createCheckoutSession, claimSeat, createPortalSession and getDownloadLink and needs the Stripe key alone. Until those 5 are deployed, a person can log in but the viewer cannot check their membership, so it stays on its cover screen.
+`deploy:functions` needs the Stripe key to exist (`npm run secret`). Until the functions are deployed, a person can log in but the viewer cannot check their membership, so it stays on its cover screen. The Notion key is needed only once the scheduled sync is switched on (`NOTION.scheduled` in `functions/sync.js`, `docs/notion-sync.md`): Firebase asks for every secret the code declares before it deploys anything, even when 1 function is named with `--only`, and it saves whatever is typed at that prompt, in a dry run too.
 
 The functions deploy runs the function tests first, and `deploy:hosting` runs the tests and the colour contrast check. The app is then live at https://executiveframe-learninghub.web.app.
 

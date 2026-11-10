@@ -49,8 +49,7 @@ const groups = [
   ]],
   ['Deploy (always named parts, never a bare firebase deploy)', [
     ['npm run deploy:rules', 'Firestore (learninghub database) and Storage rules and indexes'],
-    ['npm run deploy:functions', 'Every Cloud Function (learning codebase); needs the Stripe key and the Notion key'],
-    ['npm run deploy:functions:members', 'Only the 5 membership functions (access, checkout, seats, billing, downloads); needs the Stripe key only'],
+    ['npm run deploy:functions', 'The Cloud Functions (learning codebase); needs the Stripe key, and the Notion key once the scheduled sync is switched on'],
     ['npm run deploy:hosting', 'The website files'],
     ['npm run deploy', 'All of the above, after every test passes'],
     ['npm run logs', 'Function logs'],

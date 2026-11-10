@@ -9,10 +9,9 @@ const { defineSecret } = require("firebase-functions/params");
 const logger = require("firebase-functions/logger");
 const { onSchedule } = require("firebase-functions/v2/scheduler");
 const { build, STRIPE_API_VERSION, ORIGINS, LOCAL } = require("./core");
-const { notionClient, runSync, readBundle } = require("./sync");
+const { notionClient, runSync, readBundle, NOTION } = require("./sync");
 
 const STRIPE_SECRET_KEY = defineSecret("STRIPE_SECRET_KEY");
-const NOTION_TOKEN = defineSecret("NOTION_TOKEN");
 const REGION = "australia-southeast1";
 // The Learning Hub shares the ef-client-hub project with the Client Hub (one login for both apps) but keeps its own
 // Firestore database and Storage bucket, so neither app can read or change the other's records.
@@ -68,18 +67,24 @@ exports.getDownloadLink = wrap("getDownloadLink");
 // Manager (NOTION_TOKEN, set with npm run secret:notion) and is never in this repository.
 
 // Every 15 minutes: read what is Published in Notion and store it in the learninghub database.
-exports.syncContent = onSchedule(
-  { schedule: "every 15 minutes", timeZone: "Pacific/Auckland", region: REGION, secrets: [NOTION_TOKEN], maxInstances: 1, retryCount: 0, timeoutSeconds: 540, memory: "256MiB" },
-  async () => {
-    const report = await runSync({ notion: notionClient(NOTION_TOKEN.value()), db: db(), now: () => new Date() });
-    const L = report.lessons, R = report.resources;
-    // Counts only: no titles, text or names in the log.
-    logger.info("syncContent", {
-      resources: R.published, resourceProblems: R.problems.length, resourcesError: R.error,
-      lessons: L.published, updated: L.updated.length, removed: L.removed.length, lessonProblems: L.problems.length, lessonsError: L.error
-    });
-  }
-);
+// Firebase asks for every secret the codebase declares before it deploys anything, even when only 1 function is
+// named. So the Notion key is declared, and the schedule exists, only once NOTION.scheduled is true (sync.js).
+// Until then the other functions deploy with the Stripe key alone.
+if (NOTION.scheduled) {
+  const NOTION_TOKEN = defineSecret("NOTION_TOKEN");
+  exports.syncContent = onSchedule(
+    { schedule: "every 15 minutes", timeZone: "Pacific/Auckland", region: REGION, secrets: [NOTION_TOKEN], maxInstances: 1, retryCount: 0, timeoutSeconds: 540, memory: "256MiB" },
+    async () => {
+      const report = await runSync({ notion: notionClient(NOTION_TOKEN.value()), db: db(), now: () => new Date() });
+      const L = report.lessons, R = report.resources;
+      // Counts only: no titles, text or names in the log.
+      logger.info("syncContent", {
+        resources: R.published, resourceProblems: R.problems.length, resourcesError: R.error,
+        lessons: L.published, updated: L.updated.length, removed: L.removed.length, lessonProblems: L.problems.length, lessonsError: L.error
+      });
+    }
+  );
+}
 
 // The published lessons and resource cards, for the viewer. Any logged in person may ask; membership is checked
 // by checkAccess before the viewer opens, as it is for the content files in public/content.

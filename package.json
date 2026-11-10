@@ -19,7 +19,6 @@
     "test": "npm run test:unit && npm run contrast && npm run test:rules",
     "emulators": "firebase emulators:start --project demo-learninghub",
     "deploy:rules": "firebase deploy --project ef-client-hub --only firestore,storage:learning",
-    "deploy:functions:members": "npm run test:unit && firebase deploy --project ef-client-hub --only functions:learning:checkAccess,functions:learning:createCheckoutSession,functions:learning:claimSeat,functions:learning:createPortalSession,functions:learning:getDownloadLink",
     "deploy:hosting": "npm run check && firebase deploy --project ef-client-hub --only hosting:learning",
     "deploy:functions": "npm run test:unit && firebase deploy --project ef-client-hub --only functions:learning",
     "deploy": "npm test && firebase deploy --project ef-client-hub --only hosting:learning,firestore,storage:learning,functions:learning",

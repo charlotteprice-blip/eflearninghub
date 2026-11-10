@@ -8,7 +8,7 @@ Built in session 11 (10 November 2026). Not yet run against the real Notion work
 
 | Part | Where | What it does |
 | --- | --- | --- |
-| `syncContent` | `functions/index.js`, every 15 minutes | Reads the 2 Notion databases with a read only key and stores what is Published in the `learninghub` database. |
+| `syncContent` | `functions/index.js`, every 15 minutes, once `NOTION.scheduled` is `true` | Reads the 2 Notion databases with a read only key and stores what is Published in the `learninghub` database. |
 | The rules | `functions/content.js` | Turns a catalogue row into a resource card and a lesson page into a lesson file. Unit tested. |
 | The run | `functions/sync.js` | Reads Notion, compares with what is stored, writes what changed, and keeps a report. |
 | `getContent` | `functions/index.js` | Hands the stored lessons and cards to the viewer. Any logged in person may call it. |
@@ -149,7 +149,7 @@ The report lists every row or page that is marked Published but left out, with t
 1. Sarah (or Charlotte as a workspace owner) creates the integration and shares the catalogue with it.
 2. Sarah adds the 3 catalogue columns and marks 1 or 2 rows Published.
 3. `npm run content -- check` until the report is clean.
-4. `npm run setup -- --only=apis` (adds Cloud Scheduler), `npm run secret:notion`, then `npm run deploy:functions` and `npm run deploy:hosting`. `deploy:functions` deploys every function together, so it needs both the Stripe key and the Notion key. If the Notion key is not ready, `npm run deploy:functions:members` deploys the 5 membership functions alone and needs the Stripe key only; if the Stripe key is not ready, the sync cannot go live yet.
+4. `npm run setup -- --only=apis` (adds Cloud Scheduler), `npm run secret:notion`, then `npm run deploy:functions` and `npm run deploy:hosting`. Set `NOTION.scheduled` to `true` in `functions/sync.js` before this deploy. It is `false` until the key is saved, so that the other functions can deploy without the Notion key: Firebase asks for every secret the code declares, whichever functions are named.
 5. `npm run content -- sync`, then open the Learning Hub and look at Resources on Home.
 6. Sarah creates Hub Lessons, shares it with the integration and writes the first lesson. Its id goes in `NOTION.lessonsDb`, then `npm run deploy:functions`.
 

@@ -18,6 +18,10 @@ const { lessonMeta, parseLesson, mapCatalogue, PUBLISHED } = require("./content"
 
 // The 2 databases in Sarah's workspace. These ids are not secret; the key is.
 const NOTION = {
+  // false: the scheduled sync (syncContent) is not deployed and the functions do not ask for the Notion key, so
+  // every other function can deploy without it. Set to true once the key is saved (npm run secret:notion), then
+  // npm run deploy:functions. npm run content -- check and -- sync work from a computer either way.
+  scheduled: false,
   catalogueDb: "1dab155b5e2e476d994f4f334b489f5b",
   // The lessons database: empty until Sarah creates it from docs/notion-sync.md. Lessons stay as the sample
   // files in public/content until then.
