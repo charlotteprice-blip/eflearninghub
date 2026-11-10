@@ -46,6 +46,10 @@ docs/                    firebase-setup.md, content-format.md, WORK-LOG.md
 
 Lessons and resource cards come live from Sarah's Notion workspace: a scheduled function (`syncContent`) reads it every 15 minutes with a read only key and the viewer asks `getContent` for the result, so publishing needs no deploy. Only rows and pages Sarah marks Published are read in. `docs/notion-sync.md` has the design, the columns Sarah adds and how a lesson page is written. `npm run content -- check` shows what would be published and what is wrong, and changes nothing. Programmes and courses stay as files in `public/content`.
 
+## Components guide
+
+`docs/design-system/components.html` shows every component of the Learning Hub and the Client Hub as each app draws it today, side by side, in every state, with the differences to settle listed at the end. It is 1 file that opens from disk. `npm run guide` rebuilds it from both apps' CSS (it needs `~/efclienthub` beside this folder) and from the samples in `docs/design-system/components.src.html`. The 10 November 2026 audit it was built from is in `docs/audits/`.
+
 ## Links from the website and emails
 
 Every button on executiveframe.co.nz and every link in an email points at `/start/`, so the website never needs to know who is logged in or who is a client:

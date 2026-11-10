@@ -30,6 +30,7 @@
     "orgs": "node scripts/orgs.mjs",
     "upload": "node scripts/upload.mjs",
     "worklog": "node scripts/worklog.mjs",
+    "guide": "node scripts/components-guide.mjs",
     "postinstall": "npm --prefix functions install --no-audit --no-fund"
   },
   "devDependencies": {
