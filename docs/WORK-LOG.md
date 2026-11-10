@@ -2,6 +2,32 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 12, 10 November 2026
+
+Commit `9889d85` on main.
+
+**Built.** 4 things after the Notion sync. (1) An impeccable audit of both hubs, run as 2 child sessions that changed no code. The Learning Hub scored 13 of 20 with 27 findings (0 P0, 8 P1); the Client Hub scored 13 of 20 with 35 findings (0 P0, 12 P1). Each report also compares the 2 apps and lists every component. (2) A shared components guide, `docs/design-system/components.html`: every component of both apps as each draws it today, side by side, in every state, with a switch for either app alone, 11 sections and a table of 22 differences to settle. `npm run guide` rebuilds it from both apps' CSS. (3) The scheduled Notion sync now sits behind a switch, `NOTION.scheduled` in `functions/sync.js`, off until the Notion key is saved, so the other functions deploy with the Stripe key alone. (4) The Stripe key is live: on Charlotte's instruction a restricted live key from the Executive Frame account (`executive-frame-products`) is saved as `STRIPE_SECRET_KEY`. No prices exist in live mode, so payments are closed.
+
+**Files changed.** New: `docs/design-system/components.html` (generated), `docs/design-system/components.src.html` (the samples), `scripts/components-guide.mjs`, `docs/audits/impeccable-learning-hub-2026-11-10.md`. Changed: `functions/index.js` and `functions/sync.js` (the switch), `functions/core.js`, `scripts/setup.mjs`, `package.json` (`guide`), `scripts/tasks.mjs`, `README.md`, `CLAUDE.md` (Stripe rule 2), `docs/firebase-setup.md`, `docs/notion-sync.md`. The Client Hub's audit is in its own repo at `docs/audits/impeccable-client-hub-2026-11-10.md`, uncommitted there.
+
+**Checked.** Function tests (27) and contrast (14 pairings) pass. The guide: built twice with the same result; the skill's checker reports all contents links and variables resolved, no outside loads, 452 KB, and 1 note (the loop's "new" state has no rule, which is the app's own design); in the browser at 1024 px all 81 samples drew with their own app's styles (pill buttons at weight 300 for the Learning Hub, 12 px buttons at weight 400 for the Client Hub), the 3 switcher settings showed 42 and 39, 42 and 0, 0 and 39 samples, no console errors and no sideways scroll. Live checks: both sites serve their pages; the shared login settings list both apps' addresses; the Client Hub's functions answer; all 6 Learning Hub functions return not found, so a person can log in there but the viewer stays on its cover screen. With the switch off the functions declare 1 secret, `STRIPE_SECRET_KEY`. Not done: the Learning Hub functions are not deployed (this session was not permitted to run the deploy), the guide was not checked at phone width by me, and the Client Hub was not rendered for the guide (its markup came from its source).
+
+**Decisions and why.**
+1. Audit first, change nothing. Charlotte asked for findings, and both apps had work in flight.
+2. The guide shows each app as it is, not a merged design. Both audits recommend the Client Hub's look as the base, because it has a written design system; which version each component takes is Charlotte's call, and the guide's last table is the list to decide from.
+3. Each sample sits in a shadow root with its own app's CSS, because the 2 apps reuse class names (`.btn`, `.panel`, `.notice`) with different rules. Forced states are generated from the apps' own hover, active and focus rules, so the guide cannot drift from them.
+4. Client Hub samples use placeholders only, with no client data or health information, real or invented.
+5. A switch for the scheduled sync, because Firebase asks for every secret a codebase declares before deploying anything, even with `--only`, and saves whatever is typed at that prompt in a dry run too. The `deploy:functions:members` script from earlier in the day did not avoid this and is removed.
+6. Live Stripe key with prices held back. Charlotte chose to skip test mode. Logging in can work without opening payments, since Checkout needs prices that do not exist yet.
+
+**Charlotte to configure.**
+- `npm run deploy:functions`, so logging in gets past the cover screen. It should ask for no key.
+- Then `npm run deploy:hosting` here and `npm run deploy:functions` in `~/efclienthub`, for the start page change from session 10.
+- Read the differences table at the end of the components guide and choose a version for each row.
+- Still waiting on Sarah: Notion workspace owner access, the 5 Learning Hub decisions, the 11 answers for the website's terms and privacy pages.
+
+**Open questions.** Which app's version each shared component takes, starting with buttons, body weight, surface colours and fields. From the Client Hub audit, for Charlotte or Sarah: flagged answers do not reach the dashboard; an admin account cannot open a questionnaire page; releasing a formulation has no confirmation or undo; the consent notice omits Splose data, formulation responses and retention; admins can see client names and emails; there is no idle sign out; 1 cleared questionnaire may have the wrong answer scale. From the Learning Hub audit: the contact email, prices and privacy statement are still placeholders a member can see. Whether the Learning Hub prices should be created in the same Stripe account as the website's workbook sales.
+
 ## Session 11, 10 November 2026
 
 Commit `cf887a1` on main.
