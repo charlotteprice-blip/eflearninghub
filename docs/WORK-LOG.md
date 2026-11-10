@@ -2,6 +2,38 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 11, 10 November 2026
+
+Commit `cf887a1` on main.
+
+**Built.** Stage D, changed from a manual Notion export to a live connection, at Charlotte's request: the Learning Hub now updates as Sarah adds to her catalogue. A scheduled function, `syncContent`, reads Sarah's Notion workspace every 15 minutes with a read only key and stores what she has marked Published in the `learninghub` database (`content/state` and `contentLessons/<slug>`). A callable, `getContent`, hands it to the viewer, so publishing needs no deploy. There are 2 sources. The catalogue (389 rows of products and files, read from a CSV export Charlotte supplied) feeds resource cards, shown in a new Resources section on Home that opens a page on executiveframe.co.nz or downloads a library file. A separate lessons database, 1 page per lesson written step by step under headings such as `Text: Why the body comes first`, feeds lessons; all 12 step types can be written that way. Until a source has synced, and in the local preview, the files in `public/content` stand in, including a new sample `resources.json`. `npm run content -- check` reads Notion and prints what would be published and what is wrong, changing nothing; `sync` runs it now; `status` prints the last report. `npm run secret:notion` saves the key. Also: a status check of the website and both apps, the missing session 10 entry, and a draft email and Claude prompt for Sarah's 5 open decisions.
+
+**Files changed.** New: `functions/content.js` (the rules), `functions/sync.js` (the Notion client and the run), `functions/test/content.test.js`, `scripts/content.mjs`, `public/content/resources.json`, `docs/notion-sync.md`. Changed: `functions/index.js` (`syncContent`, `getContent`, 1 shared database handle), `public/assets/js/viewer.js` (live content with fallback, Resources section), `player.js` (`downloadFile` shared with Home), `hub.css`, `package.json`, `scripts/tasks.mjs`, `scripts/setup.mjs` (Cloud Scheduler API), `README.md`, `CLAUDE.md`, `docs/content-format.md`, `docs/redesign-plan.md`, `docs/firebase-setup.md`.
+
+**Checked.** Function tests (27, of which 16 are new) and contrast (14 pairings) pass. The new tests cover every step type, the plain language problems for a broken page, the catalogue rules, and the run: unchanged pages are skipped, a broken edit keeps the last good lesson, unpublishing removes it, a slug cannot change, 2 pages cannot share a slug, a Notion failure changes nothing, and a dry run writes nothing. `functions/index.js` loads and registers both new functions in australia-southeast1. In the local preview: Home shows Resources with 2 sample cards, Open points at the website in a new tab, Download gives the preview message, and a lesson still opens at step 1 of 10; no console errors beyond the expected emulator check. Not done: nothing has run against the real Notion workspace, the viewer's live path (lessons and cards from `getContent`) has not been exercised in a browser, and nothing is deployed.
+
+**Decisions and why.**
+1. A publish gate, not the whole catalogue. Only 9 of 389 rows are tagged Subscriber app; the rest include internal, referrer and clinical material and rows naming organisations. Sarah marks a row Published to show it.
+2. Members read a new Hub summary column. The catalogue's Description holds internal review notes, so it is never stored or shown, and neither are prices or Drive links.
+3. Categories that say who a file was written for (patient, client, referrer) are shown as Handout or Resource.
+4. The catalogue cannot produce lessons, because a row is a title and a link to a file. Lessons get their own Notion database, read by the same key.
+5. Lessons are written in the page body under typed headings, not as a database row per step, because that is closest to how Sarah and her Claude already write.
+6. Programmes and courses stay as files in the repository. They change rarely and decide the library's shape; a course shows once it has a published lesson.
+7. A scheduled read every 15 minutes, not Notion webhooks: 1 moving part, no public endpoint, and a 15 minute wait is acceptable.
+8. Safe failure throughout: a broken edit keeps the last good version, a live slug cannot change, and an unreachable Notion changes nothing.
+9. `getContent` needs a login but does not check Stripe, matching the content files, which are public today. Tightening both to members only is a separate decision.
+10. The key is created in Sarah's workspace, read only, shared with the 2 databases only. This also removes the problem that Charlotte's Notion connection cannot see Sarah's workspace.
+
+**Charlotte to configure.**
+- Notion (needs workspace owner in Sarah's workspace): create the internal integration, read only, and share the catalogue with it (`docs/notion-sync.md`, section 1).
+- Ask Sarah to add 3 catalogue columns (Learning Hub status, Slug, Hub summary) and mark 1 or 2 rows Published.
+- Then `npm run content -- check` until the report is clean.
+- To go live: `npx firebase login --reauth`, `npm run setup -- --only=apis`, `npm run secret:notion`, `npm run deploy:functions` (also needs the Stripe key set), `npm run deploy:hosting`, `npm run content -- sync`.
+- Later: Sarah creates the Hub Lessons database; its id goes in `NOTION.lessonsDb` in `functions/sync.js`.
+- Still open from session 10: the start page deploy in both repos.
+
+**Open questions.** For Sarah, from the catalogue: S.H.I.F.T. is Stop, Hold, Focus, Take Action in the catalogue, with an Identify step flagged elsewhere; the 4th beat is Repeat in the catalogue and Return in the app; the catalogue has 14 arms and the app 9; the catalogue shows 1 Elite arm; 1 row plans the Learning Hub on LearnWorlds and another mentions Thinkific; the membership is listed at NZ$29 a month while the app shows NZ$XX. For Charlotte: whether content should be members only at the server (decision 9); whether files should copy from Drive to the library automatically; who tells Sarah when a published row is left out.
+
 ## Session 10, 10 November 2026
 
 Commit `1e75a1c` on main.
