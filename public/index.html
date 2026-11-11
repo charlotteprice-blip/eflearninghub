@@ -21,6 +21,11 @@
   <div id="cover" class="cover" role="status">
     <span class="brand-mark pulse" data-cover-mark></span>
     <p id="cover-text">Checking your membership</p>
+    <!-- Shown only if the membership check fails (viewer.js) -->
+    <div id="cover-actions" class="btn-row" hidden>
+      <button class="btn btn-primary" type="button" id="cover-retry">Try again</button>
+      <a class="btn" href="/account/">My account</a>
+    </div>
   </div>
 
   <div id="app" class="viewer-app" hidden>

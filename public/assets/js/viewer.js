@@ -14,7 +14,20 @@ import { createPlayer, progressLabel, lessonKey, loadState, latestPlan, esc, dow
 
 placeMark(document.querySelector("[data-cover-mark]"), { draw: false });
 
-const { user, access } = await requireMember({ banner: false });
+// If the membership check itself fails (a poor connection, the function down), the cover says so and offers
+// Try again, instead of staying on "Checking your membership" for ever. Nothing else on the page starts.
+let gate;
+try {
+  gate = await requireMember({ banner: false });
+} catch (err) {
+  console.warn("Membership check failed", err && err.code);
+  $("cover-text").textContent = "We could not check your membership just now. Nothing has changed.";
+  $("cover-actions").hidden = false;
+  $("cover-retry").addEventListener("click", () => location.reload());
+  $("cover-retry").focus();
+  await new Promise(() => {});
+}
+const { user, access } = gate;
 
 // ---------- Identity ----------
 const name = user ? (user.displayName || (user.email || "").split("@")[0]) : "Local preview";
