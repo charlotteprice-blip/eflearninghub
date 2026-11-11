@@ -2,6 +2,29 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 15, 12 November 2026
+
+Commit `0f58478` on main.
+
+**Built.** Brand pack 1.1 and the brand designer's review, applied to both hubs from 1 shared list of decisions. Levi Wilson agreed with the Client Hub as the base and asked for these changes: buttons are pills again in both apps; the supplied mark, lockup, favicons and app icons replace the placeholders, with Learning Hub beside the lockup as plain text after a hairline; colours come from the pack's token file, kept in the repo as `brand/ef-tokens.json` and written into `tokens.css` by `npm run tokens`; status and notice colours are the pack's application colours; a notice is 1 component with an icon and a word (Note, Done, Attention, Problem); status pills carry an icon and a word, and Not started is the neutral tag; nothing has a shadow, the sort step's drag ghost included; the mark draws on once per visit and never pulses. The library search has a visible label, the Centre in 90 seconds tool button sits on 1 line, step buttons are 44 px, and the Back and Next bar has a flat fill. `npm run check` now also fails on a stale token file, any shadow, or a colour written into a rule. In the Client Hub the same decisions were applied, the journey ring was retired for a step tracker, and the formulation drawings use tokens only. Both hubs were deployed and the live files match their repos.
+
+**Files changed.** New: `brand/ef-tokens.json`, `scripts/tokens.mjs`, the favicon and icon files at the site root, the pack's logo files in `public/assets/brand/`, `docs/audits/brand-pack-1.1-learning-hub.md`. Changed: all 4 CSS files, `layout.js`, `ui.js`, `viewer.js`, `player.js`, all 8 pages (head snippet), `scripts/check-contrast.mjs`, `scripts/serve.mjs`, `scripts/tasks.mjs`, `package.json`.
+
+**Checked.** Function tests (27) and 34 contrast pairs pass, with no shadows and no colour in a rule. The whole 11 November test pass was rerun on the branch in a headless browser at 375, 768 and 1440 px with 0 issues, and Home and Log in were looked at in the preview before the merge. Both apps were built in separate working copies so the main folders stayed safe to deploy, then merged, pushed and deployed (pages only). Live: every script, style, content and icon file on both sites matches its repo. Client Hub: 164 unit tests, 89 rules tests and 58 contrast pairs pass. Not done: the favicon as a real browser tab draws it, the home screen icon, real phones, Safari and Firefox, a real login.
+
+**Decisions and why.**
+1. Pills, reversing the 12 px corners adopted on 10 November: the guidelines and the public website use pill buttons, so a button should not change shape when someone signs in.
+2. The primary button stays navy though the pack's tokens say slate. Levi is changing the pack to navy; the override is 1 named constant in `scripts/tokens.mjs`.
+3. The pack's application colours replace the status colours chosen on 10 November, so there is 1 set for both apps and the brand.
+4. Body text stays at 400; Levi is updating the guidelines to match.
+5. No dark mode in this release, though the guidelines show one. Assumed, to be confirmed with Charlotte.
+6. On a phone the viewer header shows the app name as text and no logo: the lockup with its clear space does not fit beside the 2 header buttons at 375 px.
+7. The macron problem Levi saw (Whangārei shown with a question mark) was the email attachment, not the guide or the apps: the copy he received had every non ASCII character replaced, and the file on disk is correct.
+
+**Charlotte to configure.** Test both live hubs. Reply to Levi with the open points. Send Sarah the note on the Client Hub changes, which are live.
+
+**Open questions.** For Levi: the quiet ink colour against "no muted text colour"; the 6 px progress bar against "thin hairline"; captions at 400; centred loading screens; navy `theme-color` above a sky page; whether the lesson's loop diagram sits too close to the mark. For Charlotte and Levi: the Client Hub's client type colours against "no colour per pathway"; both hubs install as "Executive Frame"; dark mode. For Sarah: Return as a 4th stage; "the arm you joined through" in the privacy statement, where the guidelines say pathway; Home in the Client Hub without the ring.
+
 ## Session 14, 11 November 2026
 
 Commit `532708c` on main.
