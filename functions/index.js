@@ -87,15 +87,18 @@ if (NOTION.scheduled) {
   );
 }
 
-// The published lessons and resource cards, for the viewer. Any logged in person may ask; membership is checked
-// by checkAccess before the viewer opens, as it is for the content files in public/content.
+// The published lessons and resource cards, for the viewer. Members only: the caller's access is read from
+// Stripe exactly as checkAccess reads it, so a login without an active membership, trial or organisation place
+// gets nothing. The sample files in public/content are what a non member's browser could still fetch.
 let bundle = null;
-exports.getContent = onCall({ region: REGION, cors: [...ORIGINS, LOCAL], maxInstances: 5, memory: "256MiB" }, async request => {
-  if (!request.auth) throw new HttpsError("unauthenticated", "Please log in.");
+exports.getContent = onCall(options, async request => {
   try {
+    const access = await api().checkAccess(request);
+    if (!access.active) throw new HttpsError("permission-denied", "Lessons are for members. Your plan is on your Account page.");
     if (!bundle || Date.now() - bundle.at > 60 * 1000) bundle = { at: Date.now(), value: await readBundle(db()) };
     return bundle.value;
   } catch (err) {
+    if (err instanceof HttpsError) throw err;
     logger.error("getContent failed", { message: err && err.message, code: err && err.code });
     throw new HttpsError("internal", "Something went wrong.");
   }

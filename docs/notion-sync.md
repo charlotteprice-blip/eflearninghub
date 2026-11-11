@@ -11,7 +11,7 @@ Built in session 11 (10 November 2026). Not yet run against the real Notion work
 | `syncContent` | `functions/index.js`, every 15 minutes, once `NOTION.scheduled` is `true` | Reads the 2 Notion databases with a read only key and stores what is Published in the `learninghub` database. |
 | The rules | `functions/content.js` | Turns a catalogue row into a resource card and a lesson page into a lesson file. Unit tested. |
 | The run | `functions/sync.js` | Reads Notion, compares with what is stored, writes what changed, and keeps a report. |
-| `getContent` | `functions/index.js` | Hands the stored lessons and cards to the viewer. Any logged in person may call it. |
+| `getContent` | `functions/index.js` | Hands the stored lessons and cards to the viewer. Members only: it reads the caller's access from Stripe as `checkAccess` does, and refuses a login with no active membership, trial or organisation place. |
 | The viewer | `public/assets/js/viewer.js` | Uses live lessons and cards when they exist, and the files in `public/content` when they do not. |
 
 Stored in Firestore (`learninghub`), readable only by the functions:
