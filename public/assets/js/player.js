@@ -439,7 +439,13 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
     const s = lesson.steps[state.step];
     frame = null;
     state.max = Math.max(state.max, state.step);
-    stage.innerHTML = beatOf(s) + (R[s.type] || R.text)(s, state.step);
+    // A finished lesson reopens on its last step. That step then offers the way back to step 1, which on a phone is
+    // otherwise only in the closed library drawer. Answers, reflections and plans stay as they are.
+    const last = lesson.steps.length - 1;
+    const restart = state.done && state.step === last && last > 0
+      ? `<p class="hub-restart"><button class="btn" type="button" data-restart>Start from the beginning</button></p>` : "";
+    stage.innerHTML = beatOf(s) + (R[s.type] || R.text)(s, state.step) + restart;
+    if (restart) q("[data-restart]").addEventListener("click", () => go(0));
     if (A[s.type]) A[s.type](s, state.step);
     update();
     // A new step is announced once, by moving focus to its heading. The stage and the step count are not live regions.

@@ -156,6 +156,9 @@
 /* Download */
 .file-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-md); background: var(--ground); }
 
+/* Start from the beginning, on the last step of a finished lesson */
+.hub-restart { margin: var(--space-5) 0 0; }
+
 /* Summary */
 .points { margin: 0; padding-left: var(--space-5); }
 .points li + li { margin-top: var(--space-2); }
