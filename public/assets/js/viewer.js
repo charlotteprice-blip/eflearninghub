@@ -439,8 +439,8 @@ function renderReader() {
     <section class="rsec"><h3>About this lesson</h3><p>${esc(t.summary || "")}</p>
       <p class="t-caption">${esc(current.meta.course.title)}. ${t.steps.length} steps${t.minutes ? `, about ${esc(t.minutes)} minutes` : ""}${t.sample ? `. <span class="tag">Sample content</span>` : ""}</p></section>
     <section class="rsec"><h3><label for="notes">Your notes</label></h3>
-      <textarea class="input" id="notes" placeholder="Anything you want to remember from this lesson.">${esc(st.notes)}</textarea>
-      <p class="t-caption muted">Kept in this browser only.</p></section>
+      <textarea class="input" id="notes" aria-describedby="notes-hint" placeholder="Anything you want to remember from this lesson.">${esc(st.notes)}</textarea>
+      <p class="t-caption muted" id="notes-hint">Kept in this browser only.</p></section>
     <section class="rsec" id="reflections"></section>
     ${downloads.length ? `<section class="rsec"><h3>Files</h3>
       ${downloads.map(f => `<div class="rfile"><span class="t-ui">${esc(f.label)}</span><button class="btn" type="button" data-file="${esc(f.path)}">Download</button></div>`).join("")}
@@ -529,6 +529,13 @@ $("btn-logout").addEventListener("click", async () => {
 });
 
 // ---------- Keyboard ----------
+// Skip to content: past the library, straight to the heading of whatever the stage is showing. Handled here, not
+// by the link's own #main, because a change of hash would be read as a change of step.
+$("skip-link").addEventListener("click", e => {
+  e.preventDefault();
+  const h = document.querySelector("#main section:not([hidden]) h2");
+  if (h) { h.setAttribute("tabindex", "-1"); h.focus(); }
+});
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") { const menuOpen = !menu.hidden; if (menuOpen) setMenu(false); if (drawerIsOpen()) closeDrawers(); else if (menuOpen) acctBtn.focus(); return; }
   if (!current || e.altKey || e.ctrlKey || e.metaKey) return;
