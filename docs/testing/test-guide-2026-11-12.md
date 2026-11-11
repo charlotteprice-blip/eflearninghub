@@ -4,8 +4,7 @@
 
 ## Before you start
 
-- The live site is the version deployed at 9.02 pm on 11 November. Changes made after that are in the folder and committed, not live. Steps that need the newer pages say "after the next deploy".
-- To put the newer pages live, run `npm run deploy:hosting` in the `eflearninghub` folder. Nothing else needs deploying for these changes.
+- The live site was deployed again at about 10.40 pm on 11 November, after this guide was written, and now matches the folder exactly. Where a step below says "after the next deploy", that deploy has happened: the step applies now.
 - Payments are closed. No Learning Hub prices exist in Stripe, so nobody can be charged during this test.
 
 ## Part 1: the local preview
