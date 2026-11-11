@@ -49,6 +49,31 @@ export function liveClear(form) {
   });
 }
 
+// ---------- Status pills and notices (the same component and icons as the Client Hub) ----------
+const escHtml = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+// 16px stroked icons, drawn at the icon stroke token (.status svg and .notice-icon in the CSS). No colour is written
+// here: each takes the colour of its pill or notice.
+const ICON_16 = {
+  success: '<circle cx="8" cy="8" r="6.25"/><path d="M5.1 8.3l2 2 3.8-4.2"/>',
+  info: '<circle cx="8" cy="8" r="6.25"/><path d="M8 7.3v3.6M8 5.1v.01"/>',
+  warning: '<path d="M8 2.3l6.2 10.9H1.8z"/><path d="M8 6.6v3M8 11.3v.01"/>',
+  error: '<circle cx="8" cy="8" r="6.25"/><path d="M5.9 5.9l4.2 4.2M10.1 5.9l-4.2 4.2"/>',
+  progress: '<circle cx="8" cy="8" r="6.25"/><path class="fill" d="M8 1.75a6.25 6.25 0 0 1 0 12.5z"/>'
+};
+export const icon16 = (name, cls = "") => `<svg viewBox="0 0 16 16"${cls ? ` class="${cls}"` : ""} aria-hidden="true">${ICON_16[name]}</svg>`;
+// A status pill: an icon and a word on the tint of the status. Done is the pack's success colour, in progress its
+// info colour, attention its warning colour. Anything else (Not started) is the plain neutral tag with no icon.
+const STATUS_ICON = { done: "success", progress: "progress", attention: "warning" };
+export const tag = label => `<span class="tag">${escHtml(label)}</span>`;
+export const statusPill = (kind, label) => (STATUS_ICON[kind] ? `<span class="status status-${kind}">${icon16(STATUS_ICON[kind])}${escHtml(label)}</span>` : tag(label));
+// A notice: 1 component for every message. An icon and a word on the tint of its kind, never colour alone.
+// html is trusted markup written by the page, with any content already escaped.
+export const NOTICE_WORD = { info: "Note", success: "Done", warning: "Attention", error: "Problem" };
+export function notice(kind, html, { role = "", cls = "", id = "", word } = {}) {
+  const k = NOTICE_WORD[kind] ? kind : "info";
+  return `<div class="notice notice-${k}${cls ? ` ${cls}` : ""}"${id ? ` id="${id}"` : ""}${role ? ` role="${role}"` : ""}>${icon16(k, "notice-icon")}<div class="notice-body"><p class="notice-word">${escHtml(word || NOTICE_WORD[k])}</p>${html}</div></div>`;
+}
+
 export function say(id, text, ok = false) {
   const el = $(id);
   if (!el) return;

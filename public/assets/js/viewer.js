@@ -8,7 +8,7 @@
 
 import { requireMember } from "./gate.js";
 import { logOut, call } from "./app.js";
-import { $, store, params, nzDate } from "./ui.js";
+import { $, store, params, nzDate, statusPill } from "./ui.js";
 import { placeMark, SUPPORT, contactLink } from "./layout.js";
 import { createPlayer, progressLabel, lessonKey, loadState, latestPlan, esc, downloadFile } from "./player.js";
 
@@ -318,8 +318,8 @@ function membershipText() {
   }
 }
 
-// Progress is a status (in progress, done); a lesson not yet opened carries the neutral tag.
-const STATE_CLASS = { going: "status status-progress", done: "status status-done" };
+// Progress is a status pill with an icon (in progress, done); a lesson not yet opened carries the neutral tag.
+const STATE_KIND = { going: "progress", done: "done" };
 // Headings on Home: Home and Your library are h2, a programme (and Tools, Resources) h3, a course h4, a lesson card
 // h5. A card that sits straight under a programme (a resource, or a course's only lesson) is h4.
 function lessonCard(l, level = 5) {
@@ -327,7 +327,7 @@ function lessonCard(l, level = 5) {
   const p = progressLabel(l.slug, f.steps.length);
   return `<li><a class="lesson-card" href="/hub/${encodeURIComponent(l.slug)}/" data-card="${esc(l.slug)}">
       <h${level} class="t-heading">${esc(f.title)}</h${level}><p>${esc(f.summary || "")}</p>
-      <span class="lesson-meta"><span class="${STATE_CLASS[p.state] || "tag"}">${esc(p.text)}</span>${f.minutes ? `<span class="t-caption">${esc(f.minutes)} minutes</span>` : ""}</span></a></li>`;
+      <span class="lesson-meta">${statusPill(STATE_KIND[p.state], p.text)}${f.minutes ? `<span class="t-caption">${esc(f.minutes)} minutes</span>` : ""}</span></a></li>`;
 }
 function courseGroup(c) {
   const ls = lessonsOf(c);
@@ -372,10 +372,10 @@ function openHome(push, finishedSlug) {
   // 13: a failed payment or a cancelled plan is said on Home itself, with the way to fix it
   const warn = access.state === "past_due" || (access.state === "active" && access.cancelAtPeriodEnd);
   $("member-note").hidden = !warn;
-  if (warn) $("member-note").innerHTML = `${esc(membershipText())} <a href="/account/">Open My account</a>`;
+  if (warn) $("member-text").innerHTML = `${esc(membershipText())} <a href="/account/">Open My account</a>`;
   const done = finishedSlug && lessons.find(l => l.slug === finishedSlug);
   $("finished-note").hidden = !done;
-  if (done) $("finished-note").textContent = `You have finished ${done.file.title}. You can open it again at any time.`;
+  if (done) $("finished-text").textContent = `You have finished ${done.file.title}. You can open it again at any time.`;
   showSection("home");
   renderLibrary();
   renderReader();

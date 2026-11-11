@@ -119,9 +119,13 @@
           <h1 id="org-title" class="t-title" tabindex="-1"><span id="org-name">Your organisation</span> provides your access</h1>
           <p>Your work email matches an organisation with places in the Learning Hub. There is nothing to pay.</p>
         </div>
-        <div id="org-verify" class="notice stack" hidden>
+        <div id="org-verify" class="notice notice-warning" hidden>
+          <svg class="notice-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.3l6.2 10.9H1.8z"/><path d="M8 6.6v3M8 11.3v.01"/></svg>
+          <div class="notice-body">
+          <p class="notice-word">Attention</p>
           <p><strong>Please confirm your email address first.</strong> We have sent a link to <span id="org-verify-email"></span>. Open it, then come back and press Continue.</p>
           <button id="btn-resend" class="btn btn-quiet" type="button">Send the link again</button>
+          </div>
         </div>
         <p id="org-msg" class="msg" role="alert"></p>
         <div class="btn-row">

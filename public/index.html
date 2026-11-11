@@ -92,8 +92,14 @@
               <h2 id="home-title" class="t-display" tabindex="-1">Home</h2>
               <p id="home-note">Pick up where you left off, or choose any lesson from your library. Your place is kept on this device.</p>
               <!-- A payment that failed, or a cancelled plan: shown here at every width (the header line is hidden on phones) -->
-              <p id="member-note" class="notice" hidden></p>
-              <p id="finished-note" class="notice" role="status" hidden></p>
+              <div id="member-note" class="notice notice-warning" hidden>
+                <svg class="notice-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.3l6.2 10.9H1.8z"/><path d="M8 6.6v3M8 11.3v.01"/></svg>
+                <div class="notice-body"><p class="notice-word">Attention</p><p id="member-text"></p></div>
+              </div>
+              <div id="finished-note" class="notice notice-success" role="status" hidden>
+                <svg class="notice-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.25"/><path d="M5.1 8.3l2 2 3.8-4.2"/></svg>
+                <div class="notice-body"><p class="notice-word">Done</p><p id="finished-text"></p></div>
+              </div>
             </div>
             <div id="home-body"></div>
             <p id="home-empty" class="panel" hidden>New lessons are on their way. Please check back soon.</p>

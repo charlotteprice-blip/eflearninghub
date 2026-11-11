@@ -205,10 +205,19 @@ ef-footer { display: block; }
 @keyframes ef-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 /* Notices */
-/* A notice has a 4 px edge, so it shows on any ground: warm white on sky, sky inside a panel or on the reading ground */
-.notice { border-radius: var(--radius-md); padding: var(--space-4); background: var(--panel); color: var(--on-panel); border-left: 4px solid var(--slate); }
-.panel .notice, .stage-wrap .notice, .vdialog .notice { background: var(--ground); color: var(--ink); }
-.notice-error { border-left-color: var(--error); }
+/* 1 component for every message: an icon and a word, on the tint of its kind (the brand pack's application
+   colours). Never colour alone. The same component as the Client Hub. Build it with notice() in ui.js, or write the
+   same markup in the page. */
+.notice { --notice-colour: var(--info); display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-4); border-radius: var(--radius-md); background: var(--info-tint); color: var(--ink); }
+.notice-success { --notice-colour: var(--success); background: var(--success-tint); }
+.notice-warning { --notice-colour: var(--warning); background: var(--warning-tint); }
+.notice-error { --notice-colour: var(--error); background: var(--error-tint); }
+.notice-icon { flex: none; width: 16px; height: 16px; margin-top: 3px; color: var(--notice-colour); fill: none; stroke: currentColor; stroke-width: var(--icon-stroke); stroke-linecap: round; stroke-linejoin: round; }
+.notice-body { flex: 1 1 auto; min-width: 0; }
+.notice-body > * { margin: 0; }
+.notice-body > * + * { margin-top: var(--space-2); }
+.notice-word { color: var(--notice-colour); font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); }
+.notice:focus { outline: none; }
 
 /* Loading state */
 .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-4); min-height: 40vh; text-align: center; }

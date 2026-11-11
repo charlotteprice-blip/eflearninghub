@@ -41,11 +41,15 @@
 .lesson-card .t-heading { margin: 0; }
 .lesson-card p { margin: 0; }
 .lesson-meta { margin-top: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); }
-/* .tag is a neutral label for a kind of thing (Tool, Workbook, Sample content). It sits on sky, so it is warm white. */
-.tag { display: inline-flex; align-items: center; min-height: 28px; padding: 0 var(--space-3); border-radius: var(--radius-pill); background: var(--panel); color: var(--on-panel); font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); }
+/* .tag is a neutral label with no icon: a kind of thing (Tool, Workbook, Sample content) and Not started. Warm white,
+   with a hairline so it also shows on warm white. */
+.tag { display: inline-flex; align-items: center; min-height: 28px; padding: 0 var(--space-3); border: 1px solid var(--hairline); border-radius: var(--radius-pill); background: var(--panel); color: var(--on-panel); font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); white-space: nowrap; }
 
-/* .status says how far along something is, as in the Client Hub: words always, colour as well */
-.status { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 28px; padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); white-space: nowrap; }
+/* .status says how far along something is, as in the Client Hub: a 16px icon and a word on the tint of the status.
+   Build it with statusPill() in ui.js. */
+.status { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 28px; padding: var(--space-1) var(--space-3) var(--space-1) var(--space-2); border-radius: var(--radius-pill); font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); white-space: nowrap; }
+.status svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: var(--icon-stroke); stroke-linecap: round; stroke-linejoin: round; }
+.status svg .fill { fill: currentColor; stroke: none; }
 .status-done { background: var(--status-done-tint); color: var(--status-done); }
 .status-progress { background: var(--status-progress-tint); color: var(--status-progress); }
 .status-attention { background: var(--status-attention-tint); color: var(--status-attention); }
@@ -139,6 +143,7 @@
 .scen-fb.best { border-left-color: var(--ink); }
 .scen-fb:focus { outline: none; }
 .scen-fb .support-line { margin: var(--space-3) 0 0; }
+.hub-step .notice + .field-hint { margin-top: var(--space-3); }
 
 /* Scope and crisis lines under every lesson: full strength ink, as this is the line a learner may need most */
 .lesson-foot { margin: var(--space-4) 0 0; padding: 0 var(--space-2); }

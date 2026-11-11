@@ -9,7 +9,7 @@
 // Progress, answers, reflections, plans and notes stay in this browser under ef-hub-<slug>. Nothing is sent anywhere.
 
 import { call, explainCallError } from "./app.js";
-import { store } from "./ui.js";
+import { store, notice } from "./ui.js";
 import { SUPPORT, contactLink } from "./layout.js";
 
 export const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -108,7 +108,7 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
             <button type="button" class="scen-opt" data-opt="${k}" aria-pressed="${picked === k}">${esc(o.text)}</button>
             ${picked === k ? `<div class="scen-fb${o.best ? " best" : ""}" tabindex="-1" data-fb>${esc(o.feedback)}</div>` : ""}
           </div>`).join("")}</div>
-        ${chosen && s.closing ? `<p class="notice">${esc(s.closing)}</p>` : ""}
+        ${chosen && s.closing ? notice("info", `<p>${esc(s.closing)}</p>`) : ""}
         <p class="field-hint">Choose a response to read what tends to follow. You can try each one. Nothing is scored or sent anywhere.</p>`;
     },
     // A suitability self check. The answer is kept like a scenario choice; Next is never blocked.
@@ -216,7 +216,7 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
               <ul class="sort-list">${s.items.map((_, k) => k).filter(k => st.at[k] === c.id).map(item).join("")}</ul>
             </div>`).join("")}</div>
           ${answerable ? `<div class="btn-row"><button class="btn" type="button" data-check ${inPool.length ? "disabled" : ""}>Check my groups</button></div>` : ""}
-          ${st.checked && s.feedback ? `<p class="notice">${esc(s.feedback)}</p>` : ""}
+          ${st.checked && s.feedback ? notice("info", `<p>${esc(s.feedback)}</p>`) : ""}
         </div>`;
     }
   };
