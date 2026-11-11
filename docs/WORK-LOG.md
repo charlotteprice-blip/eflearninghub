@@ -2,6 +2,33 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 13, 10 and 11 November 2026
+
+Commit `9241e53` on main (the last of the session's app commits; the first is `5484d43`).
+
+**Built.** (1) The Learning Hub's look brought into line with the Client Hub's, as both audits recommended: a sky frame around a warm white reading sheet, 12 px filled buttons, body text at 400 with the lighter weight as a setting, warm white fields, edged notices, no shadows, status pills for progress. (2) 19 of the audit's 27 findings fixed, 5 partly, 1 closed by the alignment and 2 left for a decision; the record is `docs/audits/fixes-learning-hub-2026-11-11.md`. The Back and Next bar no longer covers lesson text, quiet text is a solid colour that passes contrast, hidden columns leave the tab order, a failed membership check says so with Try again, and load failures, payment problems and saved writing are all said on the page. (3) `getContent` is for members only: it reads access from Stripe as `checkAccess` does. (4) The contact email is `consultant@sarahanticich.co.nz` and the join page shows NZ$29 a month; annual and partner amounts stay marked as placeholders. (5) The components guide was sent to Levi Wilson for review as it stood before the alignment (kept as `components-before-alignment-2026-11-10.html`), then its notes were brought in line: 15 things still different between the apps, 21 settled. (6) In the Client Hub, on the branch `audit-fixes-2026-11-10` and not merged: 25 of 35 findings fixed, 6 partly, 4 left, plus Charlotte's 5 decisions (confirmation before releasing a formulation, idle log out at 30 minutes, no client names or emails for admin, scoring rules closed to clients, the contact email). Its record is in that repo.
+
+**Files changed.** Learning Hub: `public/assets/css/` (all 4 files), `public/assets/js/` (`viewer.js`, `player.js`, `join.js`, `login.js`, `layout.js`, `gate.js`, `settings-early.js`), `public/index.html` and the start, join, login and account pages, `public/content/plans.json`, `functions/index.js`, `scripts/check-contrast.mjs`, `docs/notion-sync.md`, `docs/design-system/` (guide, source, the snapshot), `docs/audits/fixes-learning-hub-2026-11-11.md`. Client Hub: 15 commits on its branch only.
+
+**Checked.** Function tests (27) and every contrast pair pass, with new pairs for the status colours and the quiet ink. The alignment was looked at in the preview: Home, 3 lessons, the settings dialog, the account menu, join, login with an error, and Home with the drawer at phone width. The fixes were checked in a headless browser at 1440, 768, 375 and 320 px, walking all 3 sample lessons to the end with an answer chosen on every scenario. Live: all 6 Learning Hub functions and the Client Hub's `hasClientHub` answer; the live pages match the folder as deployed at 9.02 pm on 11 November. Client Hub branch: 146 unit tests, 89 rules tests and 35 contrast pairs pass, checked in its local harness as client, practitioner and admin. Not done: real touch, real screen readers, Safari and Firefox, the sort, workshop and download steps, and the live path through `getContent` with a real member. The last 7 Learning Hub fixes are pushed but not deployed.
+
+**Decisions and why.**
+1. The Client Hub's look is the base, because it has a written design system. Kept from the Learning Hub: buttons as wide as their label, the pressed state, the 3 column viewer, the settings dialog and the segmented control.
+2. A lesson is read straight on the warm white sheet, not inside a tinted card, so its sky pieces (a situation, a notice, a plan) stand out.
+3. Lessons are locked to members at the server (Charlotte, 11 November). It costs about 1 second when the viewer opens.
+4. NZ$29 a month is shown before the price exists in Stripe (Charlotte). Checkout still answers that a price is missing, so nobody can be charged.
+5. The Client Hub fixes stay on a branch until Charlotte has reviewed them (her choice), because it is the clinical app.
+6. An idle log out never sends anything on a client's behalf. An unsent formulation comment is let go, not sent to the practitioner and not kept in the browser.
+7. A deploy sends the folder, not the commits. Both hubs were deployed with work in progress in the folder. Nothing harmful went out (4 working Learning Hub edits; 1 additive Client Hub function), and the fix runs were then told to commit each fix as soon as it is checked. The Client Hub folder is back on `main`.
+
+**Charlotte to configure.**
+- `npm run deploy:hosting` for the last 7 Learning Hub fixes.
+- Review the Client Hub branch before it is merged. When it is deployed the order matters: functions, then pages, then rules.
+- Stripe prices, once the monthly, annual and partner amounts are confirmed.
+- Still waiting on Sarah: Notion workspace owner access, the 5 Learning Hub decisions, the 11 website answers. On Levi: his review of the guide, and the supplied brand mark files.
+
+**Open questions.** Learning Hub: whether a finished lesson reopens at step 1; whether `consultant@sarahanticich.co.nz` is right for privacy requests; Join the library or Join the Learning Hub; what the Larger text setting should do in both hubs; grey example text in fields sits a little under the contrast minimum in both hubs. Client Hub: the questionnaire with the doubtful answer scale; the consent wording, which may want lines on admin access and idle log out; whether a later questionnaire moves the journey back; clinical terms on the client's formulation; an urgent help line for a client whose answer is flagged; older history entries in the live database that still hold client names.
+
 ## Session 12, 10 November 2026
 
 Commit `9889d85` on main.
