@@ -184,27 +184,60 @@ const vmain = $("vmain");
 const layout = store.get("ef-viewer-layout", {}) || {};
 vmain.classList.toggle("lfold", !!layout.l);
 vmain.classList.toggle("rfold", !!layout.r);
+// A column that cannot be seen cannot be reached either: inert takes it out of the tab order and away from screen
+// readers. On a computer that is a folded column; on a phone, a closed drawer. While a drawer is open, the header
+// and the stage behind it are inert, so the keyboard stays inside the drawer until it closes.
+const narrow = window.matchMedia("(max-width: 899px)");
+function syncInert() {
+  const n = narrow.matches;
+  const lopen = n && vmain.classList.contains("lopen"), ropen = n && vmain.classList.contains("ropen");
+  $("lside").inert = n ? !lopen : vmain.classList.contains("lfold");
+  $("rcol").inert = n ? !ropen : vmain.classList.contains("rfold");
+  $("main").inert = lopen || ropen;
+  document.querySelector(".vtop").inert = lopen || ropen;
+}
 function fold(side, on) {
   vmain.classList.toggle(side + "fold", on);
   layout[side] = on;
   store.set("ef-viewer-layout", layout);
+  syncInert();
   const target = on ? document.querySelector(`[data-unfold="${side}"]`) : document.querySelector(`[data-fold="${side}"]`);
   if (target) target.focus();
 }
 document.querySelectorAll("[data-fold]").forEach(b => b.addEventListener("click", () => fold(b.dataset.fold, true)));
 document.querySelectorAll("[data-unfold]").forEach(b => b.addEventListener("click", () => fold(b.dataset.unfold, false)));
-function drawer(side, open) {
+// Opening a drawer moves focus to its close button. Closing it hands focus back to the header button that opened it,
+// unless the caller is about to move focus somewhere else (a lesson or a step was chosen).
+let drawerOpener = null, drawerTimer = null;
+function drawer(side, open, returnFocus = true) {
+  // The slide is only animated while a drawer opens or closes, so the columns do not sweep across the page when
+  // the window crosses 900px (a resize, or a tablet turned round).
+  vmain.classList.add("drawer-moving");
+  clearTimeout(drawerTimer);
+  drawerTimer = setTimeout(() => vmain.classList.remove("drawer-moving"), 400);
   vmain.classList.toggle("lopen", side === "l" && open);
   vmain.classList.toggle("ropen", side === "r" && open);
   $("open-lside").setAttribute("aria-expanded", String(side === "l" && open));
   $("open-rcol").setAttribute("aria-expanded", String(side === "r" && open));
-  if (open) { const panel = side === "l" ? $("lside") : $("rcol"); const f = panel.querySelector("input, button"); if (f) f.focus(); }
+  syncInert();
+  if (open) {
+    drawerOpener = $(side === "l" ? "open-lside" : "open-rcol");
+    const close = (side === "l" ? $("lside") : $("rcol")).querySelector("[data-close]");
+    if (close) close.focus();
+  } else {
+    if (returnFocus && drawerOpener) drawerOpener.focus();
+    drawerOpener = null;
+  }
 }
-const closeDrawers = () => { if (vmain.classList.contains("lopen") || vmain.classList.contains("ropen")) drawer(null, false); };
+const drawerIsOpen = () => vmain.classList.contains("lopen") || vmain.classList.contains("ropen");
+const closeDrawers = (returnFocus = true) => { if (drawerIsOpen()) drawer(null, false, returnFocus); };
 $("open-lside").addEventListener("click", () => drawer("l", !vmain.classList.contains("lopen")));
 $("open-rcol").addEventListener("click", () => drawer("r", !vmain.classList.contains("ropen")));
-document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", () => { drawer(null, false); $(b.dataset.close === "l" ? "open-lside" : "open-rcol").focus(); }));
-$("scrim").addEventListener("click", closeDrawers);
+document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", () => closeDrawers()));
+$("scrim").addEventListener("click", () => closeDrawers());
+// Crossing between the phone and computer layouts: a drawer left open would keep the stage inert, so it is closed.
+narrow.addEventListener("change", () => { closeDrawers(false); vmain.classList.remove("drawer-moving"); syncInert(); });
+syncInert();
 
 // ---------- Views ----------
 let current = null; // { lesson (the file), meta, player }
@@ -250,11 +283,12 @@ function renderLibrary() {
 $("find").addEventListener("input", renderLibrary);
 $("lesson-list").addEventListener("click", e => {
   const t = e.target.closest("[data-lesson]");
-  if (t) { openLesson(t.dataset.lesson, null, true); closeDrawers(); return; }
+  // The drawer closes first, so the stage is no longer inert when focus moves to the new heading.
+  if (t) { closeDrawers(false); openLesson(t.dataset.lesson, null, true); return; }
   const s = e.target.closest("[data-step]");
-  if (s && current) { current.player.go(Number(s.dataset.step)); closeDrawers(); }
+  if (s && current) { closeDrawers(false); current.player.go(Number(s.dataset.step)); }
 });
-$("go-home").addEventListener("click", () => { openHome(true); closeDrawers(); });
+$("go-home").addEventListener("click", () => { closeDrawers(false); openHome(true); });
 document.querySelectorAll("[data-home]").forEach(b => b.addEventListener("click", () => openHome(true)));
 
 function membershipText() {
@@ -423,7 +457,7 @@ function renderReflections() {
     <div class="refl"><q>${esc(x.s.type === "plan" ? x.s.heading : x.s.prompt)}</q>
       ${answer(x)}
       ${st.step !== x.i ? `<button class="btn btn-quiet" type="button" data-goto="${x.i}">Open this step</button>` : ""}</div>`).join("")}`;
-  box.querySelectorAll("[data-goto]").forEach(b => b.addEventListener("click", () => { current.player.go(Number(b.dataset.goto)); closeDrawers(); }));
+  box.querySelectorAll("[data-goto]").forEach(b => b.addEventListener("click", () => { closeDrawers(false); current.player.go(Number(b.dataset.goto)); }));
 }
 
 // ---------- Account menu ----------
@@ -444,10 +478,17 @@ menu.addEventListener("keydown", e => {
 });
 
 // ---------- Dialogs ----------
-const openDialog = id => { setMenu(false); closeDrawers(); $(id).showModal(); };
+// A dialog opened from inside a drawer closes that drawer, so the button that opened the dialog is no longer there
+// to take focus back. Focus goes to the header button that opened the drawer instead.
+let dialogReturn = null;
+const openDialog = id => { setMenu(false); dialogReturn = drawerIsOpen() ? drawerOpener : null; closeDrawers(false); $(id).showModal(); };
 $("btn-help").addEventListener("click", () => openDialog("dlg-help"));
 $("menu-help").addEventListener("click", () => openDialog("dlg-help"));
 document.querySelectorAll("[data-dialog-close]").forEach(b => b.addEventListener("click", () => b.closest("dialog").close()));
+document.querySelectorAll("dialog.vdialog").forEach(d => d.addEventListener("close", () => {
+  if (dialogReturn) dialogReturn.focus();
+  dialogReturn = null;
+}));
 
 const settings = store.get("ef-viewer-settings", {}) || {};
 const form = $("form-settings");
@@ -476,7 +517,7 @@ $("btn-logout").addEventListener("click", async () => {
 
 // ---------- Keyboard ----------
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") { closeDrawers(); if (!menu.hidden) { setMenu(false); acctBtn.focus(); } return; }
+  if (e.key === "Escape") { const menuOpen = !menu.hidden; if (menuOpen) setMenu(false); if (drawerIsOpen()) closeDrawers(); else if (menuOpen) acctBtn.focus(); return; }
   if (!current || e.altKey || e.ctrlKey || e.metaKey) return;
   if (document.querySelector("dialog[open]") || e.target.closest("input, textarea, select, [contenteditable], [role=menu]")) return;
   if (e.key === "ArrowRight") { e.preventDefault(); current.player.next(); }
