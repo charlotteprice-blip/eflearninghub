@@ -168,13 +168,13 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
       });
       return `<h2 class="t-title">${esc(s.heading)}</h2>${s.intro ? `<p>${esc(s.intro)}</p>` : ""}
         <div class="frame">
-          <svg class="frame-svg" data-frame-svg viewBox="-150 -150 300 300" aria-label="${esc(s.heading)}, ${n} points. Drag to turn, or select a point.">
+          <svg class="frame-svg" data-frame-svg viewBox="-150 -150 300 300" role="group" aria-label="${esc(s.heading)}, ${n} points. Drag to turn, or select a point.">
             <circle class="frame-ring" r="128"></circle>
             <g class="frame-rotor" data-rotor>
               <polygon class="frame-edge" points="${pts.map(p => `${p.x},${p.y}`).join(" ")}"></polygon>
               ${pts.map((p, k) => `
                 <g class="frame-node" data-node="${k}" transform="translate(${p.x} ${p.y})" role="button" tabindex="0" aria-label="${esc(p.label)}">
-                  <g class="frame-node-inner"><circle r="40"></circle><text>${esc(p.label)}</text></g>
+                  <g class="frame-node-inner"><circle class="frame-focus" r="46"></circle><circle r="40"></circle><text>${esc(p.label)}</text></g>
                 </g>`).join("")}
             </g>
           </svg>
@@ -286,7 +286,7 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
       const target = -k * stepDeg;
       angle = target + 360 * Math.round((angle - target) / 360);
       apply();
-      nodes.forEach((nd, j) => nd.setAttribute("aria-current", String(j === k)));
+      nodes.forEach((nd, j) => nd.setAttribute("aria-pressed", String(j === k)));
       const p = s.points[k];
       q("[data-frame-panel]").innerHTML = `<p class="t-caption">${k + 1} of ${n}</p><h3 class="t-heading">${esc(p.label)}</h3><p>${esc(p.body)}</p>
         ${k === 0 ? `<p class="frame-hint t-caption muted">Turn the shape by dragging it, or press Next.</p>` : ""}`;

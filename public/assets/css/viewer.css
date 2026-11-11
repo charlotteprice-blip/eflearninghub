@@ -120,7 +120,9 @@ dialog.vdialog::backdrop { background: rgba(46, 64, 98, 0.45); }
 .seg span { display: inline-flex; align-items: center; min-height: var(--touch-min); padding: 0 var(--space-4); font-size: var(--type-ui-size); cursor: pointer; }
 .seg label + label span { border-left: 1px solid var(--hairline); }
 .seg input:checked + span { background: var(--cta-ground); color: var(--cta-ink); }
+/* The ring is drawn inside the option. On the chosen (navy) option it is warm white, as slate on navy cannot be seen. */
 .seg input:focus-visible + span { outline: var(--focus-ring) solid var(--focus); outline-offset: -4px; }
+.seg input:checked:focus-visible + span { outline-color: var(--cta-ink); }
 
 /* Viewer settings applied to the page */
 :root.text-light { --body-weight: var(--weight-light); }

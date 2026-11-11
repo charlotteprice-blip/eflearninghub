@@ -81,10 +81,12 @@
 .frame-node-inner { transform-box: fill-box; transform-origin: center; transition: transform calc(var(--motion-duration) * 3) var(--motion-ease); }
 .frame-node circle { fill: var(--panel); stroke: var(--ink); stroke-width: 2; transition: fill var(--motion-duration) var(--motion-ease); }
 .frame-node text { fill: var(--ink); font-family: var(--font); font-size: 14px; font-weight: var(--weight-medium); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
-.frame-node[aria-current="true"] circle { fill: var(--ink); }
-.frame-node[aria-current="true"] text { fill: var(--panel); }
+.frame-node[aria-pressed="true"] circle { fill: var(--ink); }
+.frame-node[aria-pressed="true"] text { fill: var(--panel); }
+/* Focus is a separate ring outside the point, with a gap, so it shows on a filled point as well as an empty one */
+.frame-node circle.frame-focus { fill: none; stroke: none; }
 .frame-node:focus-visible { outline: none; }
-.frame-node:focus-visible circle { stroke-width: 4; stroke: var(--focus); }
+.frame-node:focus-visible circle.frame-focus { stroke: var(--focus); stroke-width: var(--focus-ring); }
 .frame-panel { background: var(--ground); border-radius: var(--radius-md); padding: var(--space-5); }
 .frame-panel h3 { margin-bottom: var(--space-2); }
 .frame-hint { margin-top: var(--space-3); }
