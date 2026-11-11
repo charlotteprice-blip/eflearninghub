@@ -18,6 +18,9 @@ placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
 
 function go(view, focusId) {
   show(VIEWS, view, focusId);
+  // The page title follows the step, so a screen reader or a browser tab says where the person is
+  const h = $(view) && $(view).querySelector("h1");
+  document.title = `${h ? h.textContent.trim().replace(/\s+/g, " ") : "Join"} | Executive Frame Learning Hub`;
   const n = STEP[view];
   $("dots").hidden = !n;
   document.querySelectorAll("[data-dot]").forEach(d => {
@@ -129,7 +132,7 @@ $("btn-show").addEventListener("click", () => {
   const showing = p.type === "text";
   p.type = showing ? "password" : "text";
   $("btn-show").textContent = showing ? "Show" : "Hide";
-  $("btn-show").setAttribute("aria-pressed", String(!showing));
+  // The name says what the button will do next, so it carries no pressed state as well
   $("btn-show").setAttribute("aria-label", showing ? "Show password" : "Hide password");
 });
 

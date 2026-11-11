@@ -46,16 +46,20 @@ $("btn-show").addEventListener("click", () => {
   const showing = p.type === "text";
   p.type = showing ? "password" : "text";
   $("btn-show").textContent = showing ? "Show" : "Hide";
+  // The name says what the button will do next, so it carries no pressed state as well
   $("btn-show").setAttribute("aria-label", showing ? "Show password" : "Hide password");
-  $("btn-show").setAttribute("aria-pressed", String(!showing));
 });
 
 $("btn-forgot").addEventListener("click", () => {
   $("reset-email").value = $("email").value.trim();
   say("reset-msg", "");
   show(VIEWS, "v-reset", "reset-title");
+  document.title = "Reset your password | Executive Frame Learning Hub";
 });
-$("btn-back").addEventListener("click", () => show(VIEWS, "v-login", "login-title"));
+$("btn-back").addEventListener("click", () => {
+  show(VIEWS, "v-login", "login-title");
+  document.title = "Log in | Executive Frame Learning Hub";
+});
 
 $("form-reset").addEventListener("submit", async e => {
   e.preventDefault();

@@ -503,6 +503,8 @@ menu.addEventListener("keydown", e => {
   if (e.key === "ArrowDown") { e.preventDefault(); items[(i + 1) % items.length].focus(); }
   if (e.key === "ArrowUp") { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
   if (e.key === "Escape") { setMenu(false); acctBtn.focus(); }
+  // Tabbing out of the menu closes it, so it is not left open behind the focus
+  if (e.key === "Tab") setMenu(false);
 });
 
 // ---------- Dialogs ----------
