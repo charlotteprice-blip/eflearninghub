@@ -235,8 +235,9 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
         state.scenario[i] = Number(b.dataset.opt);
         save();
         render(false);
+        // Focus goes to the feedback, and it is scrolled clear of the Back and Next bar (scroll-padding on the sheet).
         const fb = q("[data-fb]");
-        if (fb) fb.focus({ preventScroll: false });
+        if (fb) { fb.focus({ preventScroll: true }); fb.scrollIntoView({ block: "nearest" }); }
       });
     },
     check: (s, i) => A.scenario(s, i),

@@ -350,12 +350,16 @@ function openLesson(slug, step, push) {
   const lesson = meta.file;
   header(lesson.title, lesson.summary);
   showSection("lesson");
+  // onStep also runs when a step redraws in place (a scenario choice, a sorted item), so the sheet only goes back
+  // to the top when the step itself changes. Otherwise the page would jump away from what the learner just chose.
+  let shownStep = null;
   const player = createPlayer(lesson, access, { stage: $("stage"), bar: $("bar"), count: $("count"), prev: $("btn-prev"), next: $("btn-next") }, {
     onStep: i => {
       history.replaceState(null, "", `/hub/${lesson.slug}/#step-${i + 1}`);
       renderLibrary();
       renderReflections();
-      $("main").scrollTop = 0;
+      if (i !== shownStep) $("main").scrollTop = 0;
+      shownStep = i;
     },
     onSave: () => renderReflections(),
     onFinish: () => openHome(true, lesson.slug)

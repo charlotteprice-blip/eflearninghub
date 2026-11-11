@@ -69,14 +69,17 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .acctmenu .navbtn:hover { background: rgba(207, 218, 232, 0.55); }
 
 /* Middle: stage */
-.stage-wrap { flex: 1; min-width: 0; min-height: 0; overflow: auto; background: var(--reading-ground); color: var(--on-reading); position: relative; border-radius: var(--radius-lg) var(--radius-lg) 0 0; box-shadow: inset 0 1px 0 var(--hairline), inset 1px 0 0 var(--hairline), inset -1px 0 0 var(--hairline); }
+/* The shared main rule in base.css pads the page; here main is the scrolling sheet, so that padding would hold the
+   sticky Back and Next bar 64px above the bottom, on top of the lesson text. The sheet's own padding is on .stage-in.
+   scroll-padding keeps anything scrolled or focused into view clear of the bar. */
+.stage-wrap { flex: 1; min-width: 0; min-height: 0; overflow: auto; padding: 0; scroll-padding-bottom: 112px; background: var(--reading-ground); color: var(--on-reading); position: relative; border-radius: var(--radius-lg) var(--radius-lg) 0 0; box-shadow: inset 0 1px 0 var(--hairline), inset 1px 0 0 var(--hairline), inset -1px 0 0 var(--hairline); }
 /* On the warm white sheet, panels sit on sky so they stay visible */
 .stage-wrap .panel { background: var(--ground); color: var(--ink); }
 /* A lesson is read straight on the warm white sheet, so its sky pieces (the situation, a notice, a plan) stand out */
 .stage-wrap .hub-step.panel { background: transparent; color: inherit; padding: 0; border-radius: 0; }
 .stage-in { max-width: 880px; margin: 0 auto; padding: var(--space-6) var(--space-6) var(--space-7); min-height: 100%; display: flex; flex-direction: column; }
 .stage-in .hub-step { flex: 1 0 auto; }
-.stage-controls { position: sticky; bottom: 0; padding: var(--space-4) 0 var(--space-2); background: linear-gradient(to bottom, rgba(245, 243, 238, 0), var(--reading-ground) 35%); }
+.stage-controls { position: sticky; bottom: 0; z-index: 5; padding: var(--space-5) 0 var(--space-3); background: linear-gradient(to bottom, rgba(245, 243, 238, 0), var(--reading-ground) var(--space-4)); }
 .home-head { margin-bottom: var(--space-5); }
 .home-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 .foldtab { position: absolute; top: var(--space-4); z-index: 20; display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--touch-min); padding: 0 var(--space-4); border: 2px solid var(--slate); border-radius: var(--radius-md); background: var(--panel); color: var(--ink); font: inherit; font-size: var(--type-caption-size); font-weight: var(--weight-medium); cursor: pointer; }
