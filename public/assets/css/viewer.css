@@ -38,6 +38,8 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .colhead h2 { margin: 0; font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); }
 .foldbtn { width: var(--touch-min); height: var(--touch-min); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
 .foldbtn:hover { background: rgba(245, 243, 238, 0.55); }
+/* The search has a label that can be seen, not only a placeholder */
+.lsearch .field-label { margin-bottom: var(--space-1); padding: 0 var(--space-1); font-size: var(--type-caption-size); line-height: var(--type-caption-line); }
 .lsearch .input { min-height: var(--touch-min); padding-top: var(--space-2); padding-bottom: var(--space-2); font-size: var(--type-ui-size); line-height: var(--type-ui-line); }
 .navbtn { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: var(--touch-min); padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-md); background: transparent; color: var(--ink); font: inherit; font-size: var(--type-ui-size); line-height: var(--type-ui-line); text-align: left; text-decoration: none; cursor: pointer; transition: background-color var(--motion-duration) var(--motion-ease); }
 .navbtn:hover { background: rgba(245, 243, 238, 0.55); }
@@ -51,7 +53,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .titem .tstate { font-size: var(--type-caption-size); line-height: var(--type-caption-line); color: var(--ink-quiet); }
 .titem .tstate[data-state="done"]::before { content: "\2713\00a0"; }
 .steplist { list-style: none; margin: var(--space-1) 0 var(--space-2) var(--space-3); padding: 0 0 0 var(--space-3); border-left: 2px solid var(--hairline); display: grid; gap: 2px; }
-.stepbtn { min-height: 36px; padding: var(--space-1) var(--space-3); font-size: var(--type-caption-size); line-height: var(--type-caption-line); }
+.stepbtn { min-height: var(--touch-min); padding: var(--space-1) var(--space-3); font-size: var(--type-caption-size); line-height: var(--type-caption-line); }
 .stepbtn[aria-current="step"] { background: var(--panel); color: var(--on-panel); font-weight: var(--weight-medium); }
 .stepbtn.unseen { color: var(--ink-quiet); }
 .lfoot { margin-top: auto; display: grid; gap: var(--space-1); padding-top: var(--space-3); border-top: 1px solid var(--hairline); }
@@ -82,7 +84,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .stage-wrap .hub-step.panel { background: transparent; color: inherit; padding: 0; border-radius: 0; }
 .stage-in { max-width: 880px; margin: 0 auto; padding: var(--space-6) var(--space-6) var(--space-7); min-height: 100%; display: flex; flex-direction: column; }
 .stage-in .hub-step { flex: 1 0 auto; }
-.stage-controls { position: sticky; bottom: 0; z-index: 5; padding: var(--space-5) 0 var(--space-3); background: linear-gradient(to bottom, rgba(245, 243, 238, 0), var(--reading-ground) var(--space-4)); }
+.stage-controls { position: sticky; bottom: 0; z-index: 5; padding: var(--space-5) 0 var(--space-3); background: var(--reading-ground); } /* a flat fill: the brand has no gradients */
 .home-head { margin-bottom: var(--space-5); }
 .home-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 .foldtab { position: absolute; top: var(--space-4); z-index: 20; display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--touch-min); padding: 0 var(--space-4); border: 2px solid var(--slate); border-radius: var(--radius-pill); background: var(--panel); color: var(--ink); font: inherit; font-size: var(--type-caption-size); font-weight: var(--weight-medium); cursor: pointer; }

@@ -1,7 +1,7 @@
 /* Executive Frame Learning Hub: the library and the lesson steps. Values come from tokens.css only. */
 
 /* Dashboard: continue, the loop, this week's practice, tools, next step, support */
-.dash { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
+.dash { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(336px, 100%), 1fr)); }
 .dash-card { display: grid; gap: var(--space-3); align-content: start; background: var(--ground); color: var(--ink); border-radius: var(--radius-lg); padding: var(--space-5); }
 .dash-wide { grid-column: 1 / -1; }
 .dash-h { margin: 0; font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); color: var(--ink-quiet); }
@@ -18,7 +18,7 @@
 .loop-seg[data-state="soon"] { background: transparent; border-color: var(--hairline); color: var(--ink-quiet); }
 .loop-label { font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); }
 .toollist { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
-.toollist .btn { width: 100%; justify-content: space-between; gap: var(--space-3); }
+.toollist .btn { width: 100%; justify-content: space-between; gap: var(--space-3); padding-top: var(--space-2); padding-bottom: var(--space-2); text-align: left; }
 .home-libhead { margin: var(--space-7) 0 0; }
 
 /* Library: programmes, course groups and lesson cards */
