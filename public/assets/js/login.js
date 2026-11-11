@@ -1,4 +1,4 @@
-// Log in with email and password, then on to the page the member was going to (default Library).
+// Log in with email and password, then on to the page the member was going to (default the viewer's Home).
 import { auth, firstUser, explainAuthError } from "./app.js";
 import { $, show, say, busy, clearErrors, fieldError, liveClear, params, safeNext } from "./ui.js";
 import { placeMark } from "./layout.js";

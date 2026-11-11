@@ -43,7 +43,6 @@ try {
 }
 const requested = (params.get("arm") || "").toLowerCase();
 const arm = armsData.arms.find(a => a.slug === requested) || null;
-document.querySelectorAll("[data-arm-name]").forEach(el => { el.textContent = arm ? arm.name : "Executive Frame"; });
 document.querySelectorAll("[data-trial-days]").forEach(el => { el.textContent = plansData.trialDays; });
 if (arm) $("link-login").href = "/login/?next=" + encodeURIComponent("/join/?arm=" + arm.slug);
 
