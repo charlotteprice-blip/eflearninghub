@@ -135,7 +135,8 @@ dialog.vdialog::backdrop { background: rgba(46, 64, 98, 0.45); }
   .vtop { padding: var(--space-3) var(--space-4); min-height: 72px; gap: var(--space-3); }
   .vtop-tog { display: inline-flex; }
   .vtop-lockup { display: none; }
-  .vtop-title { font-size: var(--type-heading-size); line-height: var(--type-heading-line); }
+  /* A long lesson title wraps to 2 lines here, as the summary line under it is hidden */
+  .vtop-title { font-size: var(--type-heading-size); line-height: var(--type-heading-line); white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
   .vtop-sub { display: none; }
   .vmain, .vmain.lfold, .vmain.rfold { --lw-open: min(320px, 86vw); --rw-open: min(360px, 90vw); --lw: var(--lw-open); --rw: var(--rw-open); }
   /* The slide is only animated while a drawer opens or closes (.drawer-moving, set by viewer.js), so the columns
