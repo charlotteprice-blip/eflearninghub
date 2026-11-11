@@ -2,7 +2,7 @@
 
 Date: 11 November 2026. This is the record of what was done about the 27 findings in `impeccable-learning-hub-2026-11-10.md`, checked against the code as it stood after the alignment with the Client Hub (commit 5484d43).
 
-Totals: 19 fixed, 1 already fixed by the alignment, 5 partly fixed, 2 left for a decision.
+Totals: 20 fixed, 1 already fixed by the alignment, 5 partly fixed, 1 left for a decision. Findings 20 and 24 and the privacy address in finding 8 were settled by Charlotte later on 11 November; the table shows where they stand now, and the test pass that followed is at the end.
 
 ## How the fixes were checked
 
@@ -22,7 +22,7 @@ Totals: 19 fixed, 1 already fixed by the alignment, 5 partly fixed, 2 left for a
 | 5 | P1 | Loop card overflows on Home | Fixed | 8ac26c0 | At 1920, 1440, 1280, 1024, 900, 768, 375 and 320 px the last box ends 24 px inside the card. The boxes sit 2 by 2 and go to 1 row only when the card itself is 520 px or wider. |
 | 6 | P1 | Sideways overflow at 320 px in lessons | Fixed | 8ac26c0 | Every step of the 3 lessons at 375 and 320 px: 0 px overflow, Next ends at 296 px of 320, the step count is 1 line above the buttons. |
 | 7 | P1 | Failed membership check shows Checking your membership for ever | Fixed | b0db001 | With `gate.js` stubbed to throw, the cover shows the message, Try again (focused) and My account, at 1440 and 320 px, and Try again reloads into the viewer. Not exercised against the live checkAccess function. |
-| 8 | P1 | Placeholders a member can see | Partly fixed | 1bbf3b5 | On Charlotte's instruction of 11 November: the contact is consultant@sarahanticich.co.nz as an email link on the Home support card, in Help, in the suitability check and in the privacy statement, and the monthly price reads NZ$29 a month. Wording only: no Stripe price exists. Still placeholders: the annual price (NZ$XX, still marked), the partner rate, the privacy statement's Draft for approval marker and `PRIVACY_VERSION` ending in `-draft`. Decision: Sarah and Charlotte. |
+| 8 | P1 | Placeholders a member can see | Partly fixed | 1bbf3b5 | On Charlotte's instruction of 11 November: the contact is consultant@sarahanticich.co.nz as an email link on the Home support card, in Help, in the suitability check and in the privacy statement, and the monthly price reads NZ$29 a month. Wording only: no Stripe price exists. Charlotte confirmed on 11 November that this is also the address for privacy requests: it is in Your rights as an email link with no placeholder marker. Still placeholders: the annual price (NZ$XX, still marked), the partner rate, the privacy statement's Draft for approval marker and `PRIVACY_VERSION` ending in `-draft`. Decision: Sarah and Charlotte. |
 | 9 | P2 | Loop step changes its text off screen on a phone | Partly fixed | 60c2d64 | In 1 column the words for the chosen point now come before the shape: at 375 by 812 the panel sits at 326 to 586 px, above the bar, and pressing Next changes it in view. Left: `touch-action: none` on the shape and on sort items. Changing it alters dragging on a touch screen and needs a real phone to test. The shape was not shrunk, as its labels would fall to about 9 px. |
 | 10 | P2 | Screen readers hear each step 2 or 3 times | Fixed | 26df4f8 | `#stage` and `#count` carry no `aria-live`. Feedback takes focus and has no status role. Checked in the page's attributes, not with a screen reader. |
 | 11 | P2 | No skip link in the viewer | Fixed | c326105 | The first Tab shows Skip to content at the top left. Enter moves focus to Home's heading, or to the step heading in a lesson, and the address does not change. |
@@ -34,11 +34,11 @@ Totals: 19 fixed, 1 already fixed by the alignment, 5 partly fixed, 2 left for a
 | 17 | P2 | Field hints not linked to their fields | Fixed | 44cc313 | Join: a bad password gives `aria-describedby="password-hint err-password"`, and typing restores `password-hint`. Reflect, plan and return fields and the notes box point at their hints. |
 | 18 | P2 | Heading order on Home is uneven | Partly fixed | 71b1bbf | Your library is an h2, programmes h3, courses h4, lesson cards h5, resource cards h4 under Resources, and a course that is 1 lesson of the same name shows the card only. Left: Home is still both the h1 in the header and the h2 on the page. Removing either changes the look. Decision: Charlotte. |
 | 19 | P2 | Loop shape not described properly | Fixed | 6c043f6 | The svg has `role="group"` and the points use `aria-pressed`. Checked in the page's attributes, not with a screen reader. |
-| 20 | P2 | A finished lesson reopens on its last step | Left | | Both suggested fixes change what a learner meets in a lesson: opening at step 1, or a new Start from the beginning button on the summary. Decision: Charlotte and Sarah, which of the 2. |
+| 20 | P2 | A finished lesson reopens on its last step | Fixed | e40a854 | Charlotte's decision of 11 November: a finished lesson still opens on its last step, and that step has a Start from the beginning button (the ordinary secondary button). Checked at 375 and 1440 px: the button is not there before Finish, shows on reopening, goes to step 1, and the saved reflection, the Finished state and the plan are unchanged. |
 | 21 | P2 | Long lesson titles cut off on small screens | Fixed | 00c4367 | The Tunnel and the way back shows in full on 2 lines at 375 and 320 px. |
 | 22 | P2 | Text sizes fixed in px | Left | | The type tokens are meant to match the Client Hub's generated token file, and a new meaning for Larger is a design choice. Changing them here would undo part of the alignment. Decision: Charlotte, for both apps together. |
 | 23 | P2 | Small state and feedback gaps in lessons | Fixed | df6b5c2 | After a pause in typing the hint adds Saved. A plan line shows 32 characters left near its limit and stops at 300. Reflections stop at 10,000. A plan typed just before leaving the step is still saved. The wording is Saved, beside Kept in this browser only, not the audit's Saved on this device. |
-| 24 | P3 | Wording drifts between pages | Partly fixed | 3e31cfe | Topics became lessons on the start, join and account pages, to match the viewer. Left: Join the library against Join the Learning Hub, Log in against Signed in, and the privacy statement's the arm you joined through. Decision: Charlotte and Sarah. |
+| 24 | P3 | Wording drifts between pages | Partly fixed | 3e31cfe, a0c4a5d | Topics became lessons on the start, join and account pages, to match the viewer. Charlotte's decision of 11 November: it is Join the Learning Hub everywhere. The join heading and page title, the account page button and the fallback plan name no longer say library; the start, login, thank you and privacy pages already did not. Library stays as the name of the list of lessons inside the viewer. The join heading no longer names the arm a link came from. Left: Log in against Signed in (join step 2, account), and the privacy statement's the arm you joined through. Decision: Charlotte and Sarah. |
 | 25 | P3 | Small keyboard and announcement gaps | Partly fixed | ba28561 | Tab or Shift and Tab out of the account menu closes it. No lessons match is a status message. Titles follow the view on Log in and Join. The privacy link on Join says it opens in a new tab. Left: Open on a resource card still says so to screen readers only, as the visible label would grow too long for the card. |
 | 26 | P3 | Drawers flash across the screen at 900 px | Fixed | 43aaebe | Resizing 1440 to 768 px with a 60 ms wait: both columns are already hidden and off screen. The slide still runs when a drawer is opened or closed. |
 | 27 | P3 | Password Show button changes label and pressed state | Fixed | ba28561 | The button has no `aria-pressed`. Its name changes between Show password and Hide password, matching the visible word. This is the other valid pattern, chosen because a fixed name would not match the visible Hide. |
@@ -62,3 +62,30 @@ Totals: 19 fixed, 1 already fixed by the alignment, 5 partly fixed, 2 left for a
 - Safari and Firefox: everything was seen in 1 Chromium engine. `inert` (finding 3) needs Safari 15.5 or Firefox 112 or later, and the loop card's container query (finding 5) needs Safari 16 or Firefox 110; older browsers keep the earlier behaviour for focus and a 2 by 2 loop.
 - The sort, workshop and download step types: no sample lesson uses them. The scroll change in finding 1 and the status role change in finding 10 touch the code they share.
 - The live functions: checkAccess failing for a signed in member, a real past due or cancelled membership, a real download.
+
+## Test pass, evening of 11 November
+
+A full pass of the local preview at 375, 768 and 1440 px, in headless Chromium, after the 3 decisions above. The test guide for Charlotte is `docs/testing/test-guide-2026-11-12.md`.
+
+What was covered:
+
+- Start (the 3 choices, `?arm=`, `?next=`, a bad `?next=`, the logged in view), join (every step and choice, every field error, a taken email, a bad code, the organisation offer, the plan step, Checkout failing, `?cancelled`, the files failing to load), login (empty fields, wrong password, no connection, Show, the reset view, logged out message), account in 8 membership states plus a failed check, thank you in 3 states, privacy, 404.
+- Home fresh, part way and finished, Resources, the empty and failed states, a missing lesson, `/library/`, a `#step-3` link, all 3 lessons to Finish answering every step, the restart button, notes, search, Help, Viewer settings with all 3 switched on (and every step of every lesson walked again like that), log out with clear, drawers and folded columns.
+- 1 whole lesson with the keyboard only: skip link, Start, every choice, the loop by Tab and Space, writing, the plan, the arrow keys, Finish. Every stop had a visible ring and was on screen.
+- Signed in states were reached by standing in for `app.js` and the Firebase sign in module inside the test browser, so the pages' own code ran with made up membership answers. No account was created and no function was called.
+- The live site, not logged in: `/`, `/start/`, `/join/`, `/login/`, `/privacy/`, `/hub/centre/`, `/account/` and a missing page at 1440 and 375 px. All load, the right ones redirect to Log in, the font and mark load, no console errors, no sideways overflow.
+
+Defects found and fixed:
+
+| Defect | Commit | Checked |
+| --- | --- | --- |
+| With no connection, the password reset form said a link was on its way | e1b775c | Offline it shows the cannot be reached message. An address with no account still gets the same reply as one with an account. |
+| For a logged in member on a phone, the header of the account, join and start pages wrapped every label onto 2 lines | 1d92c7b | 1 line at 320, 375, 521, 599, 600, 719, 720, 768 and 1440 px. The wordmark drops Learning Hub below 720 px and the mark stands alone below 600 px, for logged in members only. |
+
+Found and listed, not changed:
+
+1. On pages that move focus to their heading as they load (start, join, a lesson opened by keyboard), Chrome draws the focus ring round the heading. It is correct behaviour but can look like a stray box. Hiding the ring on headings is a 1 line change if Charlotte prefers.
+2. In Viewer settings at 375 px the Motion options wrap onto 2 rows inside their box. It works, and looks a little uneven.
+3. The Checkout error a member sees while no prices exist is "Secure payment could not be opened just now. Please try again in a moment." The function's own message, A price is missing, is not shown, because internal errors are replaced with a plain sentence.
+4. On join step 3 the error message sits between the small print and the button, close under the plan cards. Fine, noted only.
+5. The live pages are from 9.02 pm on 11 November. They do not yet have: the log out dialog opening on Cancel and clearing every lesson (12), 2 line titles (21), the loop words first on a phone (9), Saved and characters left (23), the account menu closing on Tab, page titles per step, the Show button change and the new tab note (25, 27), lessons for topics and Join the Learning Hub (24), Start from the beginning (20), the reset message fix and the header fix. They do have everything up to and including the contact email, the NZ$29 price, load failures, the Home payment notice and the heading order.
