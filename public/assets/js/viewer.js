@@ -148,7 +148,7 @@ function renderDashboard() {
         <p><button class="btn btn-primary" type="button" data-open="${esc(next.slug)}">${stateOf(next.slug) ? "Continue" : started ? "Start the next lesson" : "Start"}</button></p>`
       : `<p class="t-heading">You have finished ${esc(p.title)}</p><p class="muted">Open any lesson again from your library below.</p>`}
     </section>
-    <section class="dash-card" aria-labelledby="d-loop">
+    <section class="dash-card dash-loop" aria-labelledby="d-loop">
       <h3 id="d-loop" class="dash-h">Where you are in the loop</h3>
       <p class="muted">${esc(p.title)}</p>
       <ol class="loop" aria-label="The 4 moves of the loop">${loopSegments(p).map(s => `

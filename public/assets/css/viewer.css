@@ -150,6 +150,8 @@ dialog.vdialog::backdrop { background: rgba(46, 64, 98, 0.45); }
   .foldtab, .lside .foldbtn[data-fold], .rcol .foldbtn[data-fold] { display: none !important; }
   .stage-in, .vmain.lfold .stage-in, .vmain.rfold .stage-in { padding: var(--space-5) var(--margin-phone) var(--space-5); }
 }
+/* The Back and Next bar is taller here, as the step count sits above the buttons (hub.css) */
+@media (max-width: 479px) { .stage-wrap { scroll-padding-bottom: 144px; } }
 @media (min-width: 900px) {
   .lside .foldbtn[data-close], .rcol .foldbtn[data-close] { display: none; }
 }

@@ -1,19 +1,22 @@
 /* Executive Frame Learning Hub: the library and the lesson steps. Values come from tokens.css only. */
 
 /* Dashboard: continue, the loop, this week's practice, tools, next step, support */
-.dash { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.dash { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
 .dash-card { display: grid; gap: var(--space-3); align-content: start; background: var(--ground); color: var(--ink); border-radius: var(--radius-lg); padding: var(--space-5); }
 .dash-wide { grid-column: 1 / -1; }
 .dash-h { margin: 0; font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); color: var(--ink-quiet); }
 .dash-card p, .dash-card .t-heading { margin: 0; }
 .dash-card .plan-quote { margin: 0; background: var(--panel); color: var(--on-panel); }
-.loop { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); }
+/* The 4 loop boxes sit 2 by 2, and in 1 row only when their own card is wide enough to hold them. The card's width
+   decides (a container query), not the window's, because the card is narrow on a wide screen with both columns open. */
+.dash-loop { container-type: inline-size; }
+.loop { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+@container (min-width: 520px) { .loop { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .loop-seg { display: grid; gap: var(--space-1); padding: var(--space-3); border-radius: var(--radius-md); background: var(--panel); color: var(--on-panel); border: 2px solid transparent; }
 .loop-seg[data-state="done"] { background: var(--ink); color: var(--warm-white); }
 .loop-seg[data-state="going"] { border-color: var(--ink); }
 .loop-seg[data-state="soon"] { background: transparent; border-color: var(--hairline); color: var(--ink-quiet); }
 .loop-label { font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); }
-@media (max-width: 479px) { .loop { grid-template-columns: repeat(2, 1fr); } }
 .toollist { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
 .toollist .btn { width: 100%; justify-content: space-between; gap: var(--space-3); }
 .home-libhead { margin: var(--space-7) 0 0; }
@@ -58,6 +61,12 @@
 .hub-controls { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); margin-top: var(--space-5); }
 .hub-controls .btn { min-width: 132px; }
 .hub-count { text-align: center; flex: 1; }
+/* Narrow screens (and a computer zoomed to 400%): the step count takes its own line and Back and Next share the row */
+@media (max-width: 479px) {
+  .hub-controls { flex-wrap: wrap; }
+  .hub-controls .btn { min-width: 0; flex: 1; }
+  .hub-count { order: -1; flex: 0 0 100%; }
+}
 
 /* Frame explainer: rotating triangle, one panel per point */
 .frame { display: grid; gap: var(--space-5); align-items: center; }
