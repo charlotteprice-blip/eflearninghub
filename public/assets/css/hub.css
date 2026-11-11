@@ -71,6 +71,8 @@
 /* Frame explainer: rotating triangle, one panel per point */
 .frame { display: grid; gap: var(--space-5); align-items: center; }
 @media (min-width: 720px) { .frame { grid-template-columns: 280px 1fr; } }
+/* In 1 column the words for the chosen point come before the shape, so pressing Next changes text the learner can see */
+@media (max-width: 719px) { .frame-panel { order: -1; } }
 .frame-svg { width: 100%; max-width: 280px; margin: 0 auto; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; }
 .frame-svg.dragging { cursor: grabbing; }
 .frame-rotor { transform-origin: 0 0; transition: transform calc(var(--motion-duration) * 3) var(--motion-ease); }
