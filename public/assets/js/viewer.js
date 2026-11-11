@@ -9,7 +9,7 @@
 import { requireMember } from "./gate.js";
 import { logOut, call } from "./app.js";
 import { $, store, params, nzDate } from "./ui.js";
-import { placeMark, SUPPORT } from "./layout.js";
+import { placeMark, SUPPORT, contactLink } from "./layout.js";
 import { createPlayer, progressLabel, lessonKey, loadState, latestPlan, esc, downloadFile } from "./player.js";
 
 placeMark(document.querySelector("[data-cover-mark]"), { draw: false });
@@ -174,7 +174,7 @@ function renderDashboard() {
     <section class="dash-card" aria-labelledby="d-support">
       <h3 id="d-support" class="dash-h">Support</h3>
       <p>${esc(SUPPORT.scope)} ${esc(SUPPORT.crisis)}</p>
-      <p class="muted">For anything about the Learning Hub, contact Executive Frame at <span class="placeholder">${esc(SUPPORT.contact)}</span>.</p>
+      <p class="muted">For anything about the Learning Hub, contact Executive Frame at ${contactLink()}.</p>
     </section>
   </div>`;
 }

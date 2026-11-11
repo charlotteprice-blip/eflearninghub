@@ -37,13 +37,14 @@ document.querySelectorAll("[data-arm-name]").forEach(el => { el.textContent = ar
 document.querySelectorAll("[data-trial-days]").forEach(el => { el.textContent = plansData.trialDays; });
 if (arm) $("link-login").href = "/login/?next=" + encodeURIComponent("/join/?arm=" + arm.slug);
 
-// The plan cards, from /content/plans.json. Placeholder prices are marked until confirmed.
+// The plan cards, from /content/plans.json. A plan whose price is not confirmed yet carries "placeholder": true
+// and is marked on the page.
 $("plan-choices").innerHTML = plansData.plans.map((p, i) => `
   <label class="choice">
     <input type="radio" name="interval" value="${p.interval}" ${i === 0 ? "checked" : ""}>
     <span class="choice-body">
       <span class="choice-title">${p.label}</span>
-      <span class="choice-price"><span class="${plansData.placeholder ? "placeholder" : ""}">${p.price}</span> <span class="t-ui">${p.per}</span></span>
+      <span class="choice-price"><span class="${p.placeholder || plansData.placeholder ? "placeholder" : ""}">${p.price}</span> <span class="t-ui">${p.per}</span></span>
       <span class="choice-note">${p.note}</span>
     </span>
   </label>`).join("");

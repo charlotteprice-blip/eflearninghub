@@ -7,12 +7,14 @@
 import { session } from "./ui.js";
 
 // The scope and crisis lines, written once here and shown on the dashboard, under every lesson and in the
-// suitability check (Sarah's safeguards). PLACEHOLDER: the practice contact email.
+// suitability check (Sarah's safeguards). The contact email was confirmed by Charlotte on 11 November 2026.
 export const SUPPORT = {
   scope: "The Learning Hub is education, not therapy.",
   crisis: "If things are hard right now, call or text 1737 at any time, free, to talk with a trained counsellor. In an emergency, call 111.",
-  contact: "contact email to be confirmed"
+  contact: "consultant@sarahanticich.co.nz"
 };
+// The contact address as an email link, for the places it is shown as a way to get in touch.
+export const contactLink = () => `<a href="mailto:${SUPPORT.contact}">${SUPPORT.contact}</a>`;
 
 const MARK_URL = "/assets/brand/mark.svg";
 let markText = null;

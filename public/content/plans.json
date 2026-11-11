@@ -1,9 +1,8 @@
 {
-  "_note": "Display text only. The amount charged always comes from the Stripe price, never from this file. PLACEHOLDER: prices show NZ$XX until Sarah confirms them.",
-  "placeholder": true,
+  "_note": "Display text only. The amount charged always comes from the Stripe price, never from this file. The monthly price was confirmed on 11 November 2026. PLACEHOLDER: the annual price shows NZ$XX until it is confirmed, and its plan carries \"placeholder\": true so the page marks it.",
   "trialDays": 7,
   "plans": [
-    { "interval": "monthly", "label": "Monthly", "price": "NZ$XX", "per": "a month", "note": "Cancel at any time" },
-    { "interval": "annual", "label": "Annual", "price": "NZ$XX", "per": "a year", "note": "Change from monthly whenever you like" }
+    { "interval": "monthly", "label": "Monthly", "price": "NZ$29", "per": "a month", "note": "Cancel at any time" },
+    { "interval": "annual", "label": "Annual", "placeholder": true, "price": "NZ$XX", "per": "a year", "note": "Change from monthly whenever you like" }
   ]
 }

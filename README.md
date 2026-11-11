@@ -80,4 +80,4 @@ npm run deploy:hosting
 
 ## Placeholders still to confirm
 
-Prices (NZ$XX), the trial download allowance (5), the partner rate amount, the privacy statement wording and contact email, the brand SVGs, the workshop video, and all sample topic content.
+The annual price (NZ$XX; the monthly price shown is NZ$29, confirmed 11 November 2026, as wording only: no Stripe price exists yet), the trial download allowance (5), the partner rate amount, the privacy statement wording (the contact email is consultant@sarahanticich.co.nz), the brand SVGs, the workshop video, and all sample topic content.

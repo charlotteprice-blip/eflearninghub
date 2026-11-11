@@ -10,7 +10,7 @@
 
 import { call, explainCallError } from "./app.js";
 import { store } from "./ui.js";
-import { SUPPORT } from "./layout.js";
+import { SUPPORT, contactLink } from "./layout.js";
 
 export const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const paras = body => (Array.isArray(body) ? body : body ? [body] : []).map(p => `<p>${esc(p)}</p>`).join("");
@@ -117,7 +117,7 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
         <div class="scen" data-scen role="group" aria-label="Your answer">${(s.options || []).map((o, k) => `
           <div class="scen-row">
             <button type="button" class="scen-opt" data-opt="${k}" aria-pressed="${picked === k}">${esc(o.text)}</button>
-            ${picked === k ? `<div class="scen-fb${o.pause ? " pause" : ""}" role="status" tabindex="-1" data-fb>${esc(o.feedback || "")}${o.pause ? `<p class="support-line">${esc(SUPPORT.scope)} ${esc(SUPPORT.crisis)} You can also contact Executive Frame at <span class="placeholder">${esc(SUPPORT.contact)}</span>.</p>` : ""}</div>` : ""}
+            ${picked === k ? `<div class="scen-fb${o.pause ? " pause" : ""}" role="status" tabindex="-1" data-fb>${esc(o.feedback || "")}${o.pause ? `<p class="support-line">${esc(SUPPORT.scope)} ${esc(SUPPORT.crisis)} You can also contact Executive Frame at ${contactLink()}.</p>` : ""}</div>` : ""}
           </div>`).join("")}</div>
         <p class="field-hint">Your answer is kept in this browser only. Whatever you choose, you can carry on, stop, or come back later.</p>`;
     },
