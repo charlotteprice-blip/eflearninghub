@@ -25,6 +25,8 @@ firebase.json            Hosting (target learning), Firestore (learninghub datab
 .firebaserc              Project ef-client-hub; targets point at executiveframe-learninghub
 firestore.rules          Members read their own record; nothing else readable; no browser writes
 storage.rules            No browser access; downloads only through signed links
+brand/ef-tokens.json     The brand pack's token file, unchanged: the single source for colours, spacing, radius, motion
+                         and the mark's geometry. npm run tokens writes it into tokens.css and the inline mark
 public/                  The site (Firebase Hosting)
   index.html             The members' viewer. /, /library/ and /hub/<slug>/ all open it
   start/ login/ join/ account/ thank-you/ privacy/   the account pages, one folder each, as in Themescape
@@ -70,7 +72,8 @@ The same process as the Client Hub: every build, setup and admin step is an `npm
 npm install
 npm run setup:check     what exists and what is missing in Firebase; changes nothing
 npm run setup           creates each missing piece, asking first
-npm run check           function tests and colour contrast
+npm run tokens          write the brand pack values into tokens.css (after a new brand pack)
+npm run check           function tests, tokens up to date, colour contrast
 npm run serve           local preview with sample content, no sign in
 npm run content -- check   what Notion would publish, and what is wrong; changes nothing
 npm run deploy:rules

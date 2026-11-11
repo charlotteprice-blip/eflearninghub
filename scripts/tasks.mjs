@@ -41,6 +41,7 @@ const groups = [
     ['npm run serve', 'Open the viewer with sample content at 127.0.0.1:5055 (no sign in)'],
     ['npm run emulators', 'Run Firebase locally on the demo project demo-learninghub'],
     ['npm run vendor', 'Refresh the self hosted Firebase SDK and Figtree'],
+    ['npm run tokens', 'Write the brand pack values (brand/ef-tokens.json) into tokens.css and the inline mark; run after a new brand pack'],
     ['npm run guide', 'Rebuild docs/design-system/components.html, the components guide for both hubs (needs ~/efclienthub beside this folder)'],
   ]],
   ['Check', [

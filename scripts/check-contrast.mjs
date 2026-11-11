@@ -7,8 +7,8 @@ import { dirname, join } from 'node:path';
 
 const root = join(dirname(new URL(import.meta.url).pathname), '..');
 const css = readFileSync(join(root, 'public/assets/css/tokens.css'), 'utf8');
-const rootBlock = css.slice(css.indexOf(':root {'), css.indexOf('}', css.indexOf(':root {')));
-const t = Object.fromEntries([...rootBlock.matchAll(/--([a-z-]+):\s*(#[0-9A-Fa-f]{6})\s*;/g)].map((m) => [m[1], m[2]]));
+// tokens.css has a block generated from the brand pack (npm run tokens) and the app's own block: both are read.
+const t = Object.fromEntries([...css.matchAll(/--([a-z0-9-]+):\s*(#[0-9A-Fa-f]{6})\s*;/g)].map((m) => [m[1], m[2]]));
 
 function luminance(hex) {
   const n = hex.replace('#', '');
@@ -33,9 +33,22 @@ const checks = [
   ['button border (2px slate) on white (hover)', t.slate, '#FFFFFF', 3],
   ['field text on warm white field', t['on-panel'], t.panel, 4.5],
   ['field border (2px slate) on sky ground', t.slate, t.ground, 3],
-  ['status done on its tint', t['status-done'], t['status-done-tint'], 4.5],
-  ['status in progress on its tint', t['status-progress'], t['status-progress-tint'], 4.5],
-  ['status attention on its tint', t['status-attention'], t['status-attention-tint'], 4.5],
+  // Application colours from the brand pack: each on its own tint (notices, status pills) and on warm white
+  ['success on its tint', t.success, t['success-tint'], 4.5],
+  ['success on warm white panel', t.success, t.panel, 4.5],
+  ['warning on its tint', t.warning, t['warning-tint'], 4.5],
+  ['warning on warm white panel', t.warning, t.panel, 4.5],
+  ['error on its tint', t.error, t['error-tint'], 4.5],
+  ['info on its tint', t.info, t['info-tint'], 4.5],
+  ['info on warm white panel', t.info, t.panel, 4.5],
+  ['status done (success) on its tint', t['status-done'], t['status-done-tint'], 4.5],
+  ['status in progress (info) on its tint', t['status-progress'], t['status-progress-tint'], 4.5],
+  ['status attention (warning) on its tint', t['status-attention'], t['status-attention-tint'], 4.5],
+  ['notice edge: success on its tint', t.success, t['success-tint'], 3],
+  ['notice edge: warning on its tint', t.warning, t['warning-tint'], 3],
+  ['notice edge: error on its tint', t.error, t['error-tint'], 3],
+  ['notice edge: info on its tint', t.info, t['info-tint'], 3],
+  ['primary button: warm white on navy', t['on-primary'], t.primary, 4.5],
   ['error badge: warm white on brick', t.panel, t.error, 4.5],
   ['field border (2px slate) on warm white panel', t.slate, t.panel, 3],
   ['focus ring on sky ground', t.focus, t.ground, 3],
