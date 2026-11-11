@@ -72,6 +72,8 @@ $("form-reset").addEventListener("submit", async e => {
   } catch (err) {
     // The same reply whether or not the address has an account, so the form cannot be used to test addresses.
     if (err && err.code === "auth/invalid-email") { fieldError("reset-email", "Please enter a full email address."); busy(["btn-reset"], false); return; }
+    // No connection is not a reply about the address, so it is safe to say, and "on its way" would be untrue.
+    if (err && err.code === "auth/network-request-failed") { say("reset-msg", explainAuthError(err)); busy(["btn-reset"], false); return; }
   }
   busy(["btn-reset"], false);
   say("reset-msg", "If that address has an account, a reset link is on its way. Check your inbox, and your junk folder.", true);
