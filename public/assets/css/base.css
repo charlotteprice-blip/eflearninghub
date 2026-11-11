@@ -104,7 +104,8 @@ ef-footer { display: block; }
 .panel + .panel { margin-top: var(--space-4); }
 .stack > * + * { margin-top: var(--space-4); }
 .stack-lg > * + * { margin-top: var(--space-6); }
-.muted { opacity: 0.8; }
+/* Quiet text is a solid colour (--ink-quiet), never opacity, so its contrast can be checked */
+.muted { color: var(--ink-quiet); }
 
 /* Buttons */
 .btn {

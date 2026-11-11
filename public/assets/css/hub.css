@@ -4,14 +4,14 @@
 .dash { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 .dash-card { display: grid; gap: var(--space-3); align-content: start; background: var(--ground); color: var(--ink); border-radius: var(--radius-lg); padding: var(--space-5); }
 .dash-wide { grid-column: 1 / -1; }
-.dash-h { margin: 0; font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); opacity: 0.8; }
+.dash-h { margin: 0; font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); color: var(--ink-quiet); }
 .dash-card p, .dash-card .t-heading { margin: 0; }
 .dash-card .plan-quote { margin: 0; background: var(--panel); color: var(--on-panel); }
 .loop { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); }
 .loop-seg { display: grid; gap: var(--space-1); padding: var(--space-3); border-radius: var(--radius-md); background: var(--panel); color: var(--on-panel); border: 2px solid transparent; }
 .loop-seg[data-state="done"] { background: var(--ink); color: var(--warm-white); }
 .loop-seg[data-state="going"] { border-color: var(--ink); }
-.loop-seg[data-state="soon"] { opacity: 0.65; }
+.loop-seg[data-state="soon"] { background: transparent; border-color: var(--hairline); color: var(--ink-quiet); }
 .loop-label { font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); }
 @media (max-width: 479px) { .loop { grid-template-columns: repeat(2, 1fr); } }
 .toollist { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-2); }
@@ -103,7 +103,7 @@
 .sort-item.wrong .verdict { color: var(--error); }
 
 /* Beat and claim labels */
-.beat { margin: 0 0 var(--space-2); font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); opacity: 0.8; }
+.beat { margin: 0 0 var(--space-2); font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); color: var(--ink-quiet); }
 .claim { display: inline-flex; align-items: center; min-height: 28px; margin: var(--space-3) 0 0; padding: 0 var(--space-3); border-radius: var(--radius-pill); background: var(--ground); font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); }
 
 /* Reflect */
@@ -126,8 +126,8 @@
 .scen-fb:focus { outline: none; }
 .scen-fb .support-line { margin: var(--space-3) 0 0; }
 
-/* Scope and crisis lines under every lesson */
-.lesson-foot { margin: var(--space-4) 0 0; padding: 0 var(--space-2); opacity: 0.85; }
+/* Scope and crisis lines under every lesson: full strength ink, as this is the line a learner may need most */
+.lesson-foot { margin: var(--space-4) 0 0; padding: 0 var(--space-2); }
 
 /* Plan: when X, I will Y */
 .plan { display: grid; gap: var(--space-4); }

@@ -24,6 +24,9 @@ function ratio(a, b) {
 const checks = [
   ['ink on sky ground', t.ink, t.ground, 4.5],
   ['ink on warm white panel', t['on-panel'], t.panel, 4.5],
+  ['quiet ink (secondary text) on sky ground', t['ink-quiet'], t.ground, 4.5],
+  ['quiet ink (secondary text) on warm white panel', t['ink-quiet'], t.panel, 4.5],
+  ['quiet ink (secondary text) on the warm white reading ground', t['ink-quiet'], t['reading-ground'], 4.5],
   ['error on sky ground', t.error, t.ground, 4.5],
   ['error on warm white panel', t.error, t.panel, 4.5],
   ['button and card text on white (hover)', t['on-panel'], '#FFFFFF', 4.5],

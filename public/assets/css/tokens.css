@@ -73,6 +73,9 @@
   /* The reading ground: the warm white sheet that lessons and long text sit on, inside the sky frame */
   --reading-ground: #F5F3EE;
   --on-reading: #3E5680;
+  /* Quiet ink: the 1 solid colour for secondary text (captions, hints, labels). Text is never dimmed with opacity,
+     which the contrast check cannot see. It passes 4.5:1 on the sky ground and on warm white. */
+  --ink-quiet: #445C86;
   --hairline: rgba(62, 86, 128, 0.25);
   --underline: rgba(62, 86, 128, 0.40);
   --focus: #3E5680;
