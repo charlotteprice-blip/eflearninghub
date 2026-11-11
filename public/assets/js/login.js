@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword, sendPasswordResetEmail } from "/assets/vend
 const VIEWS = ["v-login", "v-reset", "v-busy"];
 const NEXT = safeNext(params.get("next"));
 const BUTTONS = ["btn-login"];
-placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
+placeMark(document.querySelector("[data-loading-mark]"));
 
 if (params.get("email")) $("email").value = params.get("email");
 if (params.has("signedout")) say("login-msg", "You have logged out.", true);

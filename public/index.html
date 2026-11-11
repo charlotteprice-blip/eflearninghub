@@ -5,8 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Executive Frame Learning Hub</title>
   <meta name="robots" content="noindex">
-  <link rel="icon" href="/assets/brand/app-icon-slate.svg" type="image/svg+xml">
-  <link rel="preload" href="/assets/fonts/figtree-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#2E4062">
+  <link rel="preload" href="/assets/fonts/figtree-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/base.css">
   <link rel="stylesheet" href="/assets/css/hub.css">
@@ -19,7 +23,7 @@
        the address decides which topic shows, so links from the Client Hub keep working. -->
 
   <div id="cover" class="cover" role="status">
-    <span class="brand-mark pulse" data-cover-mark></span>
+    <span class="brand-mark" data-cover-mark></span>
     <p id="cover-text">Checking your membership</p>
     <!-- Shown only if the membership check fails (viewer.js) -->
     <div id="cover-actions" class="btn-row" hidden>
@@ -35,14 +39,15 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
       <div class="vtop-main">
-        <p class="vtop-id"><span>Executive Frame Learning Hub</span><span id="id-who"></span><span id="id-preview" class="tag-preview" hidden>Local preview</span></p>
+        <p class="vtop-id"><span class="vtop-app">Executive Frame Learning Hub</span><span id="id-who"></span><span id="id-preview" class="tag-preview" hidden>Local preview</span></p>
         <h1 class="vtop-title" id="v-title">Your library</h1>
         <p class="vtop-sub" id="v-sub"></p>
       </div>
       <button class="vtop-tog" id="open-rcol" type="button" aria-label="Open notes and files" aria-controls="rcol" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5c-1.8-1.4-4.3-2-7.5-2v13c3.2 0 5.7.6 7.5 2 1.8-1.4 4.3-2 7.5-2v-13c-3.2 0-5.7.6-7.5 2z"/><path d="M12 6.5v13"/></svg>
       </button>
-      <img class="vtop-lockup" src="/assets/brand/lockup-slate.svg" alt="Executive Frame">
+      <!-- The supplied lockup, with the app's name beside it as plain text after a hairline (computer widths) -->
+      <span class="vtop-brand"><img class="brand-lockup" src="/assets/brand/ef-lockup-slate.svg" alt="Executive Frame" width="150" height="24"><span class="brand-app">Learning Hub</span></span>
     </header>
 
     <div class="vmain" id="vmain">

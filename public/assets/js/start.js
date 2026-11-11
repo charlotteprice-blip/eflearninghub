@@ -11,7 +11,7 @@ import { $, show, params, safeNext } from "./ui.js";
 import { placeMark } from "./layout.js";
 
 const VIEWS = ["v-loading", "v-choose", "v-member"];
-placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
+placeMark(document.querySelector("[data-loading-mark]"));
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 const NEXT = safeNext(params.get("next"));

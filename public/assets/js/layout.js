@@ -1,8 +1,12 @@
 // Shared header and footer as two small custom elements, so every page has the same frame without a build step.
 // <ef-header current="library"></ef-header>  current marks the active link (library, account).
 // <ef-footer></ef-footer>
-// The mark is read from /assets/brand/mark.svg and inlined, so the supplied file can replace the placeholder
-// and still draw on (1200ms, first page of each visit only, never with reduced motion).
+// The header shows the brand pack's horizontal lockup as supplied (an image, never live text), with the app's name
+// beside it as plain interface text after a hairline.
+// Loading states show the mark alone. It is read from /assets/brand/mark.svg (built by npm run tokens from the
+// pack's loop and triangle paths) and inlined, so it can draw on: once, on the first page of a visit, over 1200ms,
+// the loop tracing while the triangle fades in. After that, and with reduced motion, the finished mark is shown
+// still. It never loops and never pulses.
 
 import { session } from "./ui.js";
 
@@ -27,7 +31,7 @@ async function loadMark() {
   return markText;
 }
 
-// Puts the mark into a host element; draws it on the first time in this visit.
+// Puts the mark into a host element (a loading state); draws it on the first time in this visit.
 export async function placeMark(host, { draw = true } = {}) {
   const svg = await loadMark();
   if (!svg) return;
@@ -48,8 +52,9 @@ class EfHeader extends HTMLElement {
       <header class="site-header">
         <div class="wrap">
           <a class="brand" href="/" aria-label="Executive Frame Learning Hub, home">
-            <span class="brand-mark" data-mark></span>
-            <span class="brand-name">Executive Frame <span>Learning Hub</span></span>
+            <img class="brand-lockup" src="/assets/brand/ef-lockup-slate.svg" alt="Executive Frame" width="150" height="24">
+            <img class="brand-mark-only" src="/assets/brand/ef-mark-slate.svg" alt="Executive Frame" width="28" height="28">
+            <span class="brand-app">Learning Hub</span>
           </a>
           <nav class="site-nav" aria-label="Main">
             <span data-nav-member hidden>
@@ -63,7 +68,6 @@ class EfHeader extends HTMLElement {
           </nav>
         </div>
       </header>`;
-    placeMark(this.querySelector("[data-mark]"));
     if (this.hasAttribute("bare")) return;
     import("./app.js").then(({ onUser, logOut }) => {
       onUser(user => {

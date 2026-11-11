@@ -7,7 +7,7 @@ import { sendEmailVerification } from "/assets/vendor/firebase/firebase-auth.js"
 
 document.querySelectorAll("[data-reload]").forEach(b => b.addEventListener("click", () => location.reload()));
 const VIEWS = ["v-loading", "v-account", "v-error"];
-placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
+placeMark(document.querySelector("[data-loading-mark]"));
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 const user = await firstUser;

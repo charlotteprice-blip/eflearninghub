@@ -16,9 +16,12 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .vtop-main { flex: 1; min-width: 0; }
 .vtop-id { margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); font-size: var(--type-caption-size); line-height: var(--type-caption-line); font-weight: var(--weight-medium); }
 .vtop-id span + span { font-weight: var(--weight-regular); }
+.vtop-id span:empty { display: none; }
 .vtop-title { margin: var(--space-1) 0 0; font-size: var(--type-title-size); line-height: var(--type-title-line); font-weight: var(--weight-regular); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .vtop-sub { margin: 2px 0 0; font-size: var(--type-ui-size); line-height: var(--type-ui-line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.vtop-lockup { flex: none; height: 44px; width: auto; }
+.vtop-brand { flex: none; display: inline-flex; align-items: center; margin-right: var(--space-2); }
+/* With the lockup in the header, the app's name is not repeated as text at the left */
+@media (min-width: 900px) { .vtop-app { display: none; } }
 .vtop-tog { display: none; flex: none; width: var(--touch-min); height: var(--touch-min); border-radius: var(--radius-pill); border: 0; background: transparent; color: var(--ink); cursor: pointer; align-items: center; justify-content: center; }
 .vtop-tog:hover { background: rgba(245, 243, 238, 0.55); }
 .vtop-tog svg, .icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: var(--icon-stroke); stroke-linecap: round; stroke-linejoin: round; }
@@ -135,7 +138,7 @@ dialog.vdialog::backdrop { background: rgba(46, 64, 98, 0.45); }
 @media (max-width: 899px) {
   .vtop { padding: var(--space-3) var(--space-4); min-height: 72px; gap: var(--space-3); }
   .vtop-tog { display: inline-flex; }
-  .vtop-lockup { display: none; }
+  .vtop-brand { display: none; }
   /* A long lesson title wraps to 2 lines here, as the summary line under it is hidden */
   .vtop-title { font-size: var(--type-heading-size); line-height: var(--type-heading-line); white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
   .vtop-sub { display: none; }

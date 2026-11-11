@@ -12,7 +12,7 @@ import { $, store, params, nzDate, statusPill } from "./ui.js";
 import { placeMark, SUPPORT, contactLink } from "./layout.js";
 import { createPlayer, progressLabel, lessonKey, loadState, latestPlan, esc, downloadFile } from "./player.js";
 
-placeMark(document.querySelector("[data-cover-mark]"), { draw: false });
+placeMark(document.querySelector("[data-cover-mark]"));
 
 // If the membership check itself fails (a poor connection, the function down), the cover says so and offers
 // Try again, instead of staying on "Checking your membership" for ever. Nothing else on the page starts.

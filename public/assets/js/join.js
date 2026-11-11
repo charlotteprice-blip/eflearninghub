@@ -14,7 +14,7 @@ import {
 
 const VIEWS = ["v-loading", "v-code", "v-signup", "v-signed", "v-org", "v-plan", "v-have", "v-error"];
 const STEP = { "v-code": 1, "v-signup": 2, "v-signed": 2, "v-org": 3, "v-plan": 3 };
-placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
+placeMark(document.querySelector("[data-loading-mark]"));
 
 function go(view, focusId) {
   show(VIEWS, view, focusId);

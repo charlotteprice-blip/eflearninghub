@@ -7,7 +7,7 @@ import { placeMark } from "./layout.js";
 
 document.querySelectorAll("[data-reload]").forEach(b => b.addEventListener("click", () => location.reload()));
 const VIEWS = ["v-loading", "v-done", "v-wait"];
-placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
+placeMark(document.querySelector("[data-loading-mark]"));
 
 const user = await firstUser;
 if (!user && !LOCAL) {

@@ -64,11 +64,17 @@ main { flex: 1 0 auto; padding: var(--space-6) 0 var(--space-8); }
 ef-header { display: block; min-height: 72px; }
 .site-header { min-height: 72px; display: flex; align-items: center; }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
-.brand { display: inline-flex; align-items: center; gap: var(--space-3); text-decoration: none; min-height: var(--touch-min); }
+.brand { display: inline-flex; align-items: center; text-decoration: none; min-height: var(--touch-min); }
+/* The supplied horizontal lockup, 150px wide so its mark is 24px (as in the Client Hub). The lockup's minimum is
+   140px and its clear space is 0.4 of the mark box, 10px: the hairline sits 12px away. */
+.brand-lockup { flex: none; width: 150px; height: 24px; }
+/* The mark alone, where there is no room for the lockup (a logged in member on a phone). Minimum 16px. */
+.brand-mark-only { display: none; flex: none; width: 28px; height: 28px; }
+/* The app's name: plain interface text beside the lockup, after a hairline */
+.brand-app { margin-left: var(--space-3); padding-left: var(--space-3); border-left: 1px solid var(--hairline); font-size: var(--type-caption-size); line-height: 24px; font-weight: var(--weight-regular); white-space: nowrap; color: var(--ink); }
+/* The mark in a loading state (inlined by layout.js so it can draw on) */
 .brand-mark { width: 32px; height: 32px; color: var(--ink); flex: none; }
 .brand-mark svg { width: 100%; height: 100%; }
-.brand-name { font-size: 20px; line-height: 20px; font-weight: var(--weight-medium); }
-.brand-name span { font-weight: var(--weight-regular); }
 .site-nav { display: flex; align-items: center; gap: var(--space-2); }
 .site-nav a, .site-nav button {
   display: inline-flex; align-items: center; min-height: var(--touch-min); padding: 0 var(--space-3);
@@ -76,21 +82,28 @@ ef-header { display: block; min-height: 72px; }
 }
 .site-nav a[aria-current="page"] { font-weight: var(--weight-medium); }
 .site-nav a:hover, .site-nav button:hover { background: rgba(245, 243, 238, 0.55); }
-@media (max-width: 520px) { .site-nav .nav-optional { display: none; } .brand-name span { display: none; } }
+@media (max-width: 520px) { .site-nav .nav-optional { display: none; } .brand-app { display: none; } }
 /* Nav labels stay on 1 line. A logged in member has 2 or 3 of them (Learning Hub, Account, Log out), which leaves
-   less room for the wordmark: it drops "Learning Hub" below 720px and the mark stands alone below 600px. The mark's
-   link still carries the full name. */
+   less room for the brand: it drops the app's name below 720px, and below 600px the mark stands alone in place of
+   the lockup. The link still carries the full name. */
 .site-nav a, .site-nav button { white-space: nowrap; }
-@media (max-width: 719px) { .site-header .wrap:has([data-nav-member]:not([hidden])) .brand-name span { display: none; } }
-@media (max-width: 599px) { .site-header .wrap:has([data-nav-member]:not([hidden])) .brand-name { display: none; } }
+@media (max-width: 719px) { .site-header .wrap:has([data-nav-member]:not([hidden])) .brand-app { display: none; } }
+@media (max-width: 599px) {
+  .site-header .wrap:has([data-nav-member]:not([hidden])) .brand-lockup { display: none; }
+  .site-header .wrap:has([data-nav-member]:not([hidden])) .brand-mark-only { display: block; }
+}
 
-/* Mark draw on: any stroked shape marked data-draw (with pathLength="100") inside .draw is stroked on over 1200ms */
+/* Mark draw on, the 1 signature animation: inside .draw the loop (data-draw, pathLength="100") traces over 1200ms
+   while the triangle (data-fade) fades in behind it. It plays once and stops; it never loops or pulses. Reduced
+   motion and the viewer's Keep it still setting make the duration 0ms, so the finished mark shows at once. */
 .draw [data-draw] {
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
   animation: ef-draw var(--mark-draw-duration) var(--motion-ease) forwards;
 }
+.draw [data-fade] { opacity: 0; animation: ef-fade var(--mark-draw-duration) var(--motion-ease) forwards; }
 @keyframes ef-draw { to { stroke-dashoffset: 0; } }
+@keyframes ef-fade { to { opacity: 1; } }
 
 /* Footer */
 ef-footer { display: block; }
