@@ -2,6 +2,31 @@
 
 A copy of the entries in Notion (Executive Frame, App 1). Newest first.
 
+## Session 14, 11 November 2026
+
+Commit `532708c` on main.
+
+**Built.** Charlotte's 3 late decisions and a full test pass, so both hubs are ready for her to test. A finished lesson still opens on its last step and now offers Start from the beginning; the wording is Join the Learning Hub everywhere; the privacy address is confirmed as `consultant@sarahanticich.co.nz`. The test pass found and fixed 2 defects: the password reset form said a link was on its way when the Learning Hub could not be reached, and a logged in member's page header wrapped every label onto 2 lines on a phone. A test guide, `docs/testing/test-guide-2026-11-12.md`, gives the preview command and 25 numbered steps for the live site. The fix log now reads 20 fixed, 1 already fixed, 5 partly and 1 left. In the Client Hub, the review branch was merged into `main` at Charlotte's instruction, then: the journey never moves back, Home hides its empty Resources panel, 2 defects from its own test pass were fixed, and it has its own 25 step test guide. Its fix log reads 27 fixed, 5 partly, 3 left.
+
+**Files changed.** Learning Hub: `public/assets/js/` (`player.js`, `viewer.js`, `join.js`, `login.js`, `account.js`, `layout.js`), `public/assets/css/base.css`, the join and account pages, `docs/audits/fixes-learning-hub-2026-11-11.md`, `docs/testing/test-guide-2026-11-12.md`, `docs/design-system/components.html` (rebuilt). Client Hub: 3 commits on its `main`.
+
+**Checked.** Function tests (27) and every contrast pair pass. The test pass ran in a headless browser at 375, 768 and 1440 px: every page and state, including 8 membership states on Account and every join step and error, all 3 lessons to Finish with every scenario option tried, the viewer settings all switched on, and 1 whole lesson by keyboard only. Signed in states were reached by standing in for the sign in module inside the test browser; no account was created and no function was called. The pages were deployed from this session at about 10.40 pm on 11 November, and all 54 live files then matched the repo by hash; the public pages answer 200 and the 6 Learning Hub functions and `hasClientHub` answer. Client Hub: 150 unit tests, 89 rules tests and 35 contrast pairs pass, walked in its harness as client, practitioner and admin. Not done: a real login, real membership states, Stripe Checkout, downloads, real touch, real screen readers, Safari and Firefox. The Client Hub's new functions, pages and rules are not live: this session was not permitted to run that deploy.
+
+**Decisions and why.**
+1. A finished lesson opens on its summary with a restart button (Charlotte), so a learner lands on what they took away and can still go round again.
+2. Join the Learning Hub, not the library (Charlotte). The join heading no longer names the arm a link came from; the arm is still carried through to Stripe.
+3. On a phone, a logged in member's header shows the mark without the wordmark, so the 3 links fit on 1 line.
+4. The Client Hub was merged to `main` before its last test pass, at Charlotte's instruction, so `main` is what she tests.
+5. The Client Hub deploy stays with Charlotte, in a fixed order: functions, then pages, then rules. Rules first would leave clients with no questionnaires.
+
+**Charlotte to configure.**
+- Test the live Learning Hub with her own login, following the test guide.
+- Deploy the Client Hub in order: `npm run deploy:functions`, `npm run deploy:hosting`, `npm run deploy:rules`, from `~/efclienthub`. Or try it first with `npm run harness`.
+- Send Sarah the note about what changes on her side before she next logs in.
+- Stripe prices, once the amounts are confirmed. Until then Checkout says secure payment could not be opened.
+
+**Open questions.** Whether the arm should show on the join page in another form; "You are signed in" or "logged in" on join and account; a partner rate member sees NZ$29; grey example text in fields is a little under the contrast minimum in both hubs; the Larger text setting. Client Hub: a questionnaire completed twice shows twice in Results with no date; the 4 decisions that are Sarah's; the questionnaire with the doubtful answer scale.
+
 ## Session 13, 10 and 11 November 2026
 
 Commit `9241e53` on main (the last of the session's app commits; the first is `5484d43`).
