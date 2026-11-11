@@ -103,7 +103,7 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
         <div class="scen" data-scen role="group" aria-label="Your response">${(s.options || []).map((o, k) => `
           <div class="scen-row">
             <button type="button" class="scen-opt" data-opt="${k}" aria-pressed="${picked === k}">${esc(o.text)}</button>
-            ${picked === k ? `<div class="scen-fb${o.best ? " best" : ""}" role="status" tabindex="-1" data-fb>${esc(o.feedback)}</div>` : ""}
+            ${picked === k ? `<div class="scen-fb${o.best ? " best" : ""}" tabindex="-1" data-fb>${esc(o.feedback)}</div>` : ""}
           </div>`).join("")}</div>
         ${chosen && s.closing ? `<p class="notice">${esc(s.closing)}</p>` : ""}
         <p class="field-hint">Choose a response to read what tends to follow. You can try each one. Nothing is scored or sent anywhere.</p>`;
@@ -117,7 +117,7 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
         <div class="scen" data-scen role="group" aria-label="Your answer">${(s.options || []).map((o, k) => `
           <div class="scen-row">
             <button type="button" class="scen-opt" data-opt="${k}" aria-pressed="${picked === k}">${esc(o.text)}</button>
-            ${picked === k ? `<div class="scen-fb${o.pause ? " pause" : ""}" role="status" tabindex="-1" data-fb>${esc(o.feedback || "")}${o.pause ? `<p class="support-line">${esc(SUPPORT.scope)} ${esc(SUPPORT.crisis)} You can also contact Executive Frame at ${contactLink()}.</p>` : ""}</div>` : ""}
+            ${picked === k ? `<div class="scen-fb${o.pause ? " pause" : ""}" tabindex="-1" data-fb>${esc(o.feedback || "")}${o.pause ? `<p class="support-line">${esc(SUPPORT.scope)} ${esc(SUPPORT.crisis)} You can also contact Executive Frame at ${contactLink()}.</p>` : ""}</div>` : ""}
           </div>`).join("")}</div>
         <p class="field-hint">Your answer is kept in this browser only. Whatever you choose, you can carry on, stop, or come back later.</p>`;
     },
@@ -235,7 +235,8 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
         state.scenario[i] = Number(b.dataset.opt);
         save();
         render(false);
-        // Focus goes to the feedback, and it is scrolled clear of the Back and Next bar (scroll-padding on the sheet).
+        // Focus goes to the feedback, which is how a screen reader hears it (so it carries no live role of its own),
+        // and it is scrolled clear of the Back and Next bar (scroll-padding on the sheet).
         const fb = q("[data-fb]");
         if (fb) { fb.focus({ preventScroll: true }); fb.scrollIntoView({ block: "nearest" }); }
       });
@@ -417,6 +418,7 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
     stage.innerHTML = beatOf(s) + (R[s.type] || R.text)(s, state.step);
     if (A[s.type]) A[s.type](s, state.step);
     update();
+    // A new step is announced once, by moving focus to its heading. The stage and the step count are not live regions.
     if (focus) {
       stage.classList.remove("step-enter"); void stage.offsetWidth; stage.classList.add("step-enter");
       const h = stage.querySelector("h2");
