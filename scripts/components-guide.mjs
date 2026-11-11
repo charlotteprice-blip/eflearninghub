@@ -1,7 +1,8 @@
 // Builds the shared components guide for the Learning Hub and the Client Hub.   npm run guide
 //
 // Reads   docs/design-system/components.src.html   the guide chrome and every sample, written by hand
-//         the Learning Hub's 4 CSS files, the Client Hub's 3 CSS files, the Figtree files and the brand marks
+//         the Learning Hub's 4 CSS files, the Client Hub's 3 CSS files, the Figtree files, and from brand pack 1.1
+//         in each app the lockup, the mark and the mark's paths
 // Writes  docs/design-system/components.html       1 self contained page, no external requests
 //
 // The 2 apps reuse class names and token names with different rules, so each app's CSS is rewritten to live in
@@ -128,8 +129,9 @@ function shadowCss(nodes, counts, inGroup = false) {
     if (n.type === 'group') {
       out += `${n.prelude}{\n${shadowCss(n.children, counts, true)}}\n`;
       const forced = forcedCss(n.children, counts);
-      // Hover and pointer queries are dropped so a forced state shows on any device; width queries are kept.
-      if (forced) out += /width|height/.test(n.prelude) ? `${n.prelude}{\n${forced}}\n` : forced;
+      // Hover and pointer queries are dropped so a forced state shows on any device. Every other query (width,
+      // container, reduced motion) keeps its wrapper, so a forced state obeys it as the real state does.
+      if (forced) out += /\((any-)?(hover|pointer)\b/.test(n.prelude) && !/width|height/.test(n.prelude) ? forced : `${n.prelude}{\n${forced}}\n`;
       continue;
     }
     out += emitRule(n.selectors, n.body) + '\n';
@@ -189,18 +191,38 @@ const fonts = [300, 400, 500].map((w) => {
   return `@font-face{font-family:"Figtree";font-style:normal;font-weight:${w};font-display:swap;src:url(data:font/woff2;base64,${readFileSync(file).toString('base64')}) format("woff2");unicode-range:${LATIN}}`;
 }).join('\n');
 
-const svgUri = (path, what) => `data:image/svg+xml;base64,${Buffer.from(read(path, what).replace(/<!--[\s\S]*?-->/g, '')).toString('base64')}`;
-const chMark = read(join(clientHub, 'public/assets/brand/mark-slate-small.svg'), 'Client Hub mark');
-const chPaths = [...chMark.matchAll(/\sd="([^"]+)"/g)].map((m) => m[1]);
-if (chPaths.length !== 2) fail('The Client Hub mark no longer has 2 paths (ring and triangle); update scripts/components-guide.mjs.');
+// The brand files, from brand pack 1.1 in each app. Images are embedded once, in a JSON block, and the page's own
+// script gives them to every <img data-asset="name">, so a 17 KB lockup is not repeated in every sample.
+const svgUri = (path, what) => `data:image/svg+xml;base64,${readFileSync(existing(path, what)).toString('base64')}`;
+function existing(path, what) {
+  if (!existsSync(path)) fail(`${what} is missing: ${path}\nIf the brand files were renamed, update the paths in scripts/components-guide.mjs.`);
+  return path;
+}
+const assets = {
+  'lh-lockup': svgUri(join(root, 'public/assets/brand/ef-lockup-slate.svg'), 'Learning Hub lockup'),
+  'lh-mark-only': svgUri(join(root, 'public/assets/brand/ef-mark-slate.svg'), 'Learning Hub mark'),
+  'ch-lockup': svgUri(join(clientHub, 'public/assets/brand/ef-lockup-slate.svg'), 'Client Hub lockup'),
+};
+// The 2 apps carry the same pack files; an identical file is stored once and pointed to.
+for (const [name, uri] of Object.entries(assets)) {
+  const first = Object.keys(assets).find((k) => assets[k] === uri);
+  if (first !== name) assets[name] = `=${first}`;
+}
+
+// The Client Hub draws its inline mark from 2 paths in public/js/mark-paths.js.
+const chPaths = read(join(clientHub, 'public/js/mark-paths.js'), 'Client Hub mark paths');
+const chPath = (name) => {
+  const m = chPaths.match(new RegExp(`export const ${name} = '([^']+)'`));
+  if (!m) fail(`The Client Hub mark paths no longer export ${name}; update scripts/components-guide.mjs.`);
+  return m[1];
+};
 
 // Values the source can use as {{name}}.
 const snippets = {
+  // The Learning Hub inlines this file in loading states (layout.js); it is still unless a parent has .draw
   'lh-mark': read(join(root, 'public/assets/brand/mark.svg'), 'Learning Hub mark').replace(/<!--[\s\S]*?-->/g, '').replace(/\s*\n\s*/g, '').replace(' role="img" aria-label="Executive Frame"', ' aria-hidden="true"'),
-  'lh-lockup-uri': svgUri(join(root, 'public/assets/brand/lockup-slate.svg'), 'Learning Hub lockup'),
-  'ch-mark-uri': svgUri(join(clientHub, 'public/assets/brand/mark-slate-small.svg'), 'Client Hub mark'),
-  'ch-ring-d': chPaths[0],
-  'ch-triangle-d': chPaths[1],
+  'ch-loop-d': chPath('LOOP'),
+  'ch-triangle-d': chPath('TRIANGLE'),
 };
 
 // ---------- assemble ----------
@@ -226,6 +248,7 @@ const slots = {
   '/*@css:ch*/': built.ch.shadow,
   '/*@css:lh:raw*/': built.lh.raw,
   '/*@css:ch:raw*/': built.ch.raw,
+  '/*@assets*/': JSON.stringify(assets),
 };
 for (const [slot, text] of Object.entries(slots)) {
   if (!html.includes(slot)) fail(`The guide source has lost its ${slot} placeholder.`);
