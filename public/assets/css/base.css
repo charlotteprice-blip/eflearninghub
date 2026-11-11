@@ -117,18 +117,21 @@ ef-footer { display: block; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
   min-height: var(--control-height); padding: 0 var(--space-5);
-  border-radius: var(--radius-md); border: 2px solid var(--slate);
+  border-radius: var(--radius-pill); border: 2px solid var(--slate);
   font: inherit; font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium);
   text-decoration: none; cursor: pointer;
   background: var(--panel); color: var(--on-panel);
   transition: background-color var(--motion-duration) var(--motion-ease), color var(--motion-duration) var(--motion-ease), border-color var(--motion-duration) var(--motion-ease), transform var(--motion-duration) var(--motion-ease);
 }
-/* The shape and fills are the Client Hub's: 12 px corners, a filled secondary, navy primary. The plain .btn is the
-   secondary here, and buttons are as wide as their label unless .btn-block is added. */
+/* Every button is a pill, in both apps (brand pack 1.1). The radius roles: pill for buttons and status, 8 px for
+   fields, 12 px for navigation items and choice cards, 16 px for cards. The fills are shared with the Client Hub:
+   a filled warm white secondary with a white hover, a navy primary. The plain .btn is the secondary here, and
+   buttons are as wide as their label unless .btn-block is added. */
 .btn:hover { background: #FFFFFF; }
 .btn:active { transform: translateY(1px); }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
-.btn-primary { background: var(--cta-ground); color: var(--cta-ink); border-color: var(--cta-ground); }
+/* Primary is navy (--primary). The pack's tokens say slate for now; see PRIMARY in scripts/tokens.mjs. */
+.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
 .btn-primary:hover { background: var(--slate); border-color: var(--slate); }
 .btn-block { width: 100%; }
 .btn-quiet { background: transparent; color: var(--ink); border-color: transparent; padding: 0 var(--space-3); min-height: var(--touch-min); font-weight: var(--weight-regular); text-decoration: underline; text-decoration-color: var(--underline); text-underline-offset: 3px; }

@@ -19,7 +19,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .vtop-title { margin: var(--space-1) 0 0; font-size: var(--type-title-size); line-height: var(--type-title-line); font-weight: var(--weight-regular); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .vtop-sub { margin: 2px 0 0; font-size: var(--type-ui-size); line-height: var(--type-ui-line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .vtop-lockup { flex: none; height: 44px; width: auto; }
-.vtop-tog { display: none; flex: none; width: var(--touch-min); height: var(--touch-min); border-radius: var(--radius-md); border: 0; background: transparent; color: var(--ink); cursor: pointer; align-items: center; justify-content: center; }
+.vtop-tog { display: none; flex: none; width: var(--touch-min); height: var(--touch-min); border-radius: var(--radius-pill); border: 0; background: transparent; color: var(--ink); cursor: pointer; align-items: center; justify-content: center; }
 .vtop-tog:hover { background: rgba(245, 243, 238, 0.55); }
 .vtop-tog svg, .icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: var(--icon-stroke); stroke-linecap: round; stroke-linejoin: round; }
 .tag-preview { display: inline-flex; align-items: center; padding: 0 var(--space-2); border-radius: var(--radius-pill); background: var(--panel); }
@@ -33,7 +33,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .lside-in { flex: 1; min-height: 0; overflow: auto; width: var(--lw-open); padding: var(--space-4) var(--space-4) var(--space-3); display: flex; flex-direction: column; gap: var(--space-4); }
 .colhead { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
 .colhead h2 { margin: 0; font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); }
-.foldbtn { width: var(--touch-min); height: var(--touch-min); border: 0; border-radius: var(--radius-md); background: transparent; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.foldbtn { width: var(--touch-min); height: var(--touch-min); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
 .foldbtn:hover { background: rgba(245, 243, 238, 0.55); }
 .lsearch .input { min-height: var(--touch-min); padding-top: var(--space-2); padding-bottom: var(--space-2); font-size: var(--type-ui-size); line-height: var(--type-ui-line); }
 .navbtn { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: var(--touch-min); padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-md); background: transparent; color: var(--ink); font: inherit; font-size: var(--type-ui-size); line-height: var(--type-ui-line); text-align: left; text-decoration: none; cursor: pointer; transition: background-color var(--motion-duration) var(--motion-ease); }
@@ -72,7 +72,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 /* The shared main rule in base.css pads the page; here main is the scrolling sheet, so that padding would hold the
    sticky Back and Next bar 64px above the bottom, on top of the lesson text. The sheet's own padding is on .stage-in.
    scroll-padding keeps anything scrolled or focused into view clear of the bar. */
-.stage-wrap { flex: 1; min-width: 0; min-height: 0; overflow: auto; padding: 0; scroll-padding-bottom: 112px; background: var(--reading-ground); color: var(--on-reading); position: relative; border-radius: var(--radius-lg) var(--radius-lg) 0 0; box-shadow: inset 0 1px 0 var(--hairline), inset 1px 0 0 var(--hairline), inset -1px 0 0 var(--hairline); }
+.stage-wrap { flex: 1; min-width: 0; min-height: 0; overflow: auto; padding: 0; scroll-padding-bottom: 112px; background: var(--reading-ground); color: var(--on-reading); position: relative; border-radius: var(--radius-lg) var(--radius-lg) 0 0; border: 1px solid var(--hairline); border-bottom: 0; }
 /* On the warm white sheet, panels sit on sky so they stay visible */
 .stage-wrap .panel { background: var(--ground); color: var(--ink); }
 /* A lesson is read straight on the warm white sheet, so its sky pieces (the situation, a notice, a plan) stand out */
@@ -82,7 +82,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .stage-controls { position: sticky; bottom: 0; z-index: 5; padding: var(--space-5) 0 var(--space-3); background: linear-gradient(to bottom, rgba(245, 243, 238, 0), var(--reading-ground) var(--space-4)); }
 .home-head { margin-bottom: var(--space-5); }
 .home-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-.foldtab { position: absolute; top: var(--space-4); z-index: 20; display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--touch-min); padding: 0 var(--space-4); border: 2px solid var(--slate); border-radius: var(--radius-md); background: var(--panel); color: var(--ink); font: inherit; font-size: var(--type-caption-size); font-weight: var(--weight-medium); cursor: pointer; }
+.foldtab { position: absolute; top: var(--space-4); z-index: 20; display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--touch-min); padding: 0 var(--space-4); border: 2px solid var(--slate); border-radius: var(--radius-pill); background: var(--panel); color: var(--ink); font: inherit; font-size: var(--type-caption-size); font-weight: var(--weight-medium); cursor: pointer; }
 .foldtab-l { left: var(--space-4); }
 .foldtab-r { right: var(--space-4); }
 
@@ -114,14 +114,15 @@ dialog.vdialog::backdrop { background: rgba(46, 64, 98, 0.45); }
 .vdialog-in ul { margin: 0; padding-left: var(--space-5); }
 .vdialog-in li + li { margin-top: var(--space-2); }
 .setrow { display: grid; gap: var(--space-2); }
-.seg { display: inline-flex; flex-wrap: wrap; border: 2px solid var(--slate); border-radius: var(--radius-md); overflow: hidden; width: fit-content; }
+/* The segmented control is a pill, like a button. Its options stay on 1 row. */
+.seg { display: inline-flex; border: 2px solid var(--slate); border-radius: var(--radius-pill); overflow: hidden; width: fit-content; max-width: 100%; }
 .seg label { position: relative; }
 .seg input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
 .seg span { display: inline-flex; align-items: center; min-height: var(--touch-min); padding: 0 var(--space-4); font-size: var(--type-ui-size); cursor: pointer; }
 .seg label + label span { border-left: 1px solid var(--hairline); }
 .seg input:checked + span { background: var(--cta-ground); color: var(--cta-ink); }
 /* The ring is drawn inside the option. On the chosen (navy) option it is warm white, as slate on navy cannot be seen. */
-.seg input:focus-visible + span { outline: var(--focus-ring) solid var(--focus); outline-offset: -4px; }
+.seg input:focus-visible + span { outline: var(--focus-ring) solid var(--focus); outline-offset: -4px; border-radius: var(--radius-pill); }
 .seg input:checked:focus-visible + span { outline-color: var(--cta-ink); }
 
 /* Viewer settings applied to the page */
@@ -148,13 +149,18 @@ dialog.vdialog::backdrop { background: rgba(46, 64, 98, 0.45); }
   /* A closed drawer is hidden as well as moved away, so the keyboard cannot reach into it */
   .vmain.lopen .lside, .vmain.ropen .rcol { transform: none; visibility: visible; }
   .vmain.drawer-moving.lopen .lside, .vmain.drawer-moving.ropen .rcol { transition-delay: 0s; }
-  .stage-wrap { border-radius: 0; box-shadow: inset 0 1px 0 var(--hairline); }
+  .stage-wrap { border-radius: 0; border-width: 1px 0 0; }
   .vmain.lopen .scrim, .vmain.ropen .scrim { display: block; position: fixed; inset: 0; z-index: 50; background: rgba(46, 64, 98, 0.35); }
   .foldtab, .lside .foldbtn[data-fold], .rcol .foldbtn[data-fold] { display: none !important; }
   .stage-in, .vmain.lfold .stage-in, .vmain.rfold .stage-in { padding: var(--space-5) var(--margin-phone) var(--space-5); }
 }
-/* The Back and Next bar is taller here, as the step count sits above the buttons (hub.css) */
-@media (max-width: 479px) { .stage-wrap { scroll-padding-bottom: 144px; } }
+/* The Back and Next bar is taller here, as the step count sits above the buttons (hub.css). Dialogs and the
+   segmented control take a little less padding, so the widest setting (Motion) stays on 1 row. */
+@media (max-width: 479px) {
+  .stage-wrap { scroll-padding-bottom: 144px; }
+  .vdialog-in { padding: var(--space-5); }
+  .seg span { padding: 0 var(--space-3); }
+}
 @media (min-width: 900px) {
   .lside .foldbtn[data-close], .rcol .foldbtn[data-close] { display: none; }
 }
