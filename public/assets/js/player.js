@@ -92,8 +92,8 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
     reflect: (s, i) => `<h2 class="t-title">${esc(s.heading)}</h2>
       <div class="reflect field">
         <label class="field-label" for="reflect-${i}">${esc(s.prompt)}</label>
-        <textarea class="input" id="reflect-${i}" placeholder="${esc(s.placeholder || "")}">${esc(state.reflect[i] || "")}</textarea>
-        <span class="field-hint">Kept in this browser only. It is not sent to Executive Frame or anyone else.</span>
+        <textarea class="input" id="reflect-${i}" aria-describedby="reflect-hint-${i}" placeholder="${esc(s.placeholder || "")}">${esc(state.reflect[i] || "")}</textarea>
+        <span class="field-hint" id="reflect-hint-${i}">Kept in this browser only. It is not sent to Executive Frame or anyone else.</span>
       </div>`,
     scenario: (s, i) => {
       const picked = state.scenario[i];
@@ -126,10 +126,10 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
       return `<h2 class="t-title">${esc(s.heading)}</h2>${s.prompt ? `<p>${esc(s.prompt)}</p>` : ""}
         <div class="plan">
           <div class="field"><label class="field-label" for="plan-when-${i}">When</label>
-            <input class="input" id="plan-when-${i}" type="text" maxlength="300" placeholder="${esc(s.when || "")}" value="${esc(p.when || "")}"></div>
+            <input class="input" id="plan-when-${i}" type="text" maxlength="300" aria-describedby="plan-hint-${i}" placeholder="${esc(s.when || "")}" value="${esc(p.when || "")}"></div>
           <div class="field"><label class="field-label" for="plan-will-${i}">I will</label>
-            <input class="input" id="plan-will-${i}" type="text" maxlength="300" placeholder="${esc(s.will || "")}" value="${esc(p.will || "")}"></div>
-          <span class="field-hint">Kept in this browser only. The next lesson starts by asking how it went.</span>
+            <input class="input" id="plan-will-${i}" type="text" maxlength="300" aria-describedby="plan-hint-${i}" placeholder="${esc(s.will || "")}" value="${esc(p.will || "")}"></div>
+          <span class="field-hint" id="plan-hint-${i}">Kept in this browser only. The next lesson starts by asking how it went.</span>
         </div>`;
     },
     return: (s, i) => {
@@ -139,8 +139,8 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
         <blockquote class="plan-quote"><p>When ${esc(p.when || "the moment came")},</p><p>I will ${esc(p.will || "")}.</p></blockquote>
         <div class="reflect field">
           <label class="field-label" for="reflect-${i}">${esc(s.prompt)}</label>
-          <textarea class="input" id="reflect-${i}">${esc(state.reflect[i] || "")}</textarea>
-          <span class="field-hint">Kept in this browser only.</span>
+          <textarea class="input" id="reflect-${i}" aria-describedby="reflect-hint-${i}">${esc(state.reflect[i] || "")}</textarea>
+          <span class="field-hint" id="reflect-hint-${i}">Kept in this browser only.</span>
         </div>`;
     },
     workshop: s => {

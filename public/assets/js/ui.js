@@ -12,8 +12,15 @@ export function show(views, id, focusId) {
 }
 
 // Field level errors: a short line under the field, linked for screen readers.
+// A field may already be described by its hint (aria-describedby in the page), so an error is added to that list
+// and taken off it again, never written over it.
+function describedBy(el, id, on) {
+  const ids = (el.getAttribute("aria-describedby") || "").split(/\s+/).filter(x => x && x !== id);
+  if (on) ids.push(id);
+  if (ids.length) el.setAttribute("aria-describedby", ids.join(" ")); else el.removeAttribute("aria-describedby");
+}
 export function clearErrors(scope = document) {
-  scope.querySelectorAll("[aria-invalid=true]").forEach(el => { el.removeAttribute("aria-invalid"); el.removeAttribute("aria-describedby"); });
+  scope.querySelectorAll("[aria-invalid=true]").forEach(el => { el.removeAttribute("aria-invalid"); describedBy(el, "err-" + el.id, false); });
   scope.querySelectorAll(".field-err").forEach(el => el.remove());
 }
 export function fieldError(id, note, focus = true) {
@@ -26,7 +33,7 @@ export function fieldError(id, note, focus = true) {
     p.id = "err-" + id;
     p.textContent = note;
     (el.closest(".field") || el.parentElement).appendChild(p);
-    el.setAttribute("aria-describedby", p.id);
+    describedBy(el, p.id, true);
   }
   if (focus) el.focus();
 }
@@ -36,7 +43,7 @@ export function liveClear(form) {
     const t = e.target;
     if (t.getAttribute("aria-invalid") !== "true") return;
     t.removeAttribute("aria-invalid");
-    t.removeAttribute("aria-describedby");
+    describedBy(t, "err-" + t.id, false);
     const err = $("err-" + t.id);
     if (err) err.remove();
   });

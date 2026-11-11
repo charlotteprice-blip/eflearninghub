@@ -44,8 +44,8 @@
           </fieldset>
           <div class="field" id="code-field" hidden>
             <label class="field-label" for="code">Access code</label>
-            <input class="input" id="code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false">
-            <span class="field-hint">Letters and numbers, as your organisation sent it.</span>
+            <input class="input" id="code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="code-hint">
+            <span class="field-hint" id="code-hint">Letters and numbers, as your organisation sent it.</span>
           </div>
           <p class="t-caption muted">If your organisation uses its own email domain, you can leave this and we will check your work email after you sign in.</p>
           <p id="code-msg" class="msg" role="alert"></p>
@@ -74,16 +74,16 @@
           </div>
           <div class="field">
             <label class="field-label" for="email">Email address</label>
-            <input class="input" id="email" type="email" autocomplete="email" inputmode="email">
-            <span class="field-hint">Use your work email if your organisation provides access.</span>
+            <input class="input" id="email" type="email" autocomplete="email" inputmode="email" aria-describedby="email-hint">
+            <span class="field-hint" id="email-hint">Use your work email if your organisation provides access.</span>
           </div>
           <div class="field">
             <label class="field-label" for="password">Password</label>
             <div class="input-with-button">
-              <input class="input" id="password" type="password" autocomplete="new-password">
+              <input class="input" id="password" type="password" autocomplete="new-password" aria-describedby="password-hint">
               <button id="btn-show" class="btn btn-quiet" type="button" aria-label="Show password" aria-pressed="false">Show</button>
             </div>
-            <span class="field-hint">At least 10 characters, with a number and a symbol such as ! ? # @ or %.</span>
+            <span class="field-hint" id="password-hint">At least 10 characters, with a number and a symbol such as ! ? # @ or %.</span>
           </div>
           <p id="signup-msg" class="msg" role="alert"></p>
           <div class="btn-row" style="margin-top: var(--space-5)">
