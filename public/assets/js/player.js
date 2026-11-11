@@ -16,6 +16,8 @@ export const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "
 const paras = body => (Array.isArray(body) ? body : body ? [body] : []).map(p => `<p>${esc(p)}</p>`).join("");
 const mod = (a, n) => ((a % n) + n) % n;
 
+// The longest a reflection and a plan line can be. The fields stop at these lengths, and say so as they get close.
+const REFLECT_MAX = 10000, PLAN_MAX = 300;
 const CLAIMS = { research: "Established research", practice: "Applied practice", method: "Executive Frame method" };
 const beatOf = s => (s.beat ? `<p class="beat">${esc(s.beat)}</p>` : "");
 const claimOf = s => (CLAIMS[s.claim] ? `<p class="claim">${CLAIMS[s.claim]}</p>` : "");
@@ -92,8 +94,9 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
     reflect: (s, i) => `<h2 class="t-title">${esc(s.heading)}</h2>
       <div class="reflect field">
         <label class="field-label" for="reflect-${i}">${esc(s.prompt)}</label>
-        <textarea class="input" id="reflect-${i}" aria-describedby="reflect-hint-${i}" placeholder="${esc(s.placeholder || "")}">${esc(state.reflect[i] || "")}</textarea>
-        <span class="field-hint" id="reflect-hint-${i}">Kept in this browser only. It is not sent to Executive Frame or anyone else.</span>
+        <textarea class="input" id="reflect-${i}" maxlength="${REFLECT_MAX}" aria-describedby="reflect-hint-${i}" placeholder="${esc(s.placeholder || "")}">${esc(state.reflect[i] || "")}</textarea>
+        <span class="field-hint" data-left="reflect-${i}" hidden></span>
+        <span class="field-hint" id="reflect-hint-${i}">Kept in this browser only. It is not sent to Executive Frame or anyone else. <span data-saved hidden>Saved.</span></span>
       </div>`,
     scenario: (s, i) => {
       const picked = state.scenario[i];
@@ -126,10 +129,12 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
       return `<h2 class="t-title">${esc(s.heading)}</h2>${s.prompt ? `<p>${esc(s.prompt)}</p>` : ""}
         <div class="plan">
           <div class="field"><label class="field-label" for="plan-when-${i}">When</label>
-            <input class="input" id="plan-when-${i}" type="text" maxlength="300" aria-describedby="plan-hint-${i}" placeholder="${esc(s.when || "")}" value="${esc(p.when || "")}"></div>
+            <input class="input" id="plan-when-${i}" type="text" maxlength="${PLAN_MAX}" aria-describedby="plan-hint-${i}" placeholder="${esc(s.when || "")}" value="${esc(p.when || "")}">
+            <span class="field-hint" data-left="plan-when-${i}" hidden></span></div>
           <div class="field"><label class="field-label" for="plan-will-${i}">I will</label>
-            <input class="input" id="plan-will-${i}" type="text" maxlength="300" aria-describedby="plan-hint-${i}" placeholder="${esc(s.will || "")}" value="${esc(p.will || "")}"></div>
-          <span class="field-hint" id="plan-hint-${i}">Kept in this browser only. The next lesson starts by asking how it went.</span>
+            <input class="input" id="plan-will-${i}" type="text" maxlength="${PLAN_MAX}" aria-describedby="plan-hint-${i}" placeholder="${esc(s.will || "")}" value="${esc(p.will || "")}">
+            <span class="field-hint" data-left="plan-will-${i}" hidden></span></div>
+          <span class="field-hint" id="plan-hint-${i}">Kept in this browser only. The next lesson starts by asking how it went. <span data-saved hidden>Saved.</span></span>
         </div>`;
     },
     return: (s, i) => {
@@ -139,8 +144,9 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
         <blockquote class="plan-quote"><p>When ${esc(p.when || "the moment came")},</p><p>I will ${esc(p.will || "")}.</p></blockquote>
         <div class="reflect field">
           <label class="field-label" for="reflect-${i}">${esc(s.prompt)}</label>
-          <textarea class="input" id="reflect-${i}" aria-describedby="reflect-hint-${i}">${esc(state.reflect[i] || "")}</textarea>
-          <span class="field-hint" id="reflect-hint-${i}">Kept in this browser only.</span>
+          <textarea class="input" id="reflect-${i}" maxlength="${REFLECT_MAX}" aria-describedby="reflect-hint-${i}">${esc(state.reflect[i] || "")}</textarea>
+          <span class="field-hint" data-left="reflect-${i}" hidden></span>
+          <span class="field-hint" id="reflect-hint-${i}">Kept in this browser only. <span data-saved hidden>Saved.</span></span>
         </div>`;
     },
     workshop: s => {
@@ -216,13 +222,25 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
   };
 
   const q = sel => stage.querySelector(sel);
+  // Writing saves itself a moment after the learner stops typing. The hint under the field then says "Saved.", and
+  // a field close to its limit says how many characters are left, so nothing is cut off without notice.
+  const noteSaved = () => { const n = q("[data-saved]"); if (n) n.hidden = false; };
+  const noteLeft = (el, max, near) => {
+    const n = q(`[data-left="${el.id}"]`);
+    if (!n) return;
+    const k = max - el.value.length;
+    n.hidden = k > near;
+    n.textContent = k === 1 ? "1 character left." : `${k} characters left.`;
+  };
   const reflectListener = i => {
     const box = q(`#reflect-${i}`);
     if (!box) return;
     let t = null;
+    noteLeft(box, REFLECT_MAX, 200);
     box.addEventListener("input", e => {
+      noteLeft(box, REFLECT_MAX, 200);
       clearTimeout(t);
-      t = setTimeout(() => { state.reflect[i] = e.target.value.slice(0, 10000); save(); }, 300);
+      t = setTimeout(() => { state.reflect[i] = e.target.value.slice(0, REFLECT_MAX); save(); if (box.isConnected) noteSaved(); }, 300);
     });
   };
   const A = {
@@ -244,11 +262,17 @@ export function createPlayer(lesson, access, els, hooks = {}, opts = {}) {
     check: (s, i) => A.scenario(s, i),
     plan: (s, i) => {
       let t = null;
+      // The 2 fields are held here, so a plan typed just before the step changes is still saved
+      const when = q(`#plan-when-${i}`), will = q(`#plan-will-${i}`);
       const read = () => {
-        state.plan[i] = { when: q(`#plan-when-${i}`).value.slice(0, 300), will: q(`#plan-will-${i}`).value.slice(0, 300), at: new Date().toISOString() };
+        state.plan[i] = { when: when.value.slice(0, PLAN_MAX), will: will.value.slice(0, PLAN_MAX), at: new Date().toISOString() };
         save();
+        if (when.isConnected) noteSaved();
       };
-      [`#plan-when-${i}`, `#plan-will-${i}`].forEach(sel => q(sel).addEventListener("input", () => { clearTimeout(t); t = setTimeout(read, 300); }));
+      [when, will].forEach(el => {
+        noteLeft(el, PLAN_MAX, 40);
+        el.addEventListener("input", () => { noteLeft(el, PLAN_MAX, 40); clearTimeout(t); t = setTimeout(read, 300); });
+      });
     },
     workshop: s => {
       const b = q("[data-play]");
