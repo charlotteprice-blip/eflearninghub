@@ -91,10 +91,17 @@
             <div class="home-head stack">
               <h2 id="home-title" class="t-display" tabindex="-1">Home</h2>
               <p id="home-note">Pick up where you left off, or choose any lesson from your library. Your place is kept on this device.</p>
+              <!-- A payment that failed, or a cancelled plan: shown here at every width (the header line is hidden on phones) -->
+              <p id="member-note" class="notice" hidden></p>
               <p id="finished-note" class="notice" role="status" hidden></p>
             </div>
             <div id="home-body"></div>
             <p id="home-empty" class="panel" hidden>New lessons are on their way. Please check back soon.</p>
+            <!-- The library files did not load: not the same as nothing being published -->
+            <div id="home-failed" class="panel stack" hidden>
+              <p>We could not load your library just now. Please try again in a moment.</p>
+              <p><button class="btn btn-primary" type="button" id="home-retry">Try again</button></p>
+            </div>
           </section>
 
           <!-- One lesson, one step at a time -->

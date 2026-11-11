@@ -84,6 +84,9 @@ await Promise.all(order.map(async l => {
 }));
 const lessons = order.filter(l => files[l.slug]).map(l => ({ ...l, file: files[l.slug] }));
 const lessonsOf = c => lessons.filter(l => l.course.id === c.id);
+// "Could not load" is not "nothing published": a library file that did not arrive, or lessons that are listed but
+// none of them loaded. Home then says so and offers Try again, instead of "New lessons are on their way".
+const loadFailed = !coursesData || !programmesData || (order.length > 0 && lessons.length === 0);
 
 // A programme's lessons in order (draft courses are skipped).
 const seqOf = p => (p.courses || []).flatMap(id => (courseOf(id) ? lessonsOf(courseOf(id)) : []));
@@ -317,19 +320,25 @@ function membershipText() {
 
 // Progress is a status (in progress, done); a lesson not yet opened carries the neutral tag.
 const STATE_CLASS = { going: "status status-progress", done: "status status-done" };
-function lessonCard(l) {
+// Headings on Home: Home and Your library are h2, a programme (and Tools, Resources) h3, a course h4, a lesson card
+// h5. A card that sits straight under a programme (a resource, or a course's only lesson) is h4.
+function lessonCard(l, level = 5) {
   const f = l.file;
   const p = progressLabel(l.slug, f.steps.length);
   return `<li><a class="lesson-card" href="/hub/${encodeURIComponent(l.slug)}/" data-card="${esc(l.slug)}">
-      <h5 class="t-heading">${esc(f.title)}</h5><p>${esc(f.summary || "")}</p>
+      <h${level} class="t-heading">${esc(f.title)}</h${level}><p>${esc(f.summary || "")}</p>
       <span class="lesson-meta"><span class="${STATE_CLASS[p.state] || "tag"}">${esc(p.text)}</span>${f.minutes ? `<span class="t-caption">${esc(f.minutes)} minutes</span>` : ""}</span></a></li>`;
 }
 function courseGroup(c) {
   const ls = lessonsOf(c);
   if (!ls.length) return "";
+  // A course that is 1 lesson of the same name (a tool) shows the card only, not the same title twice.
+  if (ls.length === 1 && ls[0].file.title === c.title) {
+    return `<section class="home-group" aria-label="${esc(c.title)}"><ul class="home-grid">${lessonCard(ls[0], 4)}</ul></section>`;
+  }
   return `<section class="home-group" aria-label="${esc(c.title)}">
     <h4 class="t-heading">${esc(c.title)}</h4>${c.summary ? `<p class="muted">${esc(c.summary)}</p>` : ""}
-    <ul class="home-grid">${ls.map(lessonCard).join("")}</ul></section>`;
+    <ul class="home-grid">${ls.map(l => lessonCard(l)).join("")}</ul></section>`;
 }
 
 function openHome(push, finishedSlug) {
@@ -346,7 +355,7 @@ function openHome(push, finishedSlug) {
   const toolHtml = tools.length ? `<section class="home-prog" aria-labelledby="prog-tools"><h3 class="t-title" id="prog-tools">Tools</h3>
     <p>Single lessons to use on their own, whenever you need them.</p>${tools.map(courseGroup).join("")}</section>` : "";
   // Resource cards: 1 per catalogue row Sarah has published. A card opens a page on the public website, or
-  // downloads a file from the library through getDownloadLink.
+  // downloads a file from the library through getDownloadLink. A download's message sits on its own card.
   const resHtml = resources.length ? `<section class="home-prog" aria-labelledby="prog-resources"><h3 class="t-title" id="prog-resources">Resources</h3>
     <p>Handouts, tools and workbooks to open or download.</p>
     <ul class="home-grid">${resources.map(r => `<li><div class="lesson-card res-card">
@@ -354,11 +363,16 @@ function openHome(push, finishedSlug) {
       <span class="lesson-meta"><span class="tag">${esc(r.kind || "Resource")}</span>${r.file
         ? `<button class="btn" type="button" data-res-file="${esc(r.file)}">Download<span class="visually-hidden">: ${esc(r.title)}</span></button>`
         : `<a class="btn" href="${esc(r.url)}" target="_blank" rel="noopener">Open<span class="visually-hidden">: ${esc(r.title)} (opens in a new tab)</span></a>`}</span>
-    </div></li>`).join("")}</ul>
-    <p class="msg" id="res-msg" role="status"></p></section>` : "";
+      ${r.file ? `<p class="msg" role="status" data-res-msg></p>` : ""}
+    </div></li>`).join("")}</ul></section>` : "";
   const libHtml = progHtml + toolHtml + others.map(courseGroup).join("") + resHtml;
-  $("home-body").innerHTML = renderDashboard() + (libHtml ? `<h3 class="t-title home-libhead" id="lib-title">Your library</h3>${libHtml}` : "");
-  $("home-empty").hidden = lessons.length > 0 || resources.length > 0;
+  $("home-body").innerHTML = renderDashboard() + (libHtml ? `<h2 class="t-title home-libhead" id="lib-title">Your library</h2>${libHtml}` : "");
+  $("home-failed").hidden = !loadFailed;
+  $("home-empty").hidden = loadFailed || lessons.length > 0 || resources.length > 0;
+  // 13: a failed payment or a cancelled plan is said on Home itself, with the way to fix it
+  const warn = access.state === "past_due" || (access.state === "active" && access.cancelAtPeriodEnd);
+  $("member-note").hidden = !warn;
+  if (warn) $("member-note").innerHTML = `${esc(membershipText())} <a href="/account/">Open My account</a>`;
   const done = finishedSlug && lessons.find(l => l.slug === finishedSlug);
   $("finished-note").hidden = !done;
   if (done) $("finished-note").textContent = `You have finished ${done.file.title}. You can open it again at any time.`;
@@ -369,11 +383,12 @@ function openHome(push, finishedSlug) {
   if (done) $("finished-note").setAttribute("tabindex", "-1");
   if (push || done) $(done ? "finished-note" : "home-title").focus({ preventScroll: true });
 }
+$("home-retry").addEventListener("click", () => location.reload());
 $("home-body").addEventListener("click", e => {
   const b = e.target.closest("[data-open]");
   if (b) { openLesson(b.dataset.open, null, true); return; }
   const f = e.target.closest("[data-res-file]");
-  if (f) { downloadFile(access, f, $("res-msg"), f.dataset.resFile); return; }
+  if (f) { downloadFile(access, f, f.closest(".res-card").querySelector("[data-res-msg]"), f.dataset.resFile); return; }
   const a = e.target.closest("[data-card]");
   if (!a) return;
   e.preventDefault();

@@ -12,7 +12,7 @@ import {
   createUserWithEmailAndPassword, updateProfile, sendEmailVerification, signOut
 } from "/assets/vendor/firebase/firebase-auth.js";
 
-const VIEWS = ["v-loading", "v-code", "v-signup", "v-signed", "v-org", "v-plan", "v-have"];
+const VIEWS = ["v-loading", "v-code", "v-signup", "v-signed", "v-org", "v-plan", "v-have", "v-error"];
 const STEP = { "v-code": 1, "v-signup": 2, "v-signed": 2, "v-org": 3, "v-plan": 3 };
 placeMark(document.querySelector("[data-loading-mark]"), { draw: false });
 
@@ -27,10 +27,17 @@ function go(view, focusId) {
 function loading(text) { $("loading-text").textContent = text; go("v-loading"); }
 
 const cleanCode = v => String(v || "").toUpperCase().replace(/[^A-Z0-9]/g, "");
-const [armsData, plansData] = await Promise.all([
-  fetch("/content/arms.json").then(r => r.json()),
-  fetch("/content/plans.json").then(r => r.json())
-]);
+// If either file does not load, the page says so and offers Try again, instead of staying on "Getting things ready".
+const getJson = path => fetch(path).then(r => { if (!r.ok) throw new Error(path + " " + r.status); return r.json(); });
+let armsData, plansData;
+try {
+  [armsData, plansData] = await Promise.all([getJson("/content/arms.json"), getJson("/content/plans.json")]);
+} catch (err) {
+  console.warn("Join could not load its content", err);
+  $("btn-reload").addEventListener("click", () => location.reload());
+  go("v-error", "error-title");
+  await new Promise(() => {});
+}
 const requested = (params.get("arm") || "").toLowerCase();
 const arm = armsData.arms.find(a => a.slug === requested) || null;
 document.querySelectorAll("[data-arm-name]").forEach(el => { el.textContent = arm ? arm.name : "Executive Frame"; });
