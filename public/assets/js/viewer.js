@@ -536,7 +536,12 @@ $("btn-settings").addEventListener("click", () => openDialog("dlg-settings"));
 $("menu-logout").addEventListener("click", () => openDialog("dlg-logout"));
 $("btn-logout").addEventListener("click", async () => {
   if ($("logout-clear").checked) {
-    allCourses.flatMap(c => c.lessons || []).forEach(slug => store.remove(lessonKey(slug)));
+    // Every lesson's place, notes, reflections and plans in this browser (ef-hub-<slug>), including lessons that
+    // are no longer in the library, so nothing private is left behind on a shared computer.
+    try {
+      const prefix = lessonKey("");
+      Object.keys(localStorage).filter(k => k.startsWith(prefix)).forEach(k => localStorage.removeItem(k));
+    } catch (err) { /* storage unavailable: nothing was kept */ }
     ["ef-viewer-layout", "ef-viewer-settings"].forEach(k => store.remove(k));
   }
   try { await logOut(); } catch (err) { /* already signed out */ }

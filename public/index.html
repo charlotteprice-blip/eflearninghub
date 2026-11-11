@@ -193,7 +193,8 @@
       </label>
       <div class="btn-row">
         <button class="btn btn-primary" type="button" id="btn-logout">Log out and exit</button>
-        <button class="btn" type="submit">Cancel</button>
+        <!-- The dialog opens on Cancel, not on the tick box, so 1 stray press cannot clear a learner's writing -->
+        <button class="btn" type="submit" autofocus>Cancel</button>
       </div>
     </form>
   </dialog>
