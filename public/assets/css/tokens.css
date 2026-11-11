@@ -144,6 +144,9 @@
      which the contrast check cannot see. It passes 4.5:1 on the sky ground and on warm white. */
   --ink-quiet: #445C86;
 
+  /* White: the hover fill of a warm white button or card, as in the Client Hub. Not a brand ground. */
+  --white: #FFFFFF;
+
   /* Form fields: 2px slate border for 3:1 contrast, never the hairline */
   --field-border: 2px solid var(--slate);
 

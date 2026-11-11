@@ -29,8 +29,8 @@ const checks = [
   ['quiet ink (secondary text) on the warm white reading ground', t['ink-quiet'], t['reading-ground'], 4.5],
   ['error on sky ground', t.error, t.ground, 4.5],
   ['error on warm white panel', t.error, t.panel, 4.5],
-  ['button and card text on white (hover)', t['on-panel'], '#FFFFFF', 4.5],
-  ['button border (2px slate) on white (hover)', t.slate, '#FFFFFF', 3],
+  ['button and card text on white (hover)', t['on-panel'], t.white, 4.5],
+  ['button border (2px slate) on white (hover)', t.slate, t.white, 3],
   ['field text on warm white field', t['on-panel'], t.panel, 4.5],
   ['field border (2px slate) on sky ground', t.slate, t.ground, 3],
   // Application colours from the brand pack: each on its own tint (notices, status pills) and on warm white
@@ -61,6 +61,29 @@ const checks = [
 ];
 
 let failed = 0;
+
+// Brand pack rules the stylesheets must keep (the same check as the Client Hub's): no shadows anywhere, and no
+// colour written into a rule. Every colour is a token in tokens.css, so the palette cannot drift.
+for (const file of ['public/assets/css/base.css', 'public/assets/css/hub.css', 'public/assets/css/viewer.css']) {
+  const sheet = readFileSync(join(root, file), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  for (const m of sheet.matchAll(/([^{}]+)\{([^{}]*)\}/g)) {
+    const selector = m[1].trim();
+    for (const decl of m[2].split(';')) {
+      const [prop, ...rest] = decl.split(':');
+      const name = (prop ?? '').trim();
+      const value = rest.join(':').trim();
+      if (!name || !value) continue;
+      if (name === 'box-shadow' && value !== 'none') {
+        failed += 1;
+        console.log(`FAIL  box-shadow on "${selector}" in ${file}: surfaces are flat, use a border or a change of tone`);
+      }
+      if (!name.startsWith('--') && !value.startsWith('url(') && /#[0-9a-fA-F]{3,8}\b|rgba?\(/.test(value)) {
+        failed += 1;
+        console.log(`FAIL  colour written into "${selector}" (${name}: ${value}) in ${file}: use a token`);
+      }
+    }
+  }
+}
 for (const [name, fg, bg, min] of checks) {
   if (!fg || !bg) { failed += 1; console.log(`FAIL  missing token for ${name}`); continue; }
   const r = ratio(fg, bg);
@@ -72,4 +95,4 @@ if (failed) {
   console.error(`\n${failed} pairing(s) fail.`);
   process.exit(1);
 }
-console.log('\nAll pairings pass.');
+console.log('\nAll pairings pass. No shadows, and no colour written into a rule.');

@@ -81,7 +81,7 @@ ef-header { display: block; min-height: 72px; }
   font: inherit; font-size: var(--type-ui-size); color: var(--ink); text-decoration: none; background: none; border: 0; cursor: pointer; border-radius: var(--radius-md);
 }
 .site-nav a[aria-current="page"] { font-weight: var(--weight-medium); }
-.site-nav a:hover, .site-nav button:hover { background: rgba(245, 243, 238, 0.55); }
+.site-nav a:hover, .site-nav button:hover { background: color-mix(in srgb, var(--panel) 55%, transparent); }
 @media (max-width: 520px) { .site-nav .nav-optional { display: none; } .brand-app { display: none; } }
 /* Nav labels stay on 1 line. A logged in member has 2 or 3 of them (Learning Hub, Account, Log out), which leaves
    less room for the brand: it drops the app's name below 720px, and below 600px the mark stands alone in place of
@@ -140,7 +140,7 @@ ef-footer { display: block; }
    fields, 12 px for navigation items and choice cards, 16 px for cards. The fills are shared with the Client Hub:
    a filled warm white secondary with a white hover, a navy primary. The plain .btn is the secondary here, and
    buttons are as wide as their label unless .btn-block is added. */
-.btn:hover { background: #FFFFFF; }
+.btn:hover { background: var(--white); }
 .btn:active { transform: translateY(1px); }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
 /* Primary is navy (--primary). The pack's tokens say slate for now; see PRIMARY in scripts/tokens.mjs. */
@@ -204,7 +204,7 @@ ef-footer { display: block; }
   border: 2px solid var(--slate); background: var(--panel); color: var(--on-panel); text-decoration: none;
   transition: background-color var(--motion-duration) var(--motion-ease);
 }
-.path:hover { background: #FFFFFF; }
+.path:hover { background: var(--white); }
 .path-title { font-weight: var(--weight-medium); font-size: var(--type-heading-size); line-height: var(--type-heading-line); }
 .path-note { font-size: var(--type-ui-size); line-height: var(--type-ui-line); }
 .path-go { margin-top: var(--space-2); font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); text-decoration: underline; text-decoration-color: var(--underline); text-underline-offset: 3px; }
@@ -244,6 +244,6 @@ ef-footer { display: block; }
 .rows dd { margin: 0; font-size: var(--type-ui-size); }
 
 /* Placeholder marker, so unconfirmed prices and copy are easy to find before launch */
-.placeholder { background: rgba(207, 218, 232, 0.6); border-radius: 4px; padding: 0 4px; }
+.placeholder { background: color-mix(in srgb, var(--ground) 60%, transparent); border-radius: 4px; padding: 0 4px; }
 .site-nav > span { display: flex; align-items: center; gap: var(--space-1); }
 .preview-banner { background: var(--panel); color: var(--on-panel); text-align: center; padding: var(--space-2) var(--space-4); font-size: var(--type-caption-size); line-height: var(--type-caption-line); }

@@ -23,7 +23,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 /* With the lockup in the header, the app's name is not repeated as text at the left */
 @media (min-width: 900px) { .vtop-app { display: none; } }
 .vtop-tog { display: none; flex: none; width: var(--touch-min); height: var(--touch-min); border-radius: var(--radius-pill); border: 0; background: transparent; color: var(--ink); cursor: pointer; align-items: center; justify-content: center; }
-.vtop-tog:hover { background: rgba(245, 243, 238, 0.55); }
+.vtop-tog:hover { background: color-mix(in srgb, var(--panel) 55%, transparent); }
 .vtop-tog svg, .icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: var(--icon-stroke); stroke-linecap: round; stroke-linejoin: round; }
 .tag-preview { display: inline-flex; align-items: center; padding: 0 var(--space-2); border-radius: var(--radius-pill); background: var(--panel); }
 
@@ -37,12 +37,12 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .colhead { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
 .colhead h2 { margin: 0; font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); }
 .foldbtn { width: var(--touch-min); height: var(--touch-min); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
-.foldbtn:hover { background: rgba(245, 243, 238, 0.55); }
+.foldbtn:hover { background: color-mix(in srgb, var(--panel) 55%, transparent); }
 /* The search has a label that can be seen, not only a placeholder */
 .lsearch .field-label { margin-bottom: var(--space-1); padding: 0 var(--space-1); font-size: var(--type-caption-size); line-height: var(--type-caption-line); }
 .lsearch .input { min-height: var(--touch-min); padding-top: var(--space-2); padding-bottom: var(--space-2); font-size: var(--type-ui-size); line-height: var(--type-ui-line); }
 .navbtn { display: flex; align-items: center; gap: var(--space-2); width: 100%; min-height: var(--touch-min); padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-md); background: transparent; color: var(--ink); font: inherit; font-size: var(--type-ui-size); line-height: var(--type-ui-line); text-align: left; text-decoration: none; cursor: pointer; transition: background-color var(--motion-duration) var(--motion-ease); }
-.navbtn:hover { background: rgba(245, 243, 238, 0.55); }
+.navbtn:hover { background: color-mix(in srgb, var(--panel) 55%, transparent); }
 .navbtn[aria-current="page"] { background: var(--panel); color: var(--on-panel); font-weight: var(--weight-medium); }
 .clist { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); }
 .chead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); margin: 0 0 var(--space-1); padding: 0 var(--space-3); font-size: var(--type-ui-size); line-height: var(--type-ui-line); font-weight: var(--weight-medium); }
@@ -62,7 +62,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 /* Account menu (bottom of the library) */
 .acct { position: relative; flex: none; width: var(--lw-open); padding: var(--space-3) var(--space-4) var(--space-4); border-top: 1px solid var(--hairline); }
 .acctbtn { display: flex; align-items: center; gap: var(--space-3); width: 100%; min-height: 56px; padding: var(--space-2) var(--space-3); border: 0; border-radius: var(--radius-md); background: transparent; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
-.acctbtn:hover, .acctbtn[aria-expanded="true"] { background: rgba(245, 243, 238, 0.55); }
+.acctbtn:hover, .acctbtn[aria-expanded="true"] { background: color-mix(in srgb, var(--panel) 55%, transparent); }
 .acctav { flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--cta-ground); color: var(--cta-ink); display: inline-flex; align-items: center; justify-content: center; font-size: var(--type-ui-size); font-weight: var(--weight-medium); }
 .acctwho { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .acctname, .acctmail { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -71,7 +71,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 .acctmenu { position: absolute; left: var(--space-4); right: var(--space-4); bottom: calc(100% - var(--space-2)); background: var(--panel); color: var(--on-panel); border: 2px solid var(--slate); border-radius: var(--radius-md); padding: var(--space-2); display: grid; gap: 2px; z-index: 30; }
 .acctmenu[hidden] { display: none; }
 .acctmenu .navbtn { color: var(--on-panel); }
-.acctmenu .navbtn:hover { background: rgba(207, 218, 232, 0.55); }
+.acctmenu .navbtn:hover { background: color-mix(in srgb, var(--ground) 55%, transparent); }
 
 /* Middle: stage */
 /* The shared main rule in base.css pads the page; here main is the scrolling sheet, so that padding would hold the
@@ -114,7 +114,7 @@ body.viewer { overflow: hidden; display: block; min-height: 0; }
 
 /* Dialogs */
 dialog.vdialog { border: 0; border-radius: var(--radius-lg); padding: 0; width: min(480px, calc(100vw - 2 * var(--space-4))); background: var(--reading-ground); color: var(--on-reading); }
-dialog.vdialog::backdrop { background: rgba(46, 64, 98, 0.45); }
+dialog.vdialog::backdrop { background: color-mix(in srgb, var(--navy) 45%, transparent); }
 .vdialog-in { padding: var(--space-6); display: grid; gap: var(--space-4); max-height: 80vh; overflow: auto; }
 .vdialog-in ul { margin: 0; padding-left: var(--space-5); }
 .vdialog-in li + li { margin-top: var(--space-2); }
@@ -155,7 +155,7 @@ dialog.vdialog::backdrop { background: rgba(46, 64, 98, 0.45); }
   .vmain.lopen .lside, .vmain.ropen .rcol { transform: none; visibility: visible; }
   .vmain.drawer-moving.lopen .lside, .vmain.drawer-moving.ropen .rcol { transition-delay: 0s; }
   .stage-wrap { border-radius: 0; border-width: 1px 0 0; }
-  .vmain.lopen .scrim, .vmain.ropen .scrim { display: block; position: fixed; inset: 0; z-index: 50; background: rgba(46, 64, 98, 0.35); }
+  .vmain.lopen .scrim, .vmain.ropen .scrim { display: block; position: fixed; inset: 0; z-index: 50; background: color-mix(in srgb, var(--navy) 35%, transparent); }
   .foldtab, .lside .foldbtn[data-fold], .rcol .foldbtn[data-fold] { display: none !important; }
   .stage-in, .vmain.lfold .stage-in, .vmain.rfold .stage-in { padding: var(--space-5) var(--margin-phone) var(--space-5); }
 }

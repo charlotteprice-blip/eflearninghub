@@ -36,7 +36,8 @@ public/                  The site (Firebase Hosting)
                          viewer.js, player.js, gate.js, layout.js, ui.js, one script per account page
   assets/vendor/firebase Firebase SDK, self hosted (npm run vendor)
   assets/fonts/          Figtree 300, 400, 500, Latin and Latin Extended, self hosted (OFL)
-  assets/brand/          Placeholder SVGs until the brand files arrive (see its README)
+  assets/brand/          The brand pack's logo files and app icons, unchanged (see its README); the favicons sit
+                         at the top of public/
 functions/               core.js (rules), index.js (Cloud Functions wiring), test/ (unit tests)
 scripts/                 setup.mjs, tasks.mjs, stripe.mjs (+ stripe-setup, stripe-portal, stripe-check), orgs.mjs,
                          upload.mjs, serve.mjs, vendor.mjs, check-contrast.mjs, worklog.mjs
@@ -83,4 +84,4 @@ npm run deploy:hosting
 
 ## Placeholders still to confirm
 
-The annual price (NZ$XX; the monthly price shown is NZ$29, confirmed 11 November 2026, as wording only: no Stripe price exists yet), the trial download allowance (5), the partner rate amount, the privacy statement wording (the contact email is consultant@sarahanticich.co.nz), the brand SVGs, the workshop video, and all sample topic content.
+The annual price (NZ$XX; the monthly price shown is NZ$29, confirmed 11 November 2026, as wording only: no Stripe price exists yet), the trial download allowance (5), the partner rate amount, the privacy statement wording (the contact email is consultant@sarahanticich.co.nz), the workshop video, and all sample topic content.
