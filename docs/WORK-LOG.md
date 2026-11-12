@@ -218,27 +218,6 @@ Commit `d16d759` on main.
 
 **Open questions.** As session 6, plus: Sarah's review of the 2 sample lessons and the tool before they are shown to anyone; whether the free tool opens without an account (it is behind the member gate now); whether Elite and Performance are 1 arm; the Reset's real lesson sequence so stage B's loop segments match.
 
-## Session 7, 10 November 2026
-
-Commit `1e75a1c` on main.
-
-**Built.** The start page now routes a logged in client automatically. After checkAccess says there is no Learning Hub membership, `start.js` calls the Client Hub's new function `hasClientHub` (codebase `clienthub`, same project and region, so the existing Content Security Policy already allows it) and sends a client straight to the Client Hub. If the call fails or answers false, the page falls back to the join or account view with the Client Hub link beside it, as before. A member who is also a client still lands in the Learning Hub first. The Client Hub side was built in its own session (efclienthub commit `48b0c1a`, decision 60 there): the function answers only the signed in person's own browser, true for an open client record or a staff claim, and logs no one.
-
-**Files changed.** `public/assets/js/start.js`, `README.md` (membership process step 0).
-
-**Checked.** Function tests (11) and contrast (14 pairings) pass. Both start page views render in the local preview with no console errors. The logged in path cannot be exercised locally and was not exercised live: the Firebase CLI login on the Mac had expired, so neither `deploy:hosting` here nor `deploy:functions` in efclienthub has run yet.
-
-**Decisions and why.**
-1. The signal lives in the Client Hub, not here. The Learning Hub never reads the `clienthub` database; the Client Hub answers from its own records, to the person's own browser, about themselves, and the answer is not stored or logged (Health Information Privacy Code 2020).
-2. Membership wins over client status. A person with an active Learning Hub membership goes to the library even if they are also a client, because the start page lives on the Learning Hub and the Client Hub is 1 link away.
-3. The function call failing is not an error for the person: the page simply shows the choice it showed before.
-
-**Charlotte to configure.**
-- `npx firebase login --reauth`, then `npm run deploy:hosting` here and `npm run deploy:functions` in ~/efclienthub, so the start page and `hasClientHub` go live together. Then try the start page logged in as a test client and as a member.
-- As session 6: website buttons to `/start/`, `CLIENT_HUB` at launch, the Stripe key, DNS.
-
-**Open questions.** As session 6, with the Client Hub signal now built. New: whether a logged in client should also see a "Learning Hub" shortcut on the Client Hub side, which is a Client Hub change.
-
 ## Session 6, 1 November 2026
 
 Commit `3ed3617` on main.
